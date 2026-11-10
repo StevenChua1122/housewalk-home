@@ -118,26 +118,32 @@ function createHome(){
  block(1.72,2.60,.20,2.45,.045,.16,'#e3ded6');
  // Air conditioner indicated in plan; understated boxes near top corners.
  block(.38,2.13,.26,.65,.38,.31,'#f6f6f2');block(5.90,2.13,.26,.62,.38,.31,'#f6f6f2');
- // LIVING: grey sofa on left, TV console and bracket on right partition wall.
- furniture(.66,.18,2.66,.86,.32,1.70,COLORS.sofa);
- block(.66,.51,2.66,.85,.46,1.70,'#747579');block(.66,.42,1.87,.88,.31,.17,'#696b6d');block(.66,.42,3.43,.88,.31,.17,'#696b6d');
- for(let z=2.1;z<3.25;z+=.58)block(.66,.51,z,.72,.14,.49,'#999a9a');
- block(1.70,.005,2.65,1.35,.012,1.45,'#d7d0c2'); // rug
- block(1.85,.40,2.65,.65,.08,.90,'#c6a987');block(1.65,0,2.35,.08,.43,.08,'#8e765b');block(2.05,0,2.95,.08,.43,.08,'#8e765b');
- furniture(3.0,0,2.57,.34,.48,1.84,'#f3f2ef');block(2.81,.48,2.57,.47,.065,1.89,'#757677');
- for(let z=2.01;z<3.26;z+=.56)block(2.82,.08,z,.02,.28,.04,'#9e9e9c');
- block(3.12,1.42,2.57,.055,.36,.44,'#262d2f');block(3.08,1.53,2.57,.10,.06,.65,'#292e31');
- // Small yellow side table, vase, and curtain zone.
- block(2.30,.51,.90,.40,.065,.39,COLORS.yellow);for(let dx of [-.14,.14])for(let dz of [-.12,.12])block(2.30+dx,0,.90+dz,.045,.52,.045,'#ddaa33');
- block(2.22,.57,.91,.10,.20,.12,'#b1a58b');
- // DINING: immediately after entrance, middle-left, before the living area.
- furniture(1.38,.68,4.35,1.19,.08,.71,'#4b4c4d');
- for(const dx of [-.47,.47])for(const dz of [-.26,.26])block(1.38+dx,0,4.35+dz,.055,.68,.055,'#565656');
- for(const [x,z,along] of [[1.38,3.77,'x'],[1.38,4.94,'x'],[.50,4.35,'z'],[2.25,4.35,'z']]){
-  furniture(x,.39,z,along==='x'?.49:.45,.09,along==='x'?.39:.49,'#90837b');block(x,.48,z+(z<4.35?.16:-.16),along==='x'?.49:.42,.48,.085,'#978981');
+ // Canvas fallback uses the same uncluttered living/dining layout as WebGL.
+ furniture(.72,.165,2.43,1.09,.34,2.16,COLORS.sofa);
+ block(.19,.355,2.43,.30,.73,2.20,'#817b74');
+ for(const z of [1.27,3.59])block(.78,.355,z,1.12,.55,.21,'#817b74');
+ for(const z of [1.75,2.43,3.11]){block(.75,.42,z,1.03,.22,.65,'#969087');block(.36,.52,z,.34,.64,.62,'#969087');}
+ for(const [z,c] of [[1.87,'#eae1d1'],[2.53,'#b76c30'],[3.18,'#eae1d1']])block(.62,.64,z,.24,.49,.46,c);
+ blocker(.68,2.44,1.25,2.50);
+ furniture(3.0,0,2.50,.425,.59,1.88,'#f3f2ef');block(3.0,.59,2.50,.475,.06,1.93,'#757677');
+ for(const y of [1.42,1.82])block(3.17,y,2.50,.06,.06,.97,'#262d2f');
+ for(const z of [2.05,2.95])block(3.13,1.31,z,.065,.65,.067,'#262d2f');
+ for(const x of [2.725,3.195])for(const z of [.55,1.09])block(x,.01,z,.028,1.98,.029,'#f3f2ef');
+ for(const y of [.16,.60,1.04,1.48,1.92])block(2.96,y,.82,.51,.033,.56,'#f3f2ef');
+ blocker(2.96,.82,.55,.60);
+ // Bare rectangular table: short end at left wall, two chairs on each long side.
+ block(.96,.722,4.65,1.76,.065,.86,'#292a2a');blocker(.96,4.65,1.76,.86);
+ for(const x of [.16,1.76])for(const z of [4.30,5.0])block(x,0,z,.055,.72,.055,'#303131');
+ for(const x of [.49,1.34])for(const [z,side] of [[4.02,-1],[5.28,1]]){
+  block(x,.418,z,.45,.10,.43,'#e9dfca');blocker(x,z,.45,.47);
+  for(const xx of [x-.19,x+.19])for(const zz of [z-.19,z+.19])block(xx,0,zz,.044,.43,.044,'#303131');
+  for(const xx of [x-.19,x+.19])block(xx,.43,z+side*.205,.044,.51,.044,'#303131');
+  for(const y of [.66,.79,.91])block(x,y,z+side*.205,.38,.055,.045,'#303131');
  }
- // Gentle pendant light above dining table.
- block(1.38,2.02,4.35,.06,.55,.06,'#d3d0c4');block(1.38,1.91,4.35,.52,.14,.39,'#e9dfc6');
+ block(.99,2.70,5.24,1.86,.034,.040,'#292a2a');block(1.90,2.70,5.56,.040,.034,.68,'#292a2a');
+ for(const [x,z] of [[.53,5.24],[1.40,5.24],[1.90,5.72]])block(x,2.40,z,.14,.26,.14,'#292a2a');
+ for(const [x,z] of [[1.70,3.49],[1.70,1.39],[1.74,-.14]])block(x,2.62,z,.18,.14,.18,'#292a2a');
+ block(1.70,2.52,2.42,.25,.14,.25,'#292a2a');block(1.70,2.50,2.42,1.15,.025,.10,'#292a2a');
  // PANTRY / KITCHEN: real-world white cabinetry and grey counters.
  furniture(3.25,0,6.69,2.38,.86,.56,'#ecebea');block(3.25,.85,6.69,2.41,.075,.62,'#595e61');
  block(3.25,.98,6.84,2.33,.52,.11,'#d5d8d4');
@@ -211,7 +217,9 @@ function mapDraw(canvas){const c=canvas.getContext('2d');if(!c)return;let W=canv
  const fill=(x,z,w,h,col)=>{c.fillStyle=col;c.fillRect(X(x),Z(z),w*unit,h*unit)};
  fill(0,0,3.25,3.65,'#e9d5bd');fill(0,3.65,3.25,1.45,'#e3d1b9');fill(0,5.10,4.79,1.95,'#e3d6bd');fill(3.25,0,3.05,4.55,'#d6d6c7');fill(4.79,4.55,1.51,2.5,'#d1e5e9');
  // Furnishings, very simplified but oriented like the real photo and mirrored plan.
- fill(.32,1.82,.76,1.68,'#808083');fill(2.83,1.66,.34,1.85,'#969695');fill(.80,3.93,1.12,.75,'#646265');fill(2.32,6.45,2.1,.44,'#92918e');fill(1.41,6.08,.56,.65,'#afb4b5');fill(4.15,1.61,1.62,2.2,'#f1efea');
+ fill(.06,1.19,1.25,2.50,'#808083');fill(2.83,1.66,.34,1.85,'#969695');fill(.08,4.22,1.76,.86,'#646265');fill(2.32,6.45,2.1,.44,'#92918e');fill(1.41,6.08,.56,.65,'#afb4b5');fill(4.15,1.61,1.62,2.2,'#f1efea');
+ // Two chairs on each long side, matching the real 3D table.
+ for(const xx of [.49,1.34])for(const zz of [4.02,5.28])fill(xx-.20,zz-.20,.40,.40,'#b3a58c');
  // Wall strokes with architectural gaps.
  c.strokeStyle='#596b62';c.lineCap='square';c.lineWidth=canvas===largeMap?6:2.7;
  function lines(segs){c.beginPath();for(const [a,b,d,e]of segs){c.moveTo(X(a),Z(b));c.lineTo(X(d),Z(e))}c.stroke()}
@@ -265,5 +273,5 @@ updateSize();updateRoom();mapDraw(smallMap);render();requestAnimationFrame(frame
 setTimeout(()=>toast('Walk from the entrance to dining, then living room'),700);
 })();
 </script>
-<script src="./webgl.js?v=4.0" defer></script>
+<script src="./webgl.js?v=4.1" defer></script>
 </body></html>

@@ -2,9 +2,19 @@
 
 This preview implements a **real, walkable, depth-tested WebGL scene**, not a picture mapped onto a wall. Its target is the owner-approved `reference.jpg` image. It preserves the original Housewalk V3 production homepage, its mirrored floor plan, touch joystick, look gestures, door controls, mini map and guided tour.
 
-## Enter the preview
+The renderer now uses edge-sampled rounded meshes, reclined and piped cushions,
+shaped fan blades, closed lamp lenses, a cross-room dining table and L track,
+and a one-time RGBA8 furniture shadow bake. It needs no external runtime libraries
+or WebGL depth-texture extensions.
 
-Once GitHub Pages publishes the `v4/` directory, open `https://stevenchua1122.github.io/housewalk-home/v4/` on Safari, Chrome or desktop. The original homepage remains unchanged.
+## Review locally
+
+These changes are isolated to `v4/` on a development branch based on
+`feature/detailed-living-dining-v4`. No deployment is part of this change.
+From the repository root, run `python3 -m http.server 8000 --bind 127.0.0.1`
+and open `http://127.0.0.1:8000/v4/`.
+
+See [QA.md](QA.md) for test commands, screenshots and remaining device checks.
 
 ## Details to verify
 
@@ -20,7 +30,7 @@ Once GitHub Pages publishes the `v4/` directory, open `https://stevenchua1122.gi
 
 ## Tech and fallback
 
-`webgl.js` is dependency-free WebGL 1, using static detail meshes with depth testing and an optional photo-derived `materials.jpg` atlas. If WebGL is unsupported it falls back to the original canvas renderer. On a slow iPhone, wait for the atlas to decode; the procedural textures display first.
+`webgl.js` is dependency-free WebGL 1, using static detail meshes with depth testing and an optional photo-derived `materials.jpg` atlas with generated tileable oak and woven upholstery. If WebGL is unsupported it falls back to the original canvas renderer. On a slow iPhone, wait for the atlas to decode; the procedural textures display first.
 
 ## Limitations
 
