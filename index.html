@@ -192,7 +192,8 @@ function updateSize(){let dpr=Math.min(window.devicePixelRatio||1,1.45);let w=Ma
  if(w!==viewW||h!==viewH){stage.width=w;stage.height=h;viewW=w;viewH=h;render()}}
 function collisionCircle(x,z,b,r){let nx=Math.max(b.x0,Math.min(x,b.x1)),nz=Math.max(b.z0,Math.min(z,b.z1));return (x-nx)**2+(z-nz)**2<r*r}
 function blocked(x,z){if(x<.17||x>6.13||z<.17||z>6.88)return true;
- for(const b of colliders)if(collisionCircle(x,z,b,.19))return true;
+ const furnitureColliders=window.__HW3D_READY ? window.HW3DColliders : colliders;
+  for(const b of (furnitureColliders || colliders))if(collisionCircle(x,z,b,.19))return true;
  if(!doors[0].open&&collisionCircle(x,z,{x0:3.2,x1:3.3,z0:3.78,z1:4.43},.19))return true;
  if(!doors[1].open&&collisionCircle(x,z,{x0:5.07,x1:5.79,z0:4.5,z1:4.6},.19))return true;
  return false;}
@@ -258,8 +259,10 @@ function frame(now){let dt=Math.min(.055,(now-last)/1000||.016);last=now;
  if(now-lastRender>27){updateSize();render();lastRender=now}
  if(now-lastMap>145){mapDraw(smallMap);updateRoom();if(document.getElementById('planModal').classList.contains('open'))mapDraw(largeMap);lastMap=now}
  requestAnimationFrame(frame)}
+window.HousewalkBridge={player,doors,getNight:()=>night};
 updateSize();updateRoom();mapDraw(smallMap);render();requestAnimationFrame(frame);
 setTimeout(()=>toast('Walk from the entrance to dining, then living room'),700);
 })();
 </script>
+<script src="./webgl.js?v=3" defer></script>
 </body></html>
