@@ -1,5 +1,7 @@
 # Housewalk V4 — connected living, dining and kitchen
 
+> Architecture review pending: the earlier dimensions and functional QA do not establish plan accuracy. See [ARCHITECTURE_REVIEW.md](ARCHITECTURE_REVIEW.md). The source dimensioned plan and real-photo set are still needed. No further visual polishing is approved by this audit.
+
 This preview implements a **real, walkable, depth-tested WebGL scene**, not a picture mapped onto a wall. Its targets are the latest owner-approved living/dining and kitchen images; see [REFERENCE_NOTES.md](REFERENCE_NOTES.md). It preserves the original Housewalk V3 production homepage, its mirrored floor plan, touch joystick, look gestures, door controls, mini map and guided tour.
 
 The renderer now uses edge-sampled rounded meshes, reclined and piped cushions,

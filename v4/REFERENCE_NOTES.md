@@ -1,5 +1,7 @@
 # Approved connected-house reference interpretation
 
+> Architecture review pending: the earlier dimensions and functional QA do not establish plan accuracy. See [ARCHITECTURE_REVIEW.md](ARCHITECTURE_REVIEW.md). The source dimensioned plan and real-photo set are still needed. No further visual polishing is approved by this audit.
+
 The two images attached to the follow-up request supersede the older
 `reference.jpg` wherever their details differ. The existing PR #2 implementation
 (commit `677a15b`) is the foundation. Original reference assets are retained;

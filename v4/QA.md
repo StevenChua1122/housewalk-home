@@ -1,5 +1,7 @@
 # Connected V4 review — 10 November 2026
 
+> Architecture review pending: the earlier dimensions and functional QA do not establish plan accuracy. See [ARCHITECTURE_REVIEW.md](ARCHITECTURE_REVIEW.md). The source dimensioned plan and real-photo set are still needed. No further visual polishing is approved by this audit.
+
 Built on PR #2 (`677a15b`) on `codex/v4-connected-kitchen-refinement`.
 All changes are inside `v4/`. Production-root files and source reference assets
 are unchanged. No deployment or merge is part of this change.
