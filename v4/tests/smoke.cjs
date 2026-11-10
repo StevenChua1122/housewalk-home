@@ -17,9 +17,11 @@ const {chromium} = require('playwright');
  })),fallback);assert(colors>20,`blank renderer: ${colors}`);
  await page.click('#planBtn');await page.locator('#planModal.open').waitFor();await page.click('#closePlan');assert.equal(await page.locator('#planModal.open').count(),0);
  await page.click('#lightBtn');assert(await page.evaluate(()=>HousewalkBridge.getNight()));await page.click('#lightBtn');
+ await page.evaluate(()=>HousewalkBridge.doors.forEach(d=>d.open=true));
  const tour=[];for(let i=0;i<7;i++){await page.click('#tourBtn');tour.push(await page.evaluate(()=>({x:HousewalkBridge.player.x,z:HousewalkBridge.player.z})));}assert.equal(new Set(tour.map(p=>JSON.stringify(p))).size,7);
+ assert(await page.evaluate(()=>HousewalkBridge.tourStops.every(p=>!HousewalkBridge.isBlocked(p.x,p.z))),'tour camera intersects furniture');
  await page.click('#resetBtn');assert.equal(await page.evaluate(()=>HousewalkBridge.player.x),.78);
- await page.keyboard.down('KeyW');await page.waitForTimeout(300);await page.keyboard.up('KeyW');assert((await page.evaluate(()=>HousewalkBridge.player.z))<6.33);
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.z<6.30,{},{timeout:15000});await page.keyboard.up('KeyW');assert((await page.evaluate(()=>HousewalkBridge.player.z))<6.33);
  await page.evaluate(()=>Object.assign(HousewalkBridge.player,{x:3.5,z:4.1}));await page.waitForFunction(()=>!document.querySelector('#doorBtn').disabled);const before=await page.evaluate(()=>HousewalkBridge.doors[0].open);await page.click('#doorBtn');assert.equal(await page.evaluate(()=>HousewalkBridge.doors[0].open),!before);
  if(!fallback){
  // Walk into the dining table: the camera must stop in the aisle.
@@ -28,11 +30,25 @@ const {chromium} = require('playwright');
  assert((await page.evaluate(()=>HousewalkBridge.player.x))>=2.03,'table collision failed');
  // A closed door blocks passage; reopening it permits the same movement.
  await page.evaluate(()=>{HousewalkBridge.doors[0].open=false;Object.assign(HousewalkBridge.player,{x:2.84,z:4.10,yaw:Math.PI/2})});
- await page.keyboard.down('KeyW');await page.waitForTimeout(700);await page.keyboard.up('KeyW');
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.x>2.96,{},{timeout:15000});await page.waitForTimeout(300);await page.keyboard.up('KeyW');
  assert((await page.evaluate(()=>HousewalkBridge.player.x))<3.03,'closed bedroom door failed');
  await page.evaluate(()=>HousewalkBridge.doors[0].open=true);
  await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.x>3.44,{},{timeout:15000});await page.keyboard.up('KeyW');
  assert((await page.evaluate(()=>HousewalkBridge.player.x))>3.44,'open bedroom passage failed');
+ // Walk the continuous aisle from living through dining into the pantry.
+ await page.evaluate(()=>{HousewalkBridge.doors.forEach(d=>d.open=true);Object.assign(HousewalkBridge.player,{x:2.30,z:3.0,yaw:Math.PI})});
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.z>5.72,{},{timeout:25000});await page.keyboard.up('KeyW');
+ assert((await page.evaluate(()=>HousewalkBridge.player.z))<6.12,'walk entered kitchen cabinets');
+ // Probe the counter edge from inside the pantry.
+ await page.evaluate(()=>Object.assign(HousewalkBridge.player,{x:3.10,z:5.82,yaw:Math.PI}));
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.z>6.06,{},{timeout:15000});await page.waitForTimeout(250);await page.keyboard.up('KeyW');
+ assert((await page.evaluate(()=>HousewalkBridge.player.z))<6.14,'kitchen counter collision failed');
+ // Pantry-facing bathroom doorway blocks and then admits the same path.
+ await page.evaluate(()=>{HousewalkBridge.doors[1].open=false;Object.assign(HousewalkBridge.player,{x:4.28,z:5.86,yaw:Math.PI/2})});
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.x>4.48,{},{timeout:15000});await page.waitForTimeout(250);await page.keyboard.up('KeyW');
+ assert((await page.evaluate(()=>HousewalkBridge.player.x))<4.57,'closed bathroom door failed');
+ await page.evaluate(()=>HousewalkBridge.doors[1].open=true);
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>HousewalkBridge.player.x>5.15,{},{timeout:15000});await page.keyboard.up('KeyW');
  assert(await page.evaluate(()=>HW4Stats.shadowMap),'static shadow map unavailable');
  }
  if(mobile){
@@ -57,7 +73,7 @@ const {chromium} = require('playwright');
  await page.waitForFunction(()=>window.__HW3D_READY===true);
  }
  await page.click('#resetBtn');assert.deepEqual(errors,[]);
- console.log(JSON.stringify({renderer:fallback?'canvas':'webgl',viewport:mobile?'mobile':'desktop',sampledColors:colors,checks:'HTTP, pixels, plan, lighting, 7 tour stops, reset, movement, doors, furniture/door collisions, mobile touch; no page errors'}));await page.close();
+ console.log(JSON.stringify({renderer:fallback?'canvas':'webgl',viewport:mobile?'mobile':'desktop',sampledColors:colors,checks:['HTTP','rendered pixels','plan','lighting','7 safe tour stops','reset','movement','door controls',...(!fallback?['table and kitchen collisions','connected living-to-pantry walk','bedroom and bathroom door passage']:[]),...(mobile?['touch joystick and look']:[]),...(!fallback&&!mobile?['WebGL context recovery']:[]),'no page errors']}));await page.close();
  }await browser.close();
  }
 })().catch(e=>{console.error(e);process.exit(1)});
