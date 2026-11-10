@@ -25,7 +25,7 @@
  attribute vec2 aUV;
  attribute vec3 aTint;
  attribute float aMaterial;
- uniform vec3 uCamera;
+ uniform mediump vec3 uCamera;
  uniform float uYaw;
  uniform float uPitch;
  uniform vec2 uFocal;
@@ -46,8 +46,10 @@
  }`;
  const FS=`precision mediump float;
  uniform sampler2D uAtlas;
+ uniform sampler2D uShadow;
+ uniform float uHasShadow;
  uniform float uNight;
- uniform vec3 uCamera;
+ uniform mediump vec3 uCamera;
  varying vec3 vNormal;
  varying vec2 vUV;
  varying vec3 vTint;
@@ -61,6 +63,13 @@
    vec2 d=max(abs(p-center)-halfSize,0.0);
    return 1.0-smoothstep(.04,spread,length(d));
  }
+ float shadowTap(vec2 uv,float depth){vec2 rg=texture2D(uShadow,uv).rg;return step(depth-.003,rg.x+rg.y/255.0);}
+ float visibility(vec3 p){
+   vec2 uv=vec2((p.x-.4*p.y+1.0)/6.0,(p.z+1.9*p.y+1.0)/9.0);
+   float d=(5.0-p.y)/6.0;
+   float lit=shadowTap(uv+vec2(-.0012,-.0012),d)+shadowTap(uv+vec2(.0012,-.0012),d)+shadowTap(uv+vec2(-.0012,.0012),d)+shadowTap(uv+vec2(.0012,.0012),d);
+   return mix(1.0,lit*.25,uHasShadow);
+ }
  void main(){
   float m=floor(vMaterial+.02);
   float tileX=mod(m,4.0),tileY=floor(m/4.0);
@@ -68,34 +77,39 @@
   vec3 tex=texture2D(uAtlas,uv).rgb;
   vec3 n=normalize(vNormal);
   vec3 v=normalize(uCamera-vWorld);
-  // Warm sunlight shines from the recessed northwest window toward the room.
-  vec3 sun=normalize(vec3(.44,.72,.64));
-  float daylight=max(dot(n,sun),0.0);
-  float diffuse=.61+daylight*.42;
-  float key1=pointLight(vWorld,n,vec3(1.65,2.62,3.36),.62);
-  float key2=pointLight(vWorld,n,vec3(1.65,2.62,1.41),.60);
-  float diningKey=pointLight(vWorld,n,vec3(1.06,2.40,4.80),.52);
-  float nicheKey=pointLight(vWorld,n,vec3(1.67,2.61,-.08),.37);
+  // Window light is bounded by the actual opening, with soft penumbrae.
+  vec3 sun=normalize(vec3(.40,1.0,-1.90));
+  float toWindow=max(0.0,(vWorld.z+.60)/1.90);
+  vec2 hit=vec2(vWorld.x+.40*toWindow,vWorld.y+toWindow);
+  float aperture=smoothstep(.67,.80,hit.x)*(1.0-smoothstep(2.67,2.80,hit.x))*smoothstep(.81,.94,hit.y)*(1.0-smoothstep(2.10,2.23,hit.y));
+  float daylight=max(dot(n,sun),0.0)*aperture*visibility(vWorld);
+  float key1=pointLight(vWorld,n,vec3(1.70,2.60,3.49),.88);
+  float key2=pointLight(vWorld,n,vec3(1.70,2.60,1.39),.88);
+  float diningKey=pointLight(vWorld,n,vec3(1.0,2.40,5.24),1.20);
+  float nicheKey=pointLight(vWorld,n,vec3(1.74,2.61,-.14),.65);
   vec3 base=tex*vTint;
-  vec3 result=base*(vec3(.96,.94,.91)*diffuse +
-    (1.0-uNight)*vec3(.24,.14,.075)*(.36+daylight*.76) +
-    vec3(.41,.23,.10)*(key1+key2+diningKey+nicheKey));
+  float windowFill=exp(-max(vWorld.z,0.0)*.24)*(.4+.6*max(n.z,0.0));
+  vec3 ambient=mix(vec3(.64,.60,.54),vec3(.19,.17,.15),uNight);
+  vec3 bounce=vec3(.20,.14,.085)*(.6+.4*n.y);
+  vec3 result=base*(ambient+bounce+vec3(.98,.73,.47)*(key1+key2+diningKey+nicheKey)*.56+
+    (1.0-uNight)*(vec3(.22,.24,.24)*windowFill+vec3(.58,.38,.16)*daylight));
   // Soft contact occlusion under actual modeled furniture; never draw fake hard shadows.
   if(m<.5 && vWorld.y<.045){
     float oc=0.0;
     oc+=.30*footShadow(vWorld.xz,vec2(.70,2.46),vec2(.49,1.07),.42);
-    oc+=.21*footShadow(vWorld.xz,vec2(.94,4.52),vec2(.46,.67),.31);
+    oc+=.21*footShadow(vWorld.xz,vec2(.96,4.65),vec2(.84,.41),.31);
     oc+=.24*footShadow(vWorld.xz,vec2(3.02,2.51),vec2(.23,1.00),.36);
     oc+=.14*footShadow(vWorld.xz,vec2(3.04,.84),vec2(.22,.31),.23);
     result*=1.0-clamp(oc,0.0,.48);
-    // Soft irregular sun flecks through the two-paned window; strongest near alcove.
-    float windowFade=1.0-smoothstep(1.1,4.8,vWorld.z);
-    float dapple=sin(vWorld.x*8.1+vWorld.z*2.2)*sin(vWorld.z*6.1-vWorld.x*3.4);
-    result+=vec3(.14,.092,.038)*(1.0-uNight)*windowFade*smoothstep(.12,.9,dapple);
+    // Soft branch/leaf breakup only inside the projected window light.
+    float leaves=sin(hit.x*35.0+sin(hit.y*29.0))*sin(hit.y*41.0+sin(hit.x*17.0));
+    result+=vec3(.13,.085,.035)*(1.0-uNight)*daylight*smoothstep(-.4,.7,leaves);
+
   }
   // Ambient occlusion at wall/floor junctions creates grounded geometry.
   if(m>0.5&&m<1.5){
-    float corner=.94 + .06*smoothstep(.04,.48,vWorld.y);
+    float edge=min(abs(vWorld.x),abs(vWorld.x-3.19));
+    float corner=(.82+.18*smoothstep(.02,.45,vWorld.y))*(.88+.12*smoothstep(.02,.40,edge));
     result*=corner;
   }
   // Bright view through the glass receives sunlight instead of indoor darkening.
@@ -106,8 +120,8 @@
     result+=vec3(.16,.12,.085)*spec*(1.0-uNight);
   }
   if(m>13.5&&m<14.5){result=mix(result,vec3(1.00,.79,.47),.78);}
-  result=mix(result,result*vec3(.52,.60,.78),uNight);
-  result=pow(max(result,vec3(.002)),vec3(.92));
+  // Keep the lamps warm after dark. Local luminaires remain active in evening mode.
+  result=pow(max(result,vec3(.002)),vec3(.95));
   gl_FragColor=vec4(clamp(result,0.0,1.0),1.0);
  }`;
  function shader(kind,source){const sh=gl.createShader(kind);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(sh));return sh;}
@@ -121,23 +135,26 @@
  function randGen(seed){let x=seed>>>0;return ()=>{x+=0x6D2B79F5;let t=x;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;};}
  const rng=randGen(71326);
  function atlas(){const side=256,C=document.createElement('canvas');C.width=C.height=side*4;const c=C.getContext('2d',{alpha:false});
-  const palette=['#d8b899','#e7dfd1','#27292a','#eae2d3','#777778','#f2f1ea','#777879','#bfc1c3','#a99888','#789466','#674939','#ddd9cf','#b2c9cd','#515056','#f4cd90','#bd9d7e'];
+  const palette=['#cdb395','#e8e2d8','#27292a','#eae2d3','#777778','#f2f1ea','#777879','#bfc1c3','#a99888','#789466','#674939','#ddd9cf','#b2c9cd','#515056','#f4cd90','#bd9d7e'];
   for(let i=0;i<16;i++){
    const ox=(i%4)*side,oy=Math.floor(i/4)*side;
    c.fillStyle=palette[i];c.fillRect(ox,oy,side,side);
    if(i===0||i===10||i===15){ // Realistic longitudinal wood grain; no checkerboard tiles.
     for(let k=0;k<360;k++){
      let x=ox+rng()*side,y=oy+rng()*side;
-     c.strokeStyle=rng()>.52?'rgba(101,69,39,.10)':'rgba(255,247,215,.17)';
+     c.strokeStyle=rng()>.52?'rgba(101,69,39,.045)':'rgba(255,247,215,.07)';
      c.lineWidth=.35+rng()*1.35;c.beginPath();c.moveTo(x,y);
      const bend=Math.sin((y-oy)/24+x*.018)*(.7+rng()*2.0);
      c.bezierCurveTo(x+bend,y+28,x-bend,y+58,x+(rng()-.5)*3,y+84+rng()*115);c.stroke();
     }
-    for(let k=0;k<14;k++){let x=ox+30+rng()*(side-60),y=oy+25+rng()*(side-50);c.strokeStyle='rgba(96,65,45,.085)';c.lineWidth=.75;
+    for(let k=0;k<14;k++){let x=ox+30+rng()*(side-60),y=oy+25+rng()*(side-50);c.strokeStyle='rgba(96,65,45,.045)';c.lineWidth=.75;
       for(let r=4;r<13;r+=3){c.beginPath();c.ellipse(x,y,r*.62,r*2.1,.13,0,Math.PI*2);c.stroke();}}
    }else if(i===4||i===3||i===8||i===13){
     for(let k=0;k<14000;k++){let n=rng()>.5?255:18;c.fillStyle=`rgba(${n},${n},${n},${.012+rng()*.055})`;c.fillRect(ox+rng()*side,oy+rng()*side,1+rng()*1.5,1+rng()*1.1);}
-    if(i===4){c.strokeStyle='rgba(239,236,232,.08)';c.lineWidth=.35;for(let k=4;k<side;k+=5){c.beginPath();c.moveTo(ox,oy+k);c.lineTo(ox+side,oy+k);c.stroke();}}
+    if(i===4||i===3){ // Crossed warp/weft threads, fine enough to read as upholstery.
+     for(let k=0;k<side;k+=3){c.fillStyle='rgba(245,239,229,.065)';c.fillRect(ox+k,oy,1,side);c.fillStyle='rgba(20,18,17,.065)';c.fillRect(ox,oy+k,side,1);}
+     for(let a=0;a<side;a+=6)for(let b=0;b<side;b+=6){c.fillStyle='rgba(247,243,235,.13)';c.fillRect(ox+a,oy+b,2,1);}
+    }
    }else if(i===1||i===5||i===11){
     for(let k=0;k<14000;k++){let n=rng()>.5?255:28;c.fillStyle=`rgba(${n},${n},${n},${.007+rng()*.019})`;c.fillRect(ox+rng()*side,oy+rng()*side,1,1);}
    }else if(i===12){
@@ -159,8 +176,15 @@
  // Keep the procedural atlas until the photo atlas finishes decoding (Safari-safe fallback).
  const photoAtlas=new Image();
  photoAtlas.onload=()=>{
-   try{gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
-     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,photoAtlas);
+   try{gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
+     const c=atlasCanvas.getContext('2d');
+     // Keep tileable oak and woven linen; the photo oak includes baked highlights.
+     for(const i of [0,1,3,4,5,8,11,15]){const x=i%4*256,y=Math.floor(i/4)*256;
+       const tile=document.createElement('canvas');tile.width=tile.height=256;tile.getContext('2d').drawImage(atlasCanvas,x,y,256,256,0,0,256,256);
+       if(!photoAtlas.tiles)photoAtlas.tiles=[];photoAtlas.tiles.push({x,y,tile});}
+     c.drawImage(photoAtlas,0,0,1024,1024);
+     for(const {x,y,tile} of photoAtlas.tiles)c.drawImage(tile,x,y);
+     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,atlasCanvas);
      gl.generateMipmap(gl.TEXTURE_2D);window.__HW4_MATERIALS=true;
    }catch(err){console.warn('Housewalk materials fallback',err);}
  };
@@ -183,25 +207,29 @@
   quad([b,c,f],[b,e,f],[a,e,f],[a,c,f],[0,0,-1],m,t,w,h);
   quad([a,c,g],[a,e,g],[b,e,g],[b,c,g],[0,0,1],m,t,w,h);
  }
- function roundBox(x,y,z,w,h,d,r,mat,t='#ffffff'){
+ function roundBox(x,y,z,w,h,d,r,mat,t='#ffffff',lean=0){
    r=Math.min(r,w*.46,h*.46,d*.46);
-   const half=[w/2,h/2,d/2],parts=5,col=color(t);
-   for(let axis=0;axis<3;axis++)for(let sign of [-1,1]){
-      const other=[0,1,2].filter(k=>k!==axis),uAxis=other[0],vAxis=other[1];
-      function get(i,j){let p=[0,0,0];p[axis]=half[axis]*sign;p[uAxis]=half[uAxis]*(i/parts*2-1);p[vAxis]=half[vAxis]*(j/parts*2-1);
-        const cl=p.map((v,k)=>Math.max(-half[k]+r,Math.min(half[k]-r,v))),dv=p.map((v,k)=>v-cl[k]);let len=Math.hypot(...dv)||1;
-        return {p:p.map((v,k)=>cl[k]+dv[k]/len*r).map((v,k)=>v+[x,y,z][k]),n:dv.map(v=>v/len),uv:[i/parts*w*1.2,j/parts*d*1.2]};}
-      for(let i=0;i<parts;i++)for(let j=0;j<parts;j++){
-        const a=get(i,j),b=get(i+1,j),c=get(i+1,j+1),d0=get(i,j+1);
-        for(let [u,v,w0] of [[a,b,c],[a,c,d0]])for(const k of [u,v,w0])vertex(k.p,k.n,k.uv,mat,col);
-      }
+   const half=[w/2,h/2,d/2],col=color(t);
+   function samples(h){const a=[];for(let i=0;i<=3;i++)a.push(-h+r*i/3);a.push(0);for(let i=0;i<=3;i++)a.push(h-r+r*i/3);return a;}
+   for(let axis=0;axis<3;axis++)for(const sign of [-1,1]){
+     const [uAxis,vAxis]=[0,1,2].filter(k=>k!==axis),us=samples(half[uAxis]),vs=samples(half[vAxis]);
+     function get(u,v){const p=[0,0,0];p[axis]=half[axis]*sign;p[uAxis]=u;p[vAxis]=v;
+       const cl=p.map((q,k)=>Math.max(-half[k]+r,Math.min(half[k]-r,q))),dv=p.map((q,k)=>q-cl[k]),len=Math.hypot(...dv)||1;
+       const pos=cl.map((q,k)=>q+dv[k]/len*r),n=dv.map(q=>q/len);
+       // A slight recline gives cushions a natural upholstered profile.
+       pos[0]+=lean*pos[1];n[1]-=lean*n[0];
+       return {p:pos.map((q,k)=>q+[x,y,z][k]),n,uv:[u*3,v*3]};}
+     for(let i=0;i<us.length-1;i++)for(let j=0;j<vs.length-1;j++){
+       const a=get(us[i],vs[j]),b=get(us[i+1],vs[j]),c=get(us[i+1],vs[j+1]),d0=get(us[i],vs[j+1]);
+       for(const k of [a,b,c,a,c,d0])vertex(k.p,k.n,k.uv,mat,col);
+     }
    }
  }
  function cyl(x,y,z,r0,r1,h,mat,t='#ffffff',seg=16){const a=y-h/2,b=y+h/2,c=color(t);
    for(let k=0;k<seg;k++){let t0=k*2*Math.PI/seg,t1=(k+1)*2*Math.PI/seg;let n0=[Math.cos(t0),0,Math.sin(t0)],n1=[Math.cos(t1),0,Math.sin(t1)];
     const p=[x+r0*n0[0],a,z+r0*n0[2]],q=[x+r0*n1[0],a,z+r0*n1[2]],r=[x+r1*n1[0],b,z+r1*n1[2]],s=[x+r1*n0[0],b,z+r1*n0[2]];
     for(const [pt,n,uv] of [[p,n0,[k/seg,0]],[q,n1,[(k+1)/seg,0]],[r,n1,[(k+1)/seg,1]],[p,n0,[k/seg,0]],[r,n1,[(k+1)/seg,1]],[s,n0,[k/seg,1]]])vertex(pt,n,uv,mat,c);
-    const cent=[x,b,z],normal=[0,1,0];for(const pt of [cent,s,r])vertex(pt,normal,[(pt[0]-x)/.4+.5,(pt[2]-z)/.4+.5],mat,c);
+    for(const [cent,normal,pts] of [[[x,b,z],[0,1,0],[s,r]],[[x,a,z],[0,-1,0],[p,q]]])for(const pt of [cent,...pts])vertex(pt,normal,[(pt[0]-x)/.4+.5,(pt[2]-z)/.4+.5],mat,c);
    }
  }
  function bar(a,b,r,mat,t='#ffffff',sides=9){ // cylinder aligned to arbitrary vector
@@ -279,7 +307,7 @@
    paneZ(-.65,.54,2.94,0,.81,M.plaster,plaster);
    paneZ(-.65,.54,2.94,2.22,2.77,M.plaster,plaster);
    // The two adjoining blue-grey framed windows occupy 30%-80% of wall height.
-   quad([.72,.83,-.83],[2.76,.83,-.83],[2.76,2.20,-.83],[.72,2.20,-.83],[0,0,1],M.sky,'#ffffff',1,1);
+   quad([.65,.80,-1.20],[2.84,.80,-1.20],[2.84,2.25,-1.20],[.65,2.25,-1.20],[0,0,1],M.sky,'#ffffff',1,1);
    for(const [x0,x1] of [[.70,1.73],[1.73,2.78]]){
      windowFrame(-.60,x0,x1,.82,2.22);
      box((x0+x1)/2,1.07,-.565,x1-x0,.054,.097,M.steel,'#71828a');
@@ -309,7 +337,8 @@
    box(.38,1.385,.75,.72,2.77,.30,M.plaster,'#f7f2e9');
    // Split-unit air conditioner: beveled enclosure, vent, slit louvers and status LED.
    roundBox(.64,2.34,.93,.83,.32,.24,.034,M.white,'#fafaf9');
-   box(.64,2.19,1.062,.77,.021,.015,M.dark,'#343b3f');
+   box(.64,2.19,1.062,.77,.030,.015,M.black,'#343b3f');
+   for(let i=0;i<3;i++)box(.64,2.182+i*.009,1.075,.72,.003,.018,M.steel,'#939a9b');
    for(let i=0;i<15;i++){box(.25+i*.053,2.183,1.074,.010,.025,.020,M.steel,'#b2b5b3');}
    box(.63,2.315,1.058,.65,.012,.014,M.ivory,'#e9e8e4');
    cyl(.96,2.34,1.056,.009,.009,.01,M.leaf,'#8cc684',10);
@@ -320,22 +349,28 @@
    }
    roundBox(.72,.335,z,1.09,.34,2.16,.11,M.sofa,'#e2d1bf');
    // Rounded backrest touching plaster.
-   roundBox(.19,.72,z,.30,.73,2.20,.085,M.sofa,'#eee0d0');
+   roundBox(.19,.72,z,.30,.73,2.20,.085,M.sofa,'#ddcfc2');
    for(let i=0;i<3;i++){
       const zz=1.75+i*.68;
       pad(.75,.53,zz,1.03,.22,.65,M.sofa,'#f3e8de');
-      pad(.36,.81,zz,.34,.64,.62,M.sofa,'#f2e7d9');
-      cushionPiping(.31,1.15,.441,zz-.29,zz+.29,'#ae9e8f');
+      roundBox(.36,.84,zz,.34,.65,.64,.095,M.sofa,'#f2e7d9',-.15);
+      cushionPiping(.32,1.20,.598,zz-.295,zz+.295,'#b6aa9e');
+      for(const edge of [-1,1])rail([.535,.64,zz+edge*.27],[.46,1.10,zz+edge*.27],.004,M.sofa,'#c1b2a1');
       rail([.33,.505,zz-.26],[1.20,.505,zz-.26],.006,M.ivory,'#cfc0b0');
    }
    for(const zz of [1.27,3.59])roundBox(.78,.63,zz,1.12,.55,.21,.065,M.sofa,'#e1d1c4');
-   // Separate cream and amber accent cushions with soft rounded corners and seams.
-   pad(.79,.79,1.98,.24,.42,.35,M.cream,'#ffffff');
-   pad(.82,.78,2.59,.25,.42,.37,M.walnut,'#ffd2a6');
-   pad(.78,.80,3.20,.22,.40,.34,M.cream,'#f4e4ce');
-   for(const [zz,t] of [[1.98,'#f2e7d7'],[2.59,'#b77a3a'],[3.20,'#eee2d3']]){
-     rail([.68,.91,zz-.13],[.68,.92,zz+.13],.004,M.ivory,t);
+   function pillow(cx,cy,cz,mat,tint,angle){
+     const start=verts.length;
+     roundBox(cx,cy,cz,.22,.49,.46,.10,mat,tint,-.18);
+     // Tailored piping sits just inside the softly rounded front edge.
+     const path=[];
+     for(let i=0;i<=48;i++){const a=i*Math.PI/24;const yy=.215*Math.sign(Math.sin(a))*Math.pow(Math.abs(Math.sin(a)),.45),zz=.20*Math.sign(Math.cos(a))*Math.pow(Math.abs(Math.cos(a)),.45);path.push([cx+.104-.18*yy,cy+yy,cz+zz]);}
+     for(let i=0;i<48;i++)bar(path[i],path[i+1],.0025,mat,tint,5);
+     for(let i=start;i<verts.length;i+=12){const x=verts[i]-cx,z=verts[i+2]-cz,nx=verts[i+3],nz=verts[i+5];verts[i]=cx+x*Math.cos(angle)+z*Math.sin(angle);verts[i+2]=cz-x*Math.sin(angle)+z*Math.cos(angle);verts[i+3]=nx*Math.cos(angle)+nz*Math.sin(angle);verts[i+5]=-nx*Math.sin(angle)+nz*Math.cos(angle);}
    }
+   pillow(.59,.89,1.87,M.cream,'#eee3d4',-.42);
+   pillow(.66,.86,2.53,M.cream,'#b56526',-.35);
+   pillow(.62,.89,3.18,M.cream,'#f5ecdb',-.48);
    // Grey-topped white storage cabinet, correctly opposite the sofa.
    box(3.005,.30,2.50,.425,.59,1.88,M.white,'#fffefb');
    box(2.78,.31,2.50,.018,.53,1.84,M.ivory,'#f5efe3');
@@ -347,7 +382,7 @@
    for(const zz of [2.05,2.95]){
       box(3.127,1.64,zz,.065,.65,.067,M.black,'#b4ada3');
       for(let yy of [1.46,1.58,1.71,1.84]){
-         box(3.085,yy,zz,.018,.027,.026,M.black,'#e3dccc');
+         box(3.085,yy,zz,.018,.027,.026,M.dark,'#161718');
       }
    }
    // Empty white metal 5-tier shelf just BEFORE the recessed window.
@@ -371,52 +406,50 @@
    cyl(1.70,2.686,2.42,.076,.076,.13,M.black,'#b8aa9b',20);
    cyl(1.70,2.545,2.42,.125,.15,.11,M.black,'#a3a099',24);
    for(let k=0;k<3;k++){
-     const a=k*Math.PI*2/3+.20;
-     const sx=1.70+Math.cos(a)*.18,sz=2.42+Math.sin(a)*.18;
-     const ex=1.70+Math.cos(a)*.56,ez=2.42+Math.sin(a)*.56;
-     rail([sx,2.51,sz],[ex,2.48,ez],.036,M.black,'#8b837d');
-     roundBox(ex,2.475,ez,.25,.022,.14,.011,M.black,'#6d6964');
+     const angle=k*Math.PI*2/3+.20,outline=[[.10,-.045],[.32,-.075],[.62,-.035],[.66,.045],[.57,.095],[.22,.065]];
+     const points=outline.map(([r,t])=>[1.70+Math.cos(angle)*r-Math.sin(angle)*t,2.50-r*.025,2.42+Math.sin(angle)*r+Math.cos(angle)*t]);
+     for(let i=1;i<points.length-1;i++)for(const [pt,n] of [[points[0],[0,-1,0]],[points[i],[0,-1,0]],[points[i+1],[0,-1,0]]])vertex(pt,n,[0,0],M.black,color('#a39d92'));
+     for(let i=0;i<points.length;i++)bar(points[i],points[(i+1)%points.length],.006,M.black,'#a39d92',6);
    }
+
  }
  function dining(){
    // Exact layout: rectangular dark timber table beside left wall, chairs 2+2 on LONG sides.
-   const x=.94,z=4.51;
-   roundBox(x,.735,z,.89,.065,1.35,.021,M.walnut,'#d8cfc4');
-   box(x,.667,z,.71,.071,1.10,M.black,'#80796e');
-   for(const xx of [x-.37,x+.37])for(const zz of [z-.58,z+.58]){
-     roundBox(xx,.355,zz,.055,.70,.057,.012,M.black,'#7d776e');
-   }
-   for(const zz of [z-.56,z+.56])box(x,.66,zz,.69,.055,.047,M.walnut,'#e1d2c2');
+   const x=.96,z=4.65;
+   roundBox(x,.755,z,1.76,.065,.86,.018,M.black,'#a6a4a0');
+   box(x,.680,z,1.61,.085,.70,M.black,'#9c9690');
+   for(const xx of [.16,1.76])for(const zz of [4.30,5.0])roundBox(xx,.36,zz,.055,.72,.055,.009,M.black,'#b0a89e');
    function chair(cx,cz,side){
-      const backX=cx+side*.205,frontX=cx-side*.195;
-      for(const zz of [cz-.19,cz+.19]){
-        roundBox(backX,.425,zz,.044,.850,.047,.010,M.black,'#9b9388');
-        roundBox(frontX,.205,zz,.047,.408,.050,.010,M.black,'#a9a096');
-      }
-      pad(cx,.455,cz,.475,.120,.47,M.ivory,'#fff6e8');
-      box(cx,.377,cz,.48,.045,.46,M.black,'#837d75');
-      for(const yy of [.61,.75,.85]){
-        roundBox(backX,yy,cz,.060,.056,.39,.013,M.black,'#938c81');
-      }
-      rail([frontX,.23,cz-.19],[frontX,.23,cz+.19],.012,M.black,'#9e978d');
+     const backZ=cz+side*.205,frontZ=cz-side*.19;
+     for(const xx of [cx-.19,cx+.19]){
+       roundBox(xx,.47,backZ,.043,.94,.045,.009,M.black,'#b0aaa1');
+       bar([xx,.035,frontZ],[xx,.43,frontZ-side*.025],.022,M.black,'#b0aaa1',10);
+       bar([xx,.22,frontZ],[xx,.22,backZ],.012,M.black,'#b0aaa1',8);
+     }
+     box(cx,.405,cz,.46,.055,.45,M.black,'#aaa297');
+     roundBox(cx,.468,cz,.45,.10,.43,.043,M.cream,'#f3e9d7');
+     for(const yy of [.66,.79,.91])roundBox(cx,yy,backZ,.38,.055,.045,.012,M.black,'#b4aca1');
    }
-   for(const zz of [4.08,4.89]){chair(.275,zz,-1);chair(1.61,zz,1);}
+   for(const xx of [.49,1.34]){chair(xx,4.02,-1);chair(xx,5.28,1);}
    // Reference-matched three-head L track. Two heads on near-camera longitudinal
    // segment, third on return. They point TOWARD the dining tabletop.
    const y=2.720;
-   box(1.19,y,5.16,.030,.026,1.30,M.black,'#6e6257');
-   box(1.48,y,4.53,.60,.026,.030,M.black,'#6c6056');
+   box(.99,y,5.24,1.86,.034,.040,M.black,'#beb8b0');
+   box(1.90,y,5.56,.040,.034,.68,M.black,'#beb8b0');
    function spotlight(sx,sz,tx,tz){
-      const collar=[sx,2.625,sz],head=[sx+(tx-sx)*.10,2.49,sz+(tz-sz)*.10],lens=[sx+(tx-sx)*.17,2.395,sz+(tz-sz)*.17];
-      rail([sx,y-.01,sz],[sx,2.614,sz],.027,M.black,'#80776d');
-      bar(collar,head,.056,M.wood,'#c7a581',16);
-      bar(head,lens,.095,M.black,'#6c6259',20);
-      // Warm lens at the end, still physically facing the table.
-      bar([lens[0],lens[1],lens[2]],[lens[0],lens[1]-.007,lens[2]],.079,M.bulb,'#fff5ce',20);
+      const mount=[sx,2.63,sz],direction=[tx-sx,-1.8,tz-sz],len=Math.hypot(...direction),dir=direction.map(v=>v/len);
+      const end=mount.map((v,i)=>v+dir[i]*.24);
+      bar([sx,y,sz],mount,.018,M.black,'#c1b8ad',12);
+      bar(mount,mount.map((v,i)=>v+dir[i]*.072),.061,M.wood,'#d5b27e',20);
+      bar(mount.map((v,i)=>v+dir[i]*.070),end,.080,M.black,'#beb9b1',24);
+      // Closed luminous disk normal to the aimed head, rather than a hollow tube.
+      const u=[1,0,0],v=[0,-dir[2],dir[1]],vl=Math.hypot(...v),col=color('#ffe5b9');
+      const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+      const vv=v.map(n=>n/vl),uu=cross(vv,dir);
+      for(let i=0;i<24;i++){const points=[end];for(const k of [i,i+1])points.push(end.map((q,j)=>q+.069*(uu[j]*Math.cos(k*Math.PI/12)+vv[j]*Math.sin(k*Math.PI/12))));for(const pt of points)vertex(pt,dir,[.5,.5],M.bulb,col);}
    }
-   spotlight(1.19,5.21,.90,4.49);
-   spotlight(1.19,5.65,.90,4.51);
-   spotlight(1.71,4.53,.98,4.47);
+   spotlight(.53,5.24,.65,4.45);spotlight(1.40,5.24,1.16,4.45);spotlight(1.90,5.72,1.0,4.51);
+
  }
  function kitchen(){
    // White cabinets, graphite counters and brushed-steel refrigerator, without clutter.
@@ -449,7 +482,7 @@
    box(5.81,.20,6.17,.53,.42,.69,M.white,'#f4f5f3');
    cyl(5.81,.48,6.17,.23,.23,.12,M.white,'#fbfaf9');
  }
- drawFloor();living();dining();kitchen();bedroomBath();
+ drawFloor();const furnitureStart=verts.length/12;living();dining();const furnitureEnd=verts.length/12;kitchen();bedroomBath();
  // The physical bedroom and bathroom door geometry is dynamic by tag, so state toggles work.
  const baseCount=verts.length/12;
  function doorGeometry(open){
@@ -470,12 +503,38 @@
   const map=[[attrs.p,3,0],[attrs.n,3,12],[attrs.uv,2,24],[attrs.color,3,32],[attrs.mat,1,44]];
   for(const [loc,n,offset] of map){if(loc<0)continue;gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,n,gl.FLOAT,false,stride,offset);}
  }
+ // Bake static furniture shadows once. No depth-texture extension or per-frame shadow pass.
+ let shadowTexture=null;
+ try {
+   const shadowProgram=gl.createProgram();
+   gl.attachShader(shadowProgram,shader(gl.VERTEX_SHADER,`attribute vec3 aPosition;varying float vDepth;void main(){vec3 p=aPosition;vDepth=(5.0-p.y)/6.0;gl_Position=vec4((p.x-.4*p.y+1.0)/3.0-1.0,(p.z+1.9*p.y+1.0)/4.5-1.0,vDepth*2.0-1.0,1.0);}`));
+   gl.attachShader(shadowProgram,shader(gl.FRAGMENT_SHADER,`precision mediump float;varying float vDepth;void main(){float d=vDepth*255.0;gl_FragColor=vec4(floor(d)/255.0,fract(d),0.0,1.0);}`));
+   gl.linkProgram(shadowProgram);if(!gl.getProgramParameter(shadowProgram,gl.LINK_STATUS))throw Error('shadow link');
+   const size=1024,fb=gl.createFramebuffer(),depth=gl.createRenderbuffer();
+   shadowTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,shadowTexture);
+   gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,size,size,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+   for(const key of [gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER])gl.texParameteri(gl.TEXTURE_2D,key,gl.NEAREST);
+   for(const key of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T])gl.texParameteri(gl.TEXTURE_2D,key,gl.CLAMP_TO_EDGE);
+   gl.bindFramebuffer(gl.FRAMEBUFFER,fb);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,shadowTexture,0);
+   gl.bindRenderbuffer(gl.RENDERBUFFER,depth);gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT16,size,size);gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER,depth);
+   if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('shadow framebuffer');
+   gl.useProgram(shadowProgram);gl.bindBuffer(gl.ARRAY_BUFFER,staticBuffer);
+   const loc=gl.getAttribLocation(shadowProgram,'aPosition');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,48,0);
+   gl.viewport(0,0,size,size);gl.enable(gl.DEPTH_TEST);gl.clearColor(1,1,1,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+   gl.drawArrays(gl.TRIANGLES,furnitureStart,furnitureEnd-furnitureStart);
+   gl.deleteFramebuffer(fb);gl.deleteRenderbuffer(depth);gl.deleteProgram(shadowProgram);
+ }catch(e){console.warn('Housewalk: contact-shadow fallback',e);shadowTexture=null;}
+ gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.useProgram(prog);
+ gl.uniform1i(gl.getUniformLocation(prog,'uShadow'),1);gl.uniform1f(gl.getUniformLocation(prog,'uHasShadow'),shadowTexture?1:0);
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
  gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);
- const glLost=e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';};
+ const glLost=e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';document.documentElement.dataset.renderer='canvas-fallback';};
  canvas.addEventListener('webglcontextlost',glLost);
+ canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();const script=document.createElement('script');script.src='./webgl.js?v=4.1';document.body.appendChild(script);});
  let width=0,height=0,lastTime=0,firstPaint=false;
  function render(now){
    // Do not run heavy WebGL loops on hidden tabs.
+   if(gl.isContextLost())return;
    if(document.hidden){requestAnimationFrame(render);return;}
    try {
    const dpr=Math.min(window.devicePixelRatio||1,1.55),w=Math.round(window.innerWidth*dpr),h=Math.round(window.innerHeight*dpr);
@@ -504,9 +563,9 @@
   {x0:4.79,x1:5.07,z0:4.48,z1:4.62}, // bathroom door sides
   {x0:5.79,x1:6.12,z0:4.48,z1:4.62},
   {x0:.06,x1:1.31,z0:1.19,z1:3.69}, // detailed 3-seat sofa
-  {x0:.48,x1:1.42,z0:3.78,z1:5.22}, // dining table
-  {x0:.02,x1:.54,z0:3.78,z1:5.13}, // left chairs
-  {x0:1.32,x1:1.84,z0:3.78,z1:5.13}, // right chairs
+  {x0:.07,x1:1.85,z0:4.19,z1:5.11}, // dining table
+  {x0:.25,x1:1.58,z0:3.79,z1:4.26}, // window-side chairs
+  {x0:.25,x1:1.58,z0:5.04,z1:5.52}, // entrance-side chairs
   {x0:2.73,x1:3.24,z0:1.56,z1:3.51}, // TV cabinet
   {x0:2.66,x1:3.22,z0:.51,z1:1.17}, // empty 5-tier rack
   {x0:.04,x1:.76,z0:.57,z1:.93}, // AC wall bump-out
@@ -515,5 +574,6 @@
   {x0:3.85,x1:4.58,z0:5.42,z1:6.11}, // kitchen pantry unit
  ];
  requestAnimationFrame(render);
- console.info('Housewalk: Living & Dining v4 WebGL renderer ready, '+baseCount+' triangles / 3');
+ window.HW4Stats={vertices:baseCount,triangles:baseCount/3,shadowMap:!!shadowTexture};
+ console.info('Housewalk V4: '+baseCount/3+' triangles');
 })();
