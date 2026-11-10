@@ -1,0 +1,5 @@
+const {chromium}=require('playwright');const assert=require('node:assert/strict');
+(async()=>{const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+try{const page=await browser.newPage({viewport:{width:900,height:650}});await page.goto(process.env.HOUSEWALK_URL||'http://127.0.0.1:8000/v4/');await page.waitForFunction(()=>window.__HW4_ASSETS&&window.__HW4_MATERIALS,{},{timeout:60000});
+await page.evaluate(()=>{window.testContextLoss=HWScene.renderer.getContext().getExtension('WEBGL_lose_context');testContextLoss.loseContext()});await page.waitForFunction(()=>window.__HW3D_READY===false);assert.equal(await page.locator('#view').evaluate(e=>e.style.opacity),'1');await page.evaluate(()=>testContextLoss.restoreContext());await page.waitForFunction(()=>window.__HW3D_READY&&window.__HW4_ASSETS&&window.__HW4_MATERIALS,{},{timeout:60000});console.log('PBR context loss: Canvas visible; restoration reloaded PBR assets successfully.');}
+finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});

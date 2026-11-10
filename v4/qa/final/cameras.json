@@ -1,0 +1,71 @@
+{
+  "note": "Repeatable genuine 3D views, source-plan layout; camera lenses are reference fits, not measured EXIF.",
+  "views": [
+    {
+      "name": "01-living-dining",
+      "x": 1.5,
+      "z": 6.26,
+      "yaw": 0.1,
+      "pitch": 0.06,
+      "eye": 1.45,
+      "fov": 68,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "02-oak-floor",
+      "x": 2.02,
+      "z": 3.2,
+      "yaw": 0,
+      "pitch": -0.7,
+      "eye": 0.95,
+      "fov": 65,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "03-curtain-window",
+      "x": 1.8,
+      "z": 3.2,
+      "yaw": 0.13,
+      "pitch": 0.02,
+      "eye": 1.45,
+      "fov": 65,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "04-kitchen-first",
+      "x": 2.35,
+      "z": 4.8,
+      "yaw": 2.43,
+      "pitch": -0.01,
+      "eye": 1.5,
+      "fov": 75,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "05-kitchen-second",
+      "x": 1.25,
+      "z": 5.6,
+      "yaw": 1.95,
+      "pitch": -0.03,
+      "eye": 1.5,
+      "fov": 75,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "06-entrance",
+      "x": 1,
+      "z": 5.35,
+      "yaw": 3.1,
+      "pitch": -0.12,
+      "eye": 1.4,
+      "fov": 86,
+      "w": 1585,
+      "h": 992
+    }
+  ]
+}

@@ -1,3 +1,9 @@
+> Historical PR #3/#4 record. The final reference pack is now available and the
+> renderer/geometry work is implemented on the new development branch. Current
+> evidence and dimension provenance: [FINAL_IMPLEMENTATION.md](FINAL_IMPLEMENTATION.md).
+> The provisional assumptions and approval gate below are superseded by the
+> owner’s final implementation request.
+
 # Rendering recommendation — proposal only
 
 The hand-coded renderer is useful for a walkable geometry review. It is not a

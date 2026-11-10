@@ -46,6 +46,7 @@
 <div class="modal" id="planModal"><div class="panel"><div class="panelheader"><div><h2>Your mirrored floor plan</h2><p>6.30 × 7.05 m · Tap a room to jump there</p></div><button class="close" id="closePlan" title="Close">×</button></div><canvas id="bigmap" width="630" height="705"></canvas><div class="planfoot">Dining is middle-left, between the entrance and living room. Bedroom and bathroom furnishings are placeholders.</div></div></div>
 <div id="error"><h3>Preview couldn't start</h3><p>The viewer may have blocked interactive graphics. Open the website in Safari or Chrome instead.</p></div>
 <noscript><div style="padding:50px;background:#fff">This interactive house needs JavaScript. Please open the webpage in Safari or Chrome.</div></noscript>
+<script src="./layout.js"></script>
 <script>
 (function(){
 'use strict';
@@ -58,10 +59,10 @@ const PI=Math.PI, SIZE={w:6.3,h:7.05}, EY=1.59;
 const player={x:.78,z:6.33,yaw:0,pitch:-.05};
 const spawn={x:.78,z:6.33,yaw:0,pitch:-.05};
 const keys=new Set(), joyAxis={x:0,y:0};
-let night=false,viewW=0,viewH=0,scale=1,last=performance.now(),lastRender=0,lastMap=0,tourIndex=0,noticeTimer=0;
+let night=true,viewW=0,viewH=0,scale=1,last=performance.now(),lastRender=0,lastMap=0,tourIndex=0,noticeTimer=0;
 const panels=[],colliders=[];let drawable=[];
-const doors=[{name:'Bedroom',open:false,axis:'z',x:3.25,z:3.78,len:.65},{name:'Bathroom',open:true,axis:'z',x:4.79,z:5.43,len:.86}];
-const scenes=[{name:'Entrance',x:.78,z:6.33,yaw:0,pitch:-.03},{name:'Dining',x:2.18,z:4.94,yaw:-1.22,pitch:-.12},{name:'Living',x:2.13,z:3.42,yaw:-.12,pitch:-.06},{name:'TV area',x:1.92,z:2.68,yaw:1.20,pitch:-.06},{name:'Kitchen',x:2.67,z:5.38,yaw:2.95,pitch:-.06},{name:'Bedroom',x:4.55,z:3.95,yaw:-.2,pitch:-.05},{name:'Bathroom',x:5.35,z:5.96,yaw:1.35,pitch:-.10}];
+const doors=window.HWLayout.doors;
+const scenes=[{name:'Entrance',x:.85,z:6.36,yaw:.12,pitch:-.03},{name:'Dining',x:2.14,z:4.6,yaw:-1.2,pitch:-.10},{name:'Living',x:1.90,z:3.55,yaw:.10,pitch:-.03},{name:'TV area',x:1.75,z:2.45,yaw:1.3,pitch:-.05},{name:'Kitchen',x:3.35,z:5.50,yaw:2.8,pitch:-.10},{name:'Bedroom',x:4.6,z:3.90,yaw:-.1,pitch:-.06},{name:'Bathroom',x:5.5,z:5.55,yaw:1.4,pitch:-.12}];
 const COLORS={wall:'#f1eee7',trim:'#dfdfd8',oak:'#dec7a6',wood:'#d6b790',white:'#f7f5ef',ivory:'#e5e2d9',slate:'#636465',sofa:'#77787b',grey:'#a9aaa9',curtain:'#bca99f',curtainDark:'#9d8981',steel:'#b6b9b7',black:'#363839',glass:'#b4d9dc',yellow:'#eab73c'};
 function rgb(c){c=c.replace('#','');return [parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)]}
 function shade(col,k){const a=rgb(col);return 'rgb('+a.map(v=>Math.max(0,Math.min(255,Math.round(v*k)))).join(',')+')'}
@@ -90,96 +91,28 @@ function topWindow(x0,x1){
  for(let x=x0;x<=x1;x+=.76)block(x,.59,.06,.035,1.63,.11,'#e5ebe7');
 }
 function createHome(){
- // Every part is standalone Canvas 2D geometry: no WebGL / external scripts.
- // Mirrored from the 6300 x 7050 mm plan. North is the TOP of the map.
- for(let x=0;x<6.3;x+=.30){for(let z=0;z<7.05;z+=.54){let w=Math.min(.30,6.3-x),d=Math.min(.54,7.05-z);
-  const bathroom=x>=4.76&&z>=4.5;
-  const base=bathroom?((Math.floor(x*5)+Math.floor(z*4))%2?'#dbdbd6':'#e5e4de'):((Math.floor(x*6)+Math.floor(z*6))%3?'#d8c19e':'#dec6a4');
-  addFace([[x,-.015,z],[x+w-.006,-.015,z],[x+w-.006,-.015,z+d-.008],[x,-.015,z+d-.008]],base,[0,1,0]);
- }}
- // Ceiling panels above every zone, segmented for correct depth rendering.
- for(let x=0;x<6.3;x+=.95)for(let z=0;z<7.05;z+=.95){let w=Math.min(.95,6.3-x),d=Math.min(.95,7.05-z);addFace([[x,2.78,z],[x,2.78,z+d],[x+w,2.78,z+d],[x+w,2.78,z]],'#f7f5ee',[0,-1,0])}
- wallX(0,0,7.05);wallX(6.30,0,7.05);
- wallZ(0,0,.55);topWindow(.55,2.87);wallZ(0,2.87,3.66);topWindow(3.66,5.80);wallZ(0,5.80,6.3);
- wallZ(7.05,0,.49);wallZ(7.05,1.38,6.3); // Main entrance opening on bottom-left.
- // Bedroom split: right-upper area; door near bottom of its left wall.
- wallX(3.25,0,3.78);wallX(3.25,4.43,4.55);
- // Bathroom on bottom-right; opening on upper edge.
- wallX(4.79,4.55,5.43);wallX(4.79,6.29,7.05);wallZ(4.55,3.25,6.3);
- // Door frames, thresholds, wall baseboards.
- block(3.25,2.18,4.105,.25,.58,.76,'#e9e8df');block(3.25,0,3.78,.17,.09,.17,'#d6d1c4');
- block(4.79,2.18,5.86,.23,.58,.91,'#ece9e2');
- block(.92,0,7.05,.91,.12,.18,'#877764');
- block(.5,0,6.93,.22,2.25,.12,'#b09a7b'); // Main door leaf opened against left.
- // Add frames to glazed exterior.
- for(let z of [.18,6.92]){block(.07,.04,z,.1,.10,.28,'#d7d4cb');block(6.23,.04,z,.10,.10,.28,'#d7d4cb')}
- // Full-length taupe curtains beside living windows, per the video.
- for(const [x0,x1] of [[.55,.95],[2.46,2.89]])for(let x=x0;x<x1-.02;x+=.085)block(x+.034,.02,.20,.069,2.56,.20,((Math.round(x*100)%2)?COLORS.curtain:COLORS.curtainDark));
- block(1.72,2.60,.20,2.45,.045,.16,'#e3ded6');
- // Air conditioner indicated in plan; understated boxes near top corners.
- block(.38,2.13,.26,.65,.38,.31,'#f6f6f2');block(5.90,2.13,.26,.62,.38,.31,'#f6f6f2');
- // Canvas fallback uses the same uncluttered living/dining layout as WebGL.
- const sofaPanelStart=panels.length;
- block(.72,.165,2.43,1.09,.34,2.16,COLORS.sofa);
- block(.19,.355,2.43,.30,.73,2.20,'#817b74');
- for(const z of [1.27,3.59])block(.78,.355,z,1.12,.55,.21,'#817b74');
- for(const z of [1.75,2.43,3.11]){block(.75,.42,z,1.03,.22,.65,'#969087');block(.36,.52,z,.34,.64,.62,'#969087');}
- for(const [z,c] of [[1.87,'#eae1d1'],[2.53,'#b76c30'],[3.18,'#eae1d1']])block(.62,.64,z,.24,.49,.46,c);
- for(const face of panels.slice(sofaPanelStart)){
-  for(const v of face.v){v[0]=.04+(v[0]-.04)*.74;v[1]=v[1]<=.64?v[1]*.75:v[1]-.16;}
-  face.center=face.center.map((v,k)=>k===0?.04+(v-.04)*.74:k===1?(v<=.64?v*.75:v-.16):v);
-  face.normal[0]/=.74;face.normal[1]/=.75;
+ // Lightweight compatibility geometry shares the source-plan layout and navigation.
+ for(let x=0;x<6.3;x+=.18)for(let z=0;z<7.05;z+=1.65)block(x+.087,-.02,z+.80,.174,.025,Math.min(1.60,7.05-z),'#c9ac88');
+ wallX(0,0,7.05);wallX(6.3,0,7.05);wallZ(0,0,6.3);wallZ(7.05,0,.30);wallZ(7.05,1.32,6.3);
+ block(.675,0,.49,1.35,2.77,.98,'#e7dfd3');wallX(3.15,0,4.37);
+ wallZ(4.37,3.15,3.43);wallZ(4.37,4.27,6.3);wallX(4.95,5.27,7.05);wallZ(4.43,4.95,6.3);
+ block(2.22,.23,.08,1.70,2.27,.03,'#8ea4ad');for(const x of [1.38,2.22,3.06])block(x,.23,.11,.055,2.27,.06,'#374147');block(2.22,.67,.11,1.74,.05,.06,'#374147');
+ block(.54,.15,2.27,.90,.35,2.1,'#77736e');block(.16,.38,2.27,.20,.56,2.1,'#77736e');
+ for(const z of [1.31,3.25])block(.54,.25,z,.91,.42,.17,'#77736e');
+ for(const z of [1.66,2.27,2.88])block(.60,.47,z,.72,.10,.58,'#8a8580');
+ block(2.82,0,2.10,.45,.54,2,'#eeeae2');block(2.82,.54,2.10,.49,.05,2.04,'#777775');
+ block(.90,.72,4.20,1.65,.07,.86,'#242424');
+ for(const x of [.46,1.25])for(const z of [3.57,4.83]){block(x,.42,z,.43,.09,.43,'#e1d6c2');block(x,.51,z+(z<4.2?-.20:.20),.43,.43,.035,'#242424');}
+ block(3.42,0,6.68,1.65,.87,.61,'#96918a');block(3.42,.87,6.65,1.65,.05,.68,'#242424');block(3.735,1.77,6.8,2.28,.78,.33,'#f2eee4');
+ block(2.15,0,6.66,.76,2.14,.68,'#51595c');block(2.15,2.17,6.66,.80,.60,.70,'#96918a');block(4.55,0,6.66,.61,.86,.62,'#f5f2ea');
+ block(.81,0,7.005,.98,2.25,.055,'#cfb89a');
+ for(const x of [1.44,1.65]){for(const xx of [x-.09,x+.09])for(const z of [6.50,6.99])block(xx,.015,z,.018,1.20,.018,'#242424');for(let i=0;i<6;i++)block(x,.018+i*.208,6.745,.18,.012,.50,'#242424');}
+ block(4.81,.2,2.32,1.5,.45,2.0,'#e2d8c5');
+ for(const [i,d]of doors.entries()){
+  if(i){block(d.x,0,d.z+d.len/2,.065,2.15,d.len,'#f0ece2','bathClosed');block(d.x+d.len/2,0,d.z,d.len,2.15,.065,'#f0ece2','bathOpen');}else{block(d.x+d.len/2,0,d.z,d.len,2.15,.065,'#f0ece2','bedClosed');block(d.x,0,d.z-d.len/2,.065,2.15,d.len,'#f0ece2','bedOpen');}
  }
- blocker(.525,2.43,.97,2.54);
- furniture(3.0,0,2.10,.425,.54,2.00,'#f3f2ef');block(3.0,.54,2.10,.475,.05,2.04,'#757677');
- for(const y of [1.42,1.82])block(3.17,y,2.50,.06,.06,.97,'#262d2f');
- for(const z of [2.05,2.95])block(3.13,1.31,z,.065,.65,.067,'#262d2f');
- for(const x of [2.725,3.195])for(const z of [.55,1.09])block(x,.01,z,.028,1.98,.029,'#f3f2ef');
- for(const y of [.16,.60,1.04,1.48,1.92])block(2.96,y,.82,.51,.033,.56,'#f3f2ef');
- blocker(2.96,.82,.55,.60);
- // Bare rectangular table: short end at left wall, two chairs on each long side.
- block(.96,.722,4.65,1.76,.065,.86,'#292a2a');blocker(.96,4.65,1.76,.86);
- for(const x of [.16,1.76])for(const z of [4.30,5.0])block(x,0,z,.055,.72,.055,'#303131');
- for(const x of [.49,1.34])for(const [z,side] of [[4.02,-1],[5.28,1]]){
-  block(x,.418,z,.45,.10,.43,'#e9dfca');blocker(x,z,.45,.47);
-  for(const xx of [x-.19,x+.19])for(const zz of [z-.19,z+.19])block(xx,0,zz,.044,.43,.044,'#303131');
-  for(const xx of [x-.19,x+.19])block(xx,.43,z+side*.205,.044,.51,.044,'#303131');
-  for(const y of [.66,.79,.91])block(x,y,z+side*.205,.38,.055,.045,'#303131');
- }
- block(.99,2.70,5.24,1.86,.034,.040,'#292a2a');block(1.90,2.70,5.56,.040,.034,.68,'#292a2a');
- for(const [x,z] of [[.53,5.24],[1.40,5.24],[1.90,5.72]])block(x,2.40,z,.14,.26,.14,'#292a2a');
- for(const [x,z] of [[1.70,3.49],[1.70,1.39],[1.74,-.14]])block(x,2.62,z,.18,.14,.18,'#292a2a');
- block(1.70,2.52,2.42,.25,.14,.25,'#292a2a');block(1.70,2.50,2.42,1.15,.025,.10,'#292a2a');
- // Matching low-cost Canvas kitchen: grey lower fronts, white uppers, black counter.
- furniture(3.015,.10,6.69,1.65,.73,.58,'#96938c');block(3.015,.86,6.65,1.65,.05,.68,'#252929');
- for(const x of [2.47,3.02,3.57])block(x,.14,6.34,.535,.68,.028,'#aaa69c');
- for(const x of [2.43,2.92,3.41,3.90])block(x,1.77,6.80,.478,.775,.33,'#f7f5ee');
- block(3.28,1.05,6.972,1.06,.67,.035,'#232a2d');block(3.28,1.10,6.944,.94,.56,.018,'#b8d4df');
- block(3.34,.91,6.66,.55,.018,.43,'#b4babb');block(3.34,.93,6.66,.44,.008,.30,'#606c72');
- block(3.37,.93,6.88,.03,.31,.03,'#bdc7c9');block(3.37,1.22,6.78,.03,.03,.22,'#bdc7c9');
- block(2.55,1.70,6.67,.67,.075,.49,'#a6acae');block(2.55,.92,6.66,.65,.018,.46,'#969d9f');
- for(const x of [2.36,2.73])block(x,.94,6.66,.18,.04,.20,'#252929');
- furniture(1.75,0,6.66,.76,2.14,.68,'#575f62');block(1.75,1.33,6.30,.72,.028,.035,'#292e30');
- block(1.75,2.16,6.70,.80,.47,.58,'#96938c');
- furniture(4.15,.02,6.66,.61,.86,.62,'#f5f4ee');block(4.15,.19,6.325,.43,.43,.02,'#303b40');block(4.15,.70,6.31,.50,.12,.02,'#e2e2da');
- // White three-tier trolley before the long TV cabinet.
- for(const x of [2.80,3.16])for(const z of [3.16,3.70]){block(x,.07,z,.022,.79,.022,'#f7f5ef');block(x,.015,z,.06,.07,.06,'#2b3032');}
- for(const y of [.17,.42,.67])block(2.98,y,3.43,.39,.045,.58,'#efede6');blocker(2.98,3.43,.43,.62);
- // Bedroom and bath will be refined after photos; layouts remain based on floor plan.
- block(4.92,.005,2.55,2.45,.017,3.25,'#d7c5af');
- furniture(4.90,.22,2.50,1.48,.38,2.00,'#d3c9ba');block(4.90,.59,2.52,1.42,.18,1.93,'#f6f1e8');
- block(4.90,.74,1.81,1.28,.12,.41,'#e3e0d7');block(4.90,.62,3.16,1.48,.10,.63,'#c1b7aa');
- furniture(5.95,0,3.50,.47,2.25,.75,'#c4b5a1');
- furniture(4.12,0,1.75,.55,.54,.55,'#b7ab9f');block(4.13,.58,1.75,.40,.04,.39,'#e4d7b9');
- // Provisional bathroom fixtures, clear of the pantry-facing open door.
- furniture(6.02,.69,5.45,.48,.15,.58,'#f4f5f2');blocker(6.02,5.45,.48,.58);
- furniture(5.75,.02,6.45,.45,.42,.63,'#f7f7f3');block(5.75,.48,6.68,.44,.48,.17,'#f5f4ee');
- // Bedroom / bathroom doorway leaves, individually toggled.
- block(3.26,.0,4.10,.09,2.16,.62,'#bba18a','bedClosed');
- block(3.64,0,3.78,.70,2.16,.09,'#bba18a','bedOpen');
- block(4.79,0,5.86,.075,2.16,.79,'#f1eee6','bathClosed');
- block(5.20,0,5.46,.78,2.16,.075,'#f1eee6','bathOpen');
 }
+
 createHome();
 function activeFace(f){return f.tag!=='bedClosed'&&f.tag!=='bedOpen'&&f.tag!=='bathClosed'&&f.tag!=='bathOpen'||(f.tag==='bedClosed'&&!doors[0].open)||(f.tag==='bedOpen'&&doors[0].open)||(f.tag==='bathClosed'&&!doors[1].open)||(f.tag==='bathOpen'&&doors[1].open)}
 function cameraPoint(v){const dx=v[0]-player.x,dz=v[2]-player.z,dy=v[1]-EY,sy=Math.sin(player.yaw),cy=Math.cos(player.yaw),sp=Math.sin(player.pitch),cp=Math.cos(player.pitch);
@@ -211,15 +144,15 @@ function updateSize(){let dpr=Math.min(window.devicePixelRatio||1,1.45);let w=Ma
  if(w!==viewW||h!==viewH){stage.width=w;stage.height=h;viewW=w;viewH=h;render()}}
 function collisionCircle(x,z,b,r){let nx=Math.max(b.x0,Math.min(x,b.x1)),nz=Math.max(b.z0,Math.min(z,b.z1));return (x-nx)**2+(z-nz)**2<r*r}
 function blocked(x,z){if(x<.17||x>6.13||z<.17||z>6.88)return true;
- const furnitureColliders=window.__HW3D_READY ? window.HW3DColliders : colliders;
-  for(const b of (furnitureColliders || colliders))if(collisionCircle(x,z,b,.19))return true;
- const bedLeaf=doors[0].open?{x0:3.28,x1:4.0,z0:3.75,z1:3.83}:{x0:3.2,x1:3.3,z0:3.78,z1:4.43};
- if(collisionCircle(x,z,bedLeaf,.19))return true;
- const bathLeaf=doors[1].open?{x0:4.81,x1:5.59,z0:5.42,z1:5.50}:{x0:4.74,x1:4.84,z0:5.43,z1:6.29};
- if(collisionCircle(x,z,bathLeaf,.19))return true;
+ for(const b of window.HWLayout.colliders)if(collisionCircle(x,z,b,.19))return true;
+ for(const [i,d]of doors.entries()){
+  const leaf=i?(d.open?{x0:d.x,x1:d.x+d.len,z0:d.z-.04,z1:d.z+.04}:{x0:d.x-.04,x1:d.x+.04,z0:d.z,z1:d.z+d.len}):(d.open?{x0:d.x-.04,x1:d.x+.04,z0:d.z-d.len,z1:d.z}:{x0:d.x,x1:d.x+d.len,z0:d.z-.04,z1:d.z+.04});
+  if(collisionCircle(x,z,leaf,.19))return true;
+ }
+
  return false;}
-function roomName(){if(player.x<1.38&&player.z>5.87)return 'Entrance';if(player.x>4.79&&player.z>=4.55)return 'Bathroom';if(player.x>3.25&&player.z<4.55)return 'Bedroom';if(player.z>5.10)return 'Kitchen & pantry';if(player.z>3.65)return 'Dining';return 'Living room'}
-function nearestDoor(){let d=doors[0],dd=Math.hypot(player.x-3.25,player.z-4.1),db=Math.hypot(player.x-4.79,player.z-5.86);if(db<dd){d=doors[1];dd=db}return dd<1.05?d:null;}
+function roomName(){if(player.x<1.75&&player.z>5.8)return 'Entrance';if(player.x>4.95&&player.z>=4.43)return 'Bathroom';if(player.x>3.15&&player.z<4.37)return 'Bedroom';if(player.z>5.12||player.x>3.15)return 'Kitchen & pantry';if(player.z>3.65)return 'Dining';return 'Living room'}
+function nearestDoor(){let nearest=null,distance=1.05;for(const d of doors){const dd=Math.hypot(player.x-d.x-(d.axis==='x'?d.len/2:0),player.z-d.z-(d.axis==='z'?d.len/2:0));if(dd<distance){nearest=d;distance=dd;}}return nearest;}
 function updateDoorButton(){const d=nearestDoor();doorBtn.disabled=!d;doorBtn.textContent=d?(d.open?'Close door':'Open door'):'Open door'}
 function toast(msg){let e=document.getElementById('toast');e.textContent=msg;e.style.opacity=1;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>e.style.opacity=0,1900)}
 function changeDoor(){let d=nearestDoor();if(!d){toast('Move closer to a door');return}d.open=!d.open;updateDoorButton();toast(d.name+' door '+(d.open?'opened':'closed'))}
@@ -229,20 +162,17 @@ function mapDraw(canvas){const c=canvas.getContext('2d');if(!c)return;let W=canv
  const X=x=>left+x*unit,Z=z=>top+z*unit;
  c.clearRect(0,0,W,H);c.fillStyle='#f6f4ec';c.fillRect(0,0,W,H);
  const fill=(x,z,w,h,col)=>{c.fillStyle=col;c.fillRect(X(x),Z(z),w*unit,h*unit)};
- fill(0,0,3.25,3.65,'#e9d5bd');fill(0,3.65,3.25,1.45,'#e3d1b9');fill(0,5.10,4.79,1.95,'#e3d6bd');fill(3.25,0,3.05,4.55,'#d6d6c7');fill(4.79,4.55,1.51,2.5,'#d1e5e9');
- // Furnishings, very simplified but oriented like the real photo and mirrored plan.
- fill(.04,1.16,.97,2.54,'#808083');fill(2.77,1.10,.45,2.0,'#969695');fill(.08,4.22,1.76,.86,'#646265');fill(2.18,6.32,1.68,.68,'#92918e');fill(1.35,6.29,.80,.71,'#69767d');fill(3.84,6.32,.63,.68,'#edeee7');fill(2.77,3.12,.43,.63,'#bab8ad');fill(4.15,1.61,1.62,2.2,'#f1efea');
- // Two chairs on each long side, matching the real 3D table.
- for(const xx of [.49,1.34])for(const zz of [4.02,5.28])fill(xx-.20,zz-.20,.40,.40,'#b3a58c');
- // Wall strokes with architectural gaps.
+ fill(0,0,3.15,3.65,'#e9d5bd');fill(0,3.65,3.15,1.47,'#e3d1b9');fill(0,5.12,4.95,1.93,'#e3d6bd');fill(3.15,4.37,1.8,.75,'#e3d6bd');fill(3.15,0,3.15,4.37,'#d6d6c7');fill(4.95,4.43,1.35,2.62,'#d1e5e9');
+ fill(0,0,1.35,.98,'#b8b3a8');fill(.06,1.21,.93,2.13,'#808083');fill(2.59,1.10,.46,2.0,'#969695');fill(.075,3.77,1.65,.86,'#535152');fill(2.59,6.31,1.65,.68,'#92918e');fill(1.75,6.28,.82,.72,'#69767d');fill(4.245,6.32,.61,.68,'#edeee7');
+ for(const x of [.46,1.25])for(const z of [3.57,4.83])fill(x-.20,z-.20,.40,.40,'#b3a58c');
+ for(const x of [1.44,1.65])fill(x-.09,6.5,.18,.49,'#30383b');
  c.strokeStyle='#596b62';c.lineCap='square';c.lineWidth=canvas===largeMap?6:2.7;
  function lines(segs){c.beginPath();for(const [a,b,d,e]of segs){c.moveTo(X(a),Z(b));c.lineTo(X(d),Z(e))}c.stroke()}
- lines([[0,0,6.3,0],[0,0,0,7.05],[6.3,0,6.3,7.05],[0,7.05,.49,7.05],[1.38,7.05,6.3,7.05],[3.25,0,3.25,3.78],[3.25,4.43,3.25,4.55],[4.79,4.55,4.79,5.43],[4.79,6.29,4.79,7.05],[3.25,4.55,6.3,4.55]]);
- // Window and entry marks.
- c.strokeStyle='#80bac5';c.lineWidth=canvas===largeMap?9:4;lines([[.55,0,2.87,0],[3.66,0,5.80,0]]);
- c.strokeStyle='#b08e68';c.lineWidth=canvas===largeMap?7:3;lines([[.49,7.05,1.38,7.05]]);
+ lines([[0,0,6.3,0],[0,0,0,7.05],[6.3,0,6.3,7.05],[0,7.05,.30,7.05],[1.32,7.05,6.3,7.05],[3.15,0,3.15,4.37],[3.15,4.37,3.43,4.37],[4.27,4.37,6.3,4.37],[4.95,5.27,4.95,7.05],[4.95,4.43,6.3,4.43]]);
+ c.strokeStyle='#80bac5';c.lineWidth=canvas===largeMap?9:4;lines([[1.38,0,3.06,0],[3.25,0,4.95,0],[3.47,7.05,4.37,7.05]]);
+ c.strokeStyle='#b08e68';c.lineWidth=canvas===largeMap?7:3;lines([[.30,7.05,1.32,7.05]]);
  function text(name,x,z,sz){c.fillStyle='#526258';c.font='700 '+sz+'px system-ui,-apple-system,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(name,X(x),Z(z))}
- let big=canvas===largeMap;for(const [name,x,z] of [['LIVING',1.85,.82],['DINING',2.45,4.73],['KITCHEN',3.17,5.47],['BEDROOM',4.91,1.18],['BATH',5.57,5.05]])text(name,x,z,big?20:8.9);
+ let big=canvas===largeMap;for(const [name,x,z] of [['LIVING',1.95,1.18],['DINING',2.35,4.30],['KITCHEN',3.45,5.40],['BEDROOM',4.8,1.18],['BATH',5.57,5.05]])text(name,x,z,big?20:8.9);
  if(big){text('ENTRANCE',.85,6.68,12);text('TV',2.83,2.11,14);text('SOFA',.76,3.62,12);}
  c.fillStyle='#287f69';c.beginPath();c.arc(X(player.x),Z(player.z),big?11:5.7,0,PI*2);c.fill();c.strokeStyle='#fff';c.lineWidth=big?4:2;c.stroke();c.strokeStyle='#267764';c.lineWidth=big?6:3;c.beginPath();c.moveTo(X(player.x),Z(player.z));c.lineTo(X(player.x+Math.sin(player.yaw)*.49),Z(player.z-Math.cos(player.yaw)*.49));c.stroke();
 }
@@ -282,10 +212,11 @@ function frame(now){let dt=Math.min(.055,(now-last)/1000||.016);last=now;
  if(now-lastRender>27){updateSize();render();lastRender=now}
  if(now-lastMap>145){mapDraw(smallMap);updateRoom();if(document.getElementById('planModal').classList.contains('open'))mapDraw(largeMap);lastMap=now}
  requestAnimationFrame(frame)}
-window.HousewalkBridge={camera:{eyeHeight:1.59},player,doors,getNight:()=>night,isBlocked:blocked,tourStops:scenes};
+window.HousewalkBridge={camera:{eyeHeight:1.55},player,doors,getNight:()=>night,isBlocked:blocked,tourStops:scenes};
+document.getElementById('lightBtn').textContent=night?'☾':'☼';
 updateSize();updateRoom();mapDraw(smallMap);render();requestAnimationFrame(frame);
 setTimeout(()=>toast('Walk from the entrance to dining, then living room'),700);
 })();
 </script>
-<script src="./webgl.js?v=4.3-review" defer></script>
+<script type="module" src="./webgl.js?v=final-1"></script>
 </body></html>
