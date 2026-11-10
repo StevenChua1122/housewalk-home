@@ -36,7 +36,7 @@
 <body>
 <canvas id="view" aria-label="Walkable first-person home view"></canvas><div class="tint"></div>
 <div class="ui">
- <div class="top"><div class="brand"><div class="logo">⌂</div><div><strong>Housewalk</strong><small>YOUR HOME · MIRRORED PLAN</small></div></div><div class="actions interact"><button id="planBtn" class="smallbtn" title="Show floor plan">▦ <span class="textbtn">Plan</span></button><button id="lightBtn" class="smallbtn" title="Day / night" aria-label="Toggle day or night mode">☼</button><button id="resetBtn" class="smallbtn" title="Reset to entrance" aria-label="Reset walkthrough to entrance">↺</button></div></div>
+ <div class="top"><div class="brand"><div class="logo">⌂</div><div><strong>Housewalk</strong><small>REAL ROOMS v3 · MIRRORED PLAN</small></div></div><div class="actions interact"><button id="planBtn" class="smallbtn" title="Show floor plan">▦ <span class="textbtn">Plan</span></button><button id="lightBtn" class="smallbtn" title="Day / night" aria-label="Toggle day or night mode">☼</button><button id="resetBtn" class="smallbtn" title="Reset to entrance" aria-label="Reset walkthrough to entrance">↺</button></div></div>
  <div class="roomcard"><div class="eyebrow">You are in</div><strong id="roomLabel">Entrance</strong><small id="provisional">Layout concept · not yet filmed</small></div>
  <div class="mapcard interact"><div class="maptitle">Mini map <span>●</span></div><canvas id="minimap" width="236" height="264" title="Tap to move between rooms" aria-label="Interactive mini floor plan"></canvas></div>
  <div id="centerDot"></div><div id="toast" role="status" aria-live="polite"></div><div class="helper">Drag anywhere to look around · Joystick to walk</div>
@@ -55,13 +55,13 @@ if(!ctx){document.getElementById('error').style.display='block';return;}
 const smallMap=document.getElementById('minimap'),largeMap=document.getElementById('bigmap');
 const roomLabel=document.getElementById('roomLabel'),provisional=document.getElementById('provisional'),doorBtn=document.getElementById('doorBtn');
 const PI=Math.PI, SIZE={w:6.3,h:7.05}, EY=1.59;
-const player={x:1.04,z:6.36,yaw:0,pitch:-.05};
-const spawn={x:1.04,z:6.36,yaw:0,pitch:-.05};
+const player={x:.78,z:6.33,yaw:0,pitch:-.05};
+const spawn={x:.78,z:6.33,yaw:0,pitch:-.05};
 const keys=new Set(), joyAxis={x:0,y:0};
 let night=false,viewW=0,viewH=0,scale=1,last=performance.now(),lastRender=0,lastMap=0,tourIndex=0,noticeTimer=0;
 const panels=[],colliders=[];let drawable=[];
 const doors=[{name:'Bedroom',open:true,axis:'z',x:3.25,z:3.78,len:.65},{name:'Bathroom',open:true,axis:'x',x:5.07,z:4.55,len:.72}];
-const scenes=[{name:'Entrance',x:1.02,z:6.36,yaw:0,pitch:-.03},{name:'Dining',x:1.45,z:4.94,yaw:0,pitch:-.10},{name:'Living',x:1.18,z:3.53,yaw:0,pitch:-.06},{name:'TV area',x:1.25,z:2.62,yaw:1.24,pitch:-.05},{name:'Kitchen',x:2.43,z:5.73,yaw:3.14,pitch:-.18},{name:'Bedroom',x:4.55,z:3.95,yaw:-.2,pitch:-.05},{name:'Bathroom',x:5.84,z:4.91,yaw:3.03,pitch:-.15}];
+const scenes=[{name:'Entrance',x:.78,z:6.33,yaw:0,pitch:-.03},{name:'Dining',x:2.18,z:4.94,yaw:-1.22,pitch:-.12},{name:'Living',x:2.13,z:3.42,yaw:-.12,pitch:-.06},{name:'TV area',x:1.92,z:2.68,yaw:1.20,pitch:-.06},{name:'Kitchen',x:2.45,z:5.69,yaw:3.14,pitch:-.13},{name:'Bedroom',x:4.55,z:3.95,yaw:-.2,pitch:-.05},{name:'Bathroom',x:5.84,z:4.91,yaw:3.03,pitch:-.15}];
 const COLORS={wall:'#f1eee7',trim:'#dfdfd8',oak:'#dec7a6',wood:'#d6b790',white:'#f7f5ef',ivory:'#e5e2d9',slate:'#636465',sofa:'#77787b',grey:'#a9aaa9',curtain:'#bca99f',curtainDark:'#9d8981',steel:'#b6b9b7',black:'#363839',glass:'#b4d9dc',yellow:'#eab73c'};
 function rgb(c){c=c.replace('#','');return [parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)]}
 function shade(col,k){const a=rgb(col);return 'rgb('+a.map(v=>Math.max(0,Math.min(255,Math.round(v*k)))).join(',')+')'}
@@ -172,6 +172,7 @@ function clipNear(points){let a=points,out=[],near=.09;for(let i=0;i<a.length;i+
   if(inside!==other){let t=(near-p[2])/(q[2]-p[2]);out.push([p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t,near])}
  }return out;}
 function render(){
+ if(window.__HW3D_READY)return; // fallback scene rests while WebGL is active
  const w=viewW,h=viewH;
  if(!w||!h)return;
  let bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,night?'#12262c':'#b8d5da');bg.addColorStop(1,night?'#202e32':'#dce7dd');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
