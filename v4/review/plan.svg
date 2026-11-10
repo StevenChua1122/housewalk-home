@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1120" viewBox="0 0 1400 1120">
+<rect width="1400" height="1120" fill="#f8f7f3"/>
+<defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6" fill="#405668"/></marker></defs>
+<text x="60" y="45" font-family="Arial,sans-serif" font-size="28" fill="#263e4c" text-anchor="start">HOUSEWALK — GEOMETRY AUDIT MODEL</text>
+<text x="60" y="75" font-family="Arial,sans-serif" font-size="17" fill="#a3402c" text-anchor="start">PROVISIONAL: dimensioned source plan and real photographs missing. This is NOT a measured floor-plan trace.</text>
+<text x="60" y="103" font-family="Arial,sans-serif" font-size="15" fill="#263e4c" text-anchor="start">All dimensions below are inherited model values or explicitly marked visual estimates. Do not use for construction.</text>
+<rect x="130" y="240" width="630.0" height="705.0" fill="#ede9df" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="455.0" y="240" width="305.0" height="455.0" fill="#e4e9e6" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="609.0" y="695.0" width="150.99999999999997" height="250.0" fill="#e0e9ed" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="184.0" y="175.0" width="240.0" height="65.0" fill="#ede9df" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<path d="M130,240 L130,945.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M760.0,240 L760.0,945.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M130,945.0 L180.0,945.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M269.0,945.0 L760.0,945.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M130,240 L184.0,240" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M424.0,240 L760.0,240" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M184.0,175.0 L184.0,269.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M424.0,175.0 L424.0,269.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M184.0,175.0 L424.0,175.0" stroke="#485764" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M455.0,240 L455.0,618.0" stroke="#ad793b" stroke-width="6" stroke-dasharray="9 5" fill="none"/>
+<path d="M455.0,683.0 L455.0,695.0" stroke="#ad793b" stroke-width="6" stroke-dasharray="9 5" fill="none"/>
+<path d="M455.0,695.0 L760.0,695.0" stroke="#ad793b" stroke-width="6" stroke-dasharray="9 5" fill="none"/>
+<path d="M609.0,695.0 L609.0,783.0" stroke="#ad793b" stroke-width="6" stroke-dasharray="9 5" fill="none"/>
+<path d="M609.0,869.0 L609.0,945.0" stroke="#ad793b" stroke-width="6" stroke-dasharray="9 5" fill="none"/>
+<path d="M200.0,180.0 L408.0,180.0" stroke="#507fa0" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M304.0,175.0 L304.0,185.0" stroke="#507fa0" stroke-width="6" stroke-dasharray="" fill="none"/>
+<rect x="130" y="300.0" width="72.0" height="30.000000000000004" fill="none" stroke="#ba564b" stroke-width="2" stroke-dasharray="5 3"/>
+<rect x="130" y="300.0" width="120.0" height="30.000000000000004" fill="#a6c4d7" stroke="#245c83" stroke-width="2" stroke-dasharray=""/>
+<rect x="134.0" y="356.5" width="130.0" height="252.99999999999997" fill="none" stroke="#ba564b" stroke-width="2" stroke-dasharray="5 4"/>
+<rect x="134.0" y="356.5" width="96.2" height="252.99999999999997" fill="#a6c4d7" stroke="#245c83" stroke-width="2" stroke-dasharray=""/>
+<path d="M138.0,440.83333333333337 L227.0,440.83333333333337" stroke="#7a9bad" stroke-width="6" stroke-dasharray="" fill="none"/>
+<path d="M138.0,525.1666666666666 L227.0,525.1666666666666" stroke="#7a9bad" stroke-width="6" stroke-dasharray="" fill="none"/>
+<rect x="138.0" y="662.0" width="176.0" height="86.00000000000003" fill="#41494c" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="406.25" y="348.0" width="47.499999999999964" height="204.0" fill="#d0cabc" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="408.0" y="554.0" width="40.000000000000036" height="58.00000000000001" fill="#eef0e9" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="349.0" y="871.0" width="167.0" height="68.00000000000006" fill="#8d9695" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="265.0" y="866.0" width="79.99999999999999" height="74.00000000000003" fill="#65717b" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="514.5" y="872.0" width="60.999999999999986" height="64.99999999999994" fill="#f5f5f0" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="157.0" y="620.0" width="43.99999999999999" height="43.99999999999999" fill="#cec5ad" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="157.0" y="746.0" width="43.99999999999999" height="43.99999999999995" fill="#cec5ad" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="242.0" y="620.0" width="43.99999999999999" height="43.99999999999999" fill="#cec5ad" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<rect x="242.0" y="746.0" width="43.99999999999999" height="43.99999999999995" fill="#cec5ad" stroke="#63717a" stroke-width="2" stroke-dasharray=""/>
+<circle cx="295.0" cy="842.0" r="7" fill="#9b3761"/>
+<text x="305.0" y="834.0" font-family="Arial,sans-serif" font-size="14" fill="#9b3761" text-anchor="start">C1</text>
+<circle cx="360.0" cy="676.0" r="7" fill="#9b3761"/>
+<text x="370.0" y="668.0" font-family="Arial,sans-serif" font-size="14" fill="#9b3761" text-anchor="start">C2</text>
+<circle cx="350.0" cy="725.0" r="7" fill="#9b3761"/>
+<text x="360.0" y="717.0" font-family="Arial,sans-serif" font-size="14" fill="#9b3761" text-anchor="start">C3</text>
+<text x="290.0" y="260.0" font-family="Arial,sans-serif" font-size="16" fill="#263e4c" text-anchor="middle">LIVING</text>
+<text x="605.0" y="440" font-family="Arial,sans-serif" font-size="17" fill="#263e4c" text-anchor="middle">BEDROOM</text>
+<text x="685.0" y="745.0" font-family="Arial,sans-serif" font-size="16" fill="#263e4c" text-anchor="middle">BATH</text>
+<text x="470.0" y="795.0" font-family="Arial,sans-serif" font-size="16" fill="#263e4c" text-anchor="middle">KITCHEN</text>
+<text x="230.0" y="925.0" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="middle">ENTRY</text>
+<path d="M130,127.99999999999999 L760.0,127.99999999999999" stroke="#405668" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="445.0" y="120.99999999999999" font-family="Arial,sans-serif" font-size="13" fill="#263e4c" text-anchor="middle">6.30 m — inherited envelope (source plan unavailable)</text>
+<path d="M130,988.0 L455.0,988.0" stroke="#405668" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="292.5" y="981.0" font-family="Arial,sans-serif" font-size="13" fill="#263e4c" text-anchor="middle">3.25 m partition centre — inherited</text>
+<path d="M184.0,154.0 L424.0,154.0" stroke="#405668" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="304.0" y="147.0" font-family="Arial,sans-serif" font-size="13" fill="#263e4c" text-anchor="middle">2.40 m bay width — inherited</text>
+<path d="M134.0,638.0 L230.2,638.0" stroke="#405668" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="182.1" y="631.0" font-family="Arial,sans-serif" font-size="13" fill="#263e4c" text-anchor="middle">0.96 m EST.</text>
+<path d="M130,283.0 L250.0,283.0" stroke="#405668" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="190.0" y="276.0" font-family="Arial,sans-serif" font-size="13" fill="#263e4c" text-anchor="middle">1.20 m EST.</text>
+<text x="20" y="590" font-family="Arial,sans-serif" font-size="15" fill="#263e4c" text-anchor="start">7.05 m</text>
+<text x="20" y="612" font-family="Arial,sans-serif" font-size="12" fill="#263e4c" text-anchor="start">inherited</text>
+<text x="850" y="160" font-family="Arial,sans-serif" font-size="20" fill="#263e4c" text-anchor="start">SOURCE STATUS</text>
+<text x="850" y="195" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Dark outline: inherited overall envelope</text>
+<text x="850" y="221" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Amber dashed walls: NOT source-plan verified</text>
+<text x="850" y="247" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Blue fill: local photo-fit candidates (estimates)</text>
+<text x="850" y="273" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Red dashed: PR #3 prior furniture/wall bounds</text>
+<text x="850" y="299" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start"></text>
+<text x="850" y="325" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">UNCHANGED, UNVERIFIED MODEL DIMENSIONS</text>
+<text x="850" y="351" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Ceiling: 2.77 m; left clear room width: 3.13 m</text>
+<text x="850" y="377" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Bay back z=-0.65, front return z=+0.29</text>
+<text x="850" y="403" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Return coordinate span: 0.94 m (not surveyed)</text>
+<text x="850" y="429" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Window centre-lines: 2.08 × 1.40 m; 0.82–2.22 m</text>
+<text x="850" y="455" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Sofa: 2.53 m long; depth candidate 1.30 → 0.96 m</text>
+<text x="850" y="481" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Sofa seat top candidate: 0.64 → 0.48 m</text>
+<text x="850" y="507" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Table: 1.76 × 0.86 m; top 0.788 m</text>
+<text x="850" y="533" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Cabinet: approx. 2.04 m long × 0.475 m deep</text>
+<text x="850" y="559" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Kitchen base: 1.67 m run + fridge / washer</text>
+<text x="850" y="585" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Bath door: x=4.79, z=5.43–6.29 m (PR3 estimate)</text>
+<text x="850" y="611" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start"></text>
+<text x="850" y="637" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">CORRECTED LOCAL CONSTRUCTION CONFLICTS</text>
+<text x="850" y="663" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Window side piers close two 0.16 m open strips</text>
+<text x="850" y="689" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Single centre mullion; duplicate lower bar removed</text>
+<text x="850" y="715" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Alcove floor no longer overlaps main plank faces</text>
+<text x="850" y="741" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">AC back now attaches to wall face, z=0.90 m</text>
+<text x="850" y="767" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Hood lifted 0.10 m to clear window head</text>
+<text x="850" y="793" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start"></text>
+<text x="850" y="819" font-family="Arial,sans-serif" font-size="14" fill="#a3402c" text-anchor="start">PENDING ACTUAL FLOOR PLAN</text>
+<text x="850" y="845" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">Room widths, partition locations, bath door location,</text>
+<text x="850" y="871" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">bay outline/depth, AC wall jog and kitchen layout</text>
+<text x="850" y="897" font-family="Arial,sans-serif" font-size="14" fill="#263e4c" text-anchor="start">must be reconciled before geometry approval.</text>
+<text x="60" y="1060" font-family="Arial,sans-serif" font-size="16" fill="#a3402c" text-anchor="start">Review diagram of current model coordinates — no new architectural dimensions claimed as facts.</text>
+</svg>

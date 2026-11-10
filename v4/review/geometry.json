@@ -1,0 +1,25 @@
+{
+  "status": "PROVISIONAL AUDIT. Source dimensioned floor plan and real photographs not available. NOT surveyed dimensions.",
+  "units": "metres",
+  "coordinateSystem": "x left-to-right; z rear-window toward entrance; y floor-up",
+  "envelope": {"width":6.30,"length":7.05,"source":"Existing AGENTS.md / README, not independently verified against source plan"},
+  "inheritedEstimates": {
+    "ceilingHeight":2.77,"livingPartitionX":3.25,"bedroomSouthWallZ":4.55,"bathWestWallX":4.79,
+    "bay":{"left":0.54,"right":2.94,"back":-0.65,"front":0.29},
+    "livingWindow":{"note":"Frame centre-line coordinates, not clear glass or outer-frame dimensions","left":0.70,"right":2.78,"sill":0.82,"head":2.22,"centrePost":1.74},
+    "bedroomDoor":{"x":3.25,"z0":3.78,"z1":4.43},
+    "bathDoor":{"x":4.79,"z0":5.43,"z1":6.29,"note":"PR3 moved doorway here without a source-plan check; HOLD for verification"},
+    "table":{"x0":0.08,"x1":1.84,"z0":4.22,"z1":5.08,"top":0.7875},
+    "cabinet":{"x0":2.7625,"x1":3.2375,"z0":1.08,"z1":3.12},
+    "trolley":{"x0":2.78,"x1":3.18,"z0":3.14,"z1":3.72},
+    "kitchenBase":{"x0":2.19,"x1":3.86,"z0":6.31,"z1":6.99},
+    "fridge":{"x0":1.35,"x1":2.15,"z0":6.26,"z1":7.0},
+    "washer":{"x0":3.845,"x1":4.455,"z0":6.32,"z1":6.97}
+  },
+  "localCandidates": {
+    "sofa":{"before":{"depth":1.30,"seatTop":0.64},"after":{"depth":0.962,"seatTop":0.48,"x0":0.04,"x1":1.002,"z0":1.165,"z1":3.695},"source":"Relative photo-fit estimate, not a product size or floor-plan measurement; same mesh scaled, details retained"},
+    "acMount":{"beforeWidth":0.72,"afterWidth":1.20,"frontZ":0.90,"x0":0,"x1":1.20,"z0":0.60,"z1":0.90,"source":"Wall-width proposal estimated from mockup AC-to-support ratio; actual jog and bay proportions remain unverified"},
+    "acAttachment":{"oldBackZ":0.81,"newBackZ":0.90,"source":"Exact fit to existing mounting face; 0.09m penetration removed"},
+    "hood":{"verticalShift":0.10,"source":"Local collision correction to clear inherited window head, not an installed-height measurement"}
+  }
+}
