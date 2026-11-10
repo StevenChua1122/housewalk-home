@@ -323,7 +323,7 @@
       }
     }
    }
-   plankZone(0,6.30,0,7.05);plankZone(.54,2.94,-.79,.31);
+   plankZone(0,6.30,0,7.05);plankZone(.54,2.94,-.79,0);
    // Entire ceiling remains continuous: NO horizontal beam above the deep window nook.
    box(3.15,2.804,3.15,6.30,.075,7.71,M.plaster,'#fff8ef');
    paneX(0,0,7.05,0,2.77,M.plaster,plaster);
@@ -346,14 +346,18 @@
    paneX(2.94,-.65,.29,0,2.77,M.plaster,plaster);
    paneZ(-.65,.54,2.94,0,.81,M.plaster,plaster);
    paneZ(-.65,.54,2.94,2.22,2.77,M.plaster,plaster);
+   // Close the unframed strips beside the glazing; no change to inherited opening dimensions.
+   paneZ(-.65,.54,.70,.81,2.22,M.plaster,plaster);
+   paneZ(-.65,2.78,2.94,.81,2.22,M.plaster,plaster);
    // The two adjoining blue-grey framed windows occupy 30%-80% of wall height.
    exterior();
-   for(const [x0,x1] of [[.70,1.73],[1.73,2.78]]){
-     windowFrame(-.60,x0,x1,.82,2.22);
+   windowFrame(-.60,.70,2.78,.82,2.22);
+   for(const [x0,x1] of [[.70,1.74],[1.74,2.78]]){
+
      box((x0+x1)/2,1.07,-.565,x1-x0,.054,.097,M.steel,'#71828a');
      box((x0+x1)/2,.835,-.56,x1-x0,.027,.105,M.steel,'#657481');
      // Glazing mullion and bottom-panel frame; no floor-to-ceiling sliding doors.
-     box((x0+x1)/2,1.12,-.567,x1-x0-.04,.030,.064,M.steel,'#778b93');
+
    }
    box(1.74,1.52,-.537,.045,1.39,.12,M.steel,'#667985');
    // Fine hardware handles and realistic window sill.
@@ -380,7 +384,8 @@
  }
  function living(){
    // Real wall jog behind the sofa at the AC side; flush with left wall elsewhere.
-   box(.38,1.385,.75,.72,2.77,.30,M.plaster,'#f7f2e9');
+   box(.60,1.385,.75,1.20,2.77,.30,M.plaster,'#f7f2e9');
+   const acStart=verts.length;
    // Split-unit air conditioner: beveled enclosure, vent, slit louvers and status LED.
    roundBox(.64,2.34,.93,.83,.32,.24,.034,M.white,'#fafaf9');
    box(.64,2.19,1.062,.77,.030,.015,M.black,'#343b3f');
@@ -388,6 +393,9 @@
    for(let i=0;i<15;i++){box(.25+i*.053,2.183,1.074,.010,.025,.020,M.steel,'#b2b5b3');}
    box(.63,2.315,1.058,.65,.012,.014,M.ivory,'#e9e8e4');
    cyl(.96,2.34,1.056,.009,.009,.01,M.leaf,'#8cc684',10);
+   // The enclosure back must sit ON the mounting face (z=.90), not 9 cm inside it.
+   for(let i=acStart;i<verts.length;i+=12)verts[i+2]+=.09;
+   const sofaStart=verts.length;
    // The approved three-seat sofa is flush against the left wall. NO chaise, rug, coffee table.
    const x=.69,z=2.43;
    for(const zz of [1.46,3.42])for(const xx of [.20,1.12]){
@@ -417,6 +425,13 @@
    pillow(.59,.89,1.87,M.cream,'#eee3d4',-.42);
    pillow(.66,.86,2.53,M.cream,'#b56526',-.35);
    pillow(.62,.89,3.18,M.cream,'#f5ecdb',-.48);
+   // Provisional relative-scale correction from the mockup, not a surveyed furniture size.
+   // Preserve the three-seat meshes and seams; change only depth and height.
+   for(let i=sofaStart;i<verts.length;i+=12){
+     const lower=verts[i+1]<=.64;
+     verts[i]=.04+(verts[i]-.04)*.74;verts[i+1]=lower?verts[i+1]*.75:verts[i+1]-.16;
+     verts[i+3]/=.74;if(lower)verts[i+4]/=.75;
+   }
    // Grey-topped white storage cabinet, correctly opposite the sofa.
    box(3.005,.275,2.10,.425,.54,2.00,M.white,'#fffefb');
    box(2.78,.285,2.10,.018,.48,1.95,M.ivory,'#f5efe3');
@@ -593,11 +608,13 @@
    box(3.17,2.16,6.83,1.95,.78,.32,M.white,'#f7f6f0');
    for(const x of [2.43,2.92,3.41,3.90])roundBox(x,2.16,6.653,.478,.775,.025,.005,M.white,'#faf8f1');
    box(3.17,1.757,6.67,1.88,.010,.020,M.bulb,'#fff2d0');
+   const hoodStart=verts.length;
    // Low-profile cooker hood, grease-filter grille and controls.
    roundBox(2.55,1.74,6.67,.67,.075,.49,.012,M.steel,'#bdc0bc');
    box(2.55,1.695,6.68,.52,.015,.32,M.black,'#777a78');
    for(let x=2.34;x<2.79;x+=.025)box(x,1.684,6.69,.009,.006,.25,M.steel,'#a9aaa6');
    for(const x of [2.40,2.45,2.50])box(x,1.736,6.412,.012,.012,.007,M.black);
+   for(let i=hoodStart;i<verts.length;i+=12)verts[i+1]+=.10;
    // Two-burner gas hob, concentric burner rings and separate cast pan supports.
    roundBox(2.55,.924,6.66,.65,.018,.46,.008,M.steel,'#a4aaab');
    for(const x of [2.36,2.73]){
@@ -724,7 +741,7 @@
  gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);
  const glLost=e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';document.documentElement.dataset.renderer='canvas-fallback';};
  canvas.addEventListener('webglcontextlost',glLost);
- canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();const script=document.createElement('script');script.src='./webgl.js?v=4.2';document.body.appendChild(script);});
+ canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();const script=document.createElement('script');script.src='./webgl.js?v=4.3-review';document.body.appendChild(script);});
  let width=0,height=0,lastTime=0,firstPaint=false;
  function render(now){
    // Do not run heavy WebGL loops on hidden tabs.
@@ -737,8 +754,10 @@
    gl.clearColor(night?.13:.73,night?.16:.79,night?.21:.77,1);
    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
    const p=bridge.player;
-   const fv=1/Math.tan((window.innerWidth<window.innerHeight?70:77)*Math.PI/360);
-   gl.uniform3f(uni.cam,p.x,1.59,p.z);gl.uniform1f(uni.yaw,p.yaw);gl.uniform1f(uni.pitch,p.pitch);gl.uniform2f(uni.focal,fv/(w/h),fv);gl.uniform1f(uni.night,night);
+   const camera=bridge.camera||{};
+   const verticalFov=camera.verticalFov||(window.innerWidth<window.innerHeight?70:58);
+   const fv=1/Math.tan(verticalFov*Math.PI/360);
+   gl.uniform3f(uni.cam,p.x,camera.eyeHeight||1.59,p.z);gl.uniform1f(uni.yaw,p.yaw);gl.uniform1f(uni.pitch,p.pitch);gl.uniform2f(uni.focal,fv/(w/h),fv);gl.uniform1f(uni.night,night);
    bindBuffer(staticBuffer);gl.drawArrays(gl.TRIANGLES,0,staticVertices.length/12);
    bindBuffer(doorBuffers[bridge.doors[0].open?1:0].buffer);gl.drawArrays(gl.TRIANGLES,0,doorBuffers[bridge.doors[0].open?1:0].count);
    bindBuffer(doorBuffers[bridge.doors[1].open?3:2].buffer);gl.drawArrays(gl.TRIANGLES,0,doorBuffers[bridge.doors[1].open?3:2].count);
@@ -756,14 +775,14 @@
   {x0:4.72,x1:4.86,z0:4.55,z1:5.43}, // pantry / bathroom partition
   {x0:4.72,x1:4.86,z0:6.29,z1:7.05}, // bathroom door sides
   {x0:3.25,x1:6.30,z0:4.48,z1:4.62},
-  {x0:.06,x1:1.31,z0:1.19,z1:3.69}, // detailed 3-seat sofa
+  {x0:.04,x1:1.01,z0:1.16,z1:3.70}, // detailed 3-seat sofa
   {x0:.07,x1:1.85,z0:4.19,z1:5.11}, // dining table
   {x0:.25,x1:1.58,z0:3.79,z1:4.26}, // window-side chairs
   {x0:.25,x1:1.58,z0:5.04,z1:5.52}, // entrance-side chairs
   {x0:2.73,x1:3.24,z0:1.07,z1:3.14},
   {x0:2.77,x1:3.20,z0:3.12,z1:3.75}, // TV cabinet
   {x0:2.66,x1:3.22,z0:.51,z1:1.17}, // empty 5-tier rack
-  {x0:.04,x1:.76,z0:.57,z1:.93}, // AC wall bump-out
+  {x0:0,x1:1.20,z0:.60,z1:.90}, // AC wall bump-out
   {x0:1.35,x1:2.15,z0:6.26,z1:7.0}, // fridge
   {x0:2.18,x1:3.86,z0:6.31,z1:7.0}, // kitchen counter
   {x0:3.84,x1:4.47,z0:6.31,z1:7.0}, // washing machine

@@ -119,12 +119,18 @@ function createHome(){
  // Air conditioner indicated in plan; understated boxes near top corners.
  block(.38,2.13,.26,.65,.38,.31,'#f6f6f2');block(5.90,2.13,.26,.62,.38,.31,'#f6f6f2');
  // Canvas fallback uses the same uncluttered living/dining layout as WebGL.
- furniture(.72,.165,2.43,1.09,.34,2.16,COLORS.sofa);
+ const sofaPanelStart=panels.length;
+ block(.72,.165,2.43,1.09,.34,2.16,COLORS.sofa);
  block(.19,.355,2.43,.30,.73,2.20,'#817b74');
  for(const z of [1.27,3.59])block(.78,.355,z,1.12,.55,.21,'#817b74');
  for(const z of [1.75,2.43,3.11]){block(.75,.42,z,1.03,.22,.65,'#969087');block(.36,.52,z,.34,.64,.62,'#969087');}
  for(const [z,c] of [[1.87,'#eae1d1'],[2.53,'#b76c30'],[3.18,'#eae1d1']])block(.62,.64,z,.24,.49,.46,c);
- blocker(.68,2.44,1.25,2.50);
+ for(const face of panels.slice(sofaPanelStart)){
+  for(const v of face.v){v[0]=.04+(v[0]-.04)*.74;v[1]=v[1]<=.64?v[1]*.75:v[1]-.16;}
+  face.center=face.center.map((v,k)=>k===0?.04+(v-.04)*.74:k===1?(v<=.64?v*.75:v-.16):v);
+  face.normal[0]/=.74;face.normal[1]/=.75;
+ }
+ blocker(.525,2.43,.97,2.54);
  furniture(3.0,0,2.10,.425,.54,2.00,'#f3f2ef');block(3.0,.54,2.10,.475,.05,2.04,'#757677');
  for(const y of [1.42,1.82])block(3.17,y,2.50,.06,.06,.97,'#262d2f');
  for(const z of [2.05,2.95])block(3.13,1.31,z,.065,.65,.067,'#262d2f');
@@ -188,7 +194,7 @@ function render(){
  const w=viewW,h=viewH;
  if(!w||!h)return;
  let bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,night?'#12262c':'#b8d5da');bg.addColorStop(1,night?'#202e32':'#dce7dd');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
- const fov=(w<h?70:77)*PI/180,focus=(h/2)/Math.tan(fov/2);
+ const fov=(window.HousewalkBridge?.camera?.verticalFov||(w<h?70:58))*PI/180,focus=(h/2)/Math.tan(fov/2);
  const drawable=[];
  for(const f of panels){if(!activeFace(f))continue;
   if(f.normal){let vec=[player.x-f.center[0],EY-f.center[1],player.z-f.center[2]],dp=f.normal[0]*vec[0]+f.normal[1]*vec[1]+f.normal[2]*vec[2];if(dp<=-.005)continue;}
@@ -225,7 +231,7 @@ function mapDraw(canvas){const c=canvas.getContext('2d');if(!c)return;let W=canv
  const fill=(x,z,w,h,col)=>{c.fillStyle=col;c.fillRect(X(x),Z(z),w*unit,h*unit)};
  fill(0,0,3.25,3.65,'#e9d5bd');fill(0,3.65,3.25,1.45,'#e3d1b9');fill(0,5.10,4.79,1.95,'#e3d6bd');fill(3.25,0,3.05,4.55,'#d6d6c7');fill(4.79,4.55,1.51,2.5,'#d1e5e9');
  // Furnishings, very simplified but oriented like the real photo and mirrored plan.
- fill(.06,1.19,1.25,2.50,'#808083');fill(2.77,1.10,.45,2.0,'#969695');fill(.08,4.22,1.76,.86,'#646265');fill(2.18,6.32,1.68,.68,'#92918e');fill(1.35,6.29,.80,.71,'#69767d');fill(3.84,6.32,.63,.68,'#edeee7');fill(2.77,3.12,.43,.63,'#bab8ad');fill(4.15,1.61,1.62,2.2,'#f1efea');
+ fill(.04,1.16,.97,2.54,'#808083');fill(2.77,1.10,.45,2.0,'#969695');fill(.08,4.22,1.76,.86,'#646265');fill(2.18,6.32,1.68,.68,'#92918e');fill(1.35,6.29,.80,.71,'#69767d');fill(3.84,6.32,.63,.68,'#edeee7');fill(2.77,3.12,.43,.63,'#bab8ad');fill(4.15,1.61,1.62,2.2,'#f1efea');
  // Two chairs on each long side, matching the real 3D table.
  for(const xx of [.49,1.34])for(const zz of [4.02,5.28])fill(xx-.20,zz-.20,.40,.40,'#b3a58c');
  // Wall strokes with architectural gaps.
@@ -276,10 +282,10 @@ function frame(now){let dt=Math.min(.055,(now-last)/1000||.016);last=now;
  if(now-lastRender>27){updateSize();render();lastRender=now}
  if(now-lastMap>145){mapDraw(smallMap);updateRoom();if(document.getElementById('planModal').classList.contains('open'))mapDraw(largeMap);lastMap=now}
  requestAnimationFrame(frame)}
-window.HousewalkBridge={player,doors,getNight:()=>night,isBlocked:blocked,tourStops:scenes};
+window.HousewalkBridge={camera:{eyeHeight:1.59},player,doors,getNight:()=>night,isBlocked:blocked,tourStops:scenes};
 updateSize();updateRoom();mapDraw(smallMap);render();requestAnimationFrame(frame);
 setTimeout(()=>toast('Walk from the entrance to dining, then living room'),700);
 })();
 </script>
-<script src="./webgl.js?v=4.2" defer></script>
+<script src="./webgl.js?v=4.3-review" defer></script>
 </body></html>

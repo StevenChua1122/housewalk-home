@@ -1,0 +1,49 @@
+{
+  "status": "VISUAL FIT ESTIMATES, NOT SURVEY CALIBRATED; review views are collision-clear, not exact reference matches",
+  "views": [
+    {
+      "name": "living",
+      "width": 1280,
+      "height": 800,
+      "x": 1.65,
+      "z": 6.02,
+      "yaw": 0,
+      "pitch": 0.02,
+      "eye": 1.5,
+      "fov": 58
+    },
+    {
+      "name": "window",
+      "width": 1280,
+      "height": 800,
+      "x": 1.94,
+      "z": 2.98,
+      "yaw": -0.04,
+      "pitch": -0.04,
+      "eye": 1.59,
+      "fov": 58
+    },
+    {
+      "name": "kitchen-1",
+      "width": 1280,
+      "height": 400,
+      "x": 2.3,
+      "z": 4.36,
+      "yaw": 2.85,
+      "pitch": -0.02,
+      "eye": 1.5,
+      "fov": 58
+    },
+    {
+      "name": "kitchen-2",
+      "width": 1280,
+      "height": 400,
+      "x": 2.2,
+      "z": 4.85,
+      "yaw": 2.4,
+      "pitch": -0.02,
+      "eye": 1.5,
+      "fov": 58
+    }
+  ]
+}
