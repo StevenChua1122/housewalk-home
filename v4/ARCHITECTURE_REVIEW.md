@@ -1,3 +1,9 @@
+> Historical PR #3/#4 record. The final reference pack is now available and the
+> renderer/geometry work is implemented on the new development branch. Current
+> evidence and dimension provenance: [FINAL_IMPLEMENTATION.md](FINAL_IMPLEMENTATION.md).
+> The provisional assumptions and approval gate below are superseded by the
+> owner’s final implementation request.
+
 # PR #3 architecture audit — provisional, awaiting source plan
 
 Feature and material-polishing work is stopped. This branch starts at PR #3,

@@ -1,3 +1,9 @@
+> Historical PR #3/#4 record. The final reference pack is now available and the
+> renderer/geometry work is implemented on the new development branch. Current
+> evidence and dimension provenance: [FINAL_IMPLEMENTATION.md](FINAL_IMPLEMENTATION.md).
+> The provisional assumptions and approval gate below are superseded by the
+> owner’s final implementation request.
+
 # Approved connected-house reference interpretation
 
 > Architecture review pending: the earlier dimensions and functional QA do not establish plan accuracy. See [ARCHITECTURE_REVIEW.md](ARCHITECTURE_REVIEW.md). The source dimensioned plan and real-photo set are still needed. No further visual polishing is approved by this audit.

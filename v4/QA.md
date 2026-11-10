@@ -1,88 +1,90 @@
-# Connected V4 review — 10 November 2026
+# Final-reference visual review and regression evidence
 
-> Architecture review pending: the earlier dimensions and functional QA do not establish plan accuracy. See [ARCHITECTURE_REVIEW.md](ARCHITECTURE_REVIEW.md). The source dimensioned plan and real-photo set are still needed. No further visual polishing is approved by this audit.
-
-Built on PR #2 (`677a15b`) on `codex/v4-connected-kitchen-refinement`.
-All changes are inside `v4/`. Production-root files and source reference assets
-are unchanged. No deployment or merge is part of this change.
-
-## Reproduce
-
-From the repository root, serve locally and run the installed Playwright tools:
-
-```sh
-python3 -m http.server 8000 --bind 127.0.0.1
-# In another terminal:
-node --check v4/webgl.js
-node --check v4/tests/smoke.cjs
-node --check v4/tests/capture.cjs
-node v4/tests/capture.cjs
-node v4/tests/smoke.cjs
-git diff --check
-```
-
-Playwright and system `/usr/bin/chromium` are development tools only. The website
-has no runtime external dependency. Set `HOUSEWALK_URL` for another server URL.
-Run browser jobs sequentially when using software WebGL to avoid starving input
-frames. Movement assertions wait for camera positions rather than assuming a
-particular software frame rate.
+Development base: PR #4, `codex/v4-architecture-review` (`e31a409`), including PR #3
+and PR #2. Only `v4/` changes. No merge or deployment.
 
 ## Actual in-game captures
 
-All images below are screenshots of the interactive WebGL renderer with its
-normal controls visible, not generated marketing images. Capture camera positions
-are checked against the application's collision function before taking a picture.
-Portrait uses the same scene and a slight look adjustment for the second kitchen
-angle to keep the appliances in its narrower field of view.
+These are genuine interactive 3D screenshots, not mockups. Controls remain visible;
+only transient toast text is suppressed. No scene objects are hidden. Cameras are
+collision checked and recorded in [cameras.json](qa/final/cameras.json). Desktop
+frames match the supplied mockup aspect ratios; portrait frames are 390 × 844.
 
-| Requested view | Desktop 1280 × 800 | Mobile 390 × 844 |
+| View | Desktop | Mobile |
 | --- | --- | --- |
-| Living and dining | [Image](qa/desktop-living-dining.png) | [Image](qa/mobile-living-dining.png) |
-| Living facing windows | [Image](qa/desktop-living-windows.png) | [Image](qa/mobile-living-windows.png) |
-| Kitchen from living | [Image](qa/desktop-kitchen-from-living.png) | [Image](qa/mobile-kitchen-from-living.png) |
-| Kitchen second angle | [Image](qa/desktop-kitchen-second-angle.png) | [Image](qa/mobile-kitchen-second-angle.png) |
-| Kitchen evening | [Image](qa/desktop-kitchen-evening.png) | [Image](qa/mobile-kitchen-evening.png) |
+| Living / dining wide | [Image](qa/final/desktop-01-living-dining.png) | [Image](qa/final/mobile-01-living-dining.png) |
+| Oak close view | [Image](qa/final/desktop-02-oak-floor.png) | — |
+| Curtain / window | [Image](qa/final/desktop-03-curtain-window.png) | [Image](qa/final/mobile-03-curtain-window.png) |
+| Kitchen full upper run | [Image](qa/final/desktop-04-kitchen-first.png) | [Image](qa/final/mobile-04-kitchen-first.png) |
+| Kitchen second angle | [Image](qa/final/desktop-05-kitchen-second.png) | — |
+| Entrance / two racks | [Image](qa/final/desktop-06-entrance.png) | [Image](qa/final/mobile-06-entrance.png) |
 
-The earlier PR #2 captures remain in this directory as historical evidence.
+[Top-down model plan](qa/final/plan.svg) labels dimension provenance. Historical
+PR #2/#3 captures and PR #4 review schematics are not the final implementation.
+Private side-by-side sheets are generated outside this repository using the
+approved reference pack and these exact full-frame captures.
 
-## Automated coverage
+## Reproduce
 
-All four final smoke cases passed: WebGL desktop/mobile and Canvas desktop/mobile,
-with no page JavaScript errors. All ten screenshot captures completed with both
-sun and ceiling shadow targets active and collision-clear camera positions.
+```sh
+python3 -m http.server 8000 --bind 127.0.0.1
+# Separate terminal; Playwright and /usr/bin/chromium are development tools:
+node v4/tests/capture-final.cjs
+node v4/tests/smoke.cjs
+node v4/tests/context.cjs
+git diff --check
+```
 
-The smoke suite checks both software WebGL1 and forced Canvas fallback, at both
-viewport sizes: rendered pixel diversity, no page JavaScript errors, plan modal,
-day/evening toggle, seven tour stops, safe tour camera coordinates, reset,
-keyboard movement and door controls. WebGL cases additionally walk the entire
-living/dining aisle into the pantry, probe table and kitchen counter collisions,
-and verify blocked/clear passage at the bedroom and pantry-facing bathroom doors.
-Mobile cases use real browser touch events for the joystick and drag-to-look.
-The desktop WebGL case forces context loss, checks Canvas recovery and restores
-3D rendering. Open door leaves also block movement at their actual positions.
+`HOUSEWALK_URL` overrides the local URL. Run browser jobs sequentially when using
+software WebGL. Movement checks wait for positions rather than assuming an FPS.
+All four smoke cases passed, with no page JavaScript errors. The smoke script exercises PBR and forced Canvas, desktop and touch viewports:
+map, day/night, seven safe tour stops, continuous shared-aisle walking, counter
+collision, closed/open passages at both room doors, reset, page errors, and touch
+joystick/look. PBR checks also verify loaded maps and two six-level narrow racks. The separate
+context-loss test passed: Canvas appeared on loss and PBR reloaded on restoration.
 
-Screenshot iterations corrected clipped highlights, flat lighting, excessive
-material texture contrast, curtain fold shading, second-view framing, and the
-initial trolley/doorway clearance conflict. A provisional missing bedroom south
-wall and a skirting run across the new bathroom doorway were also corrected.
+## Visual review
 
-## Rendering budget and limits
+The review specifically examines oak warmth/grain/direction/matte response,
+drapery volume and fabric, frame/handle/fixed-pane structure, sofa softness,
+2+2 chair count, L-track shape/count, cabinet continuity, door hardware and rack
+number/orientation/shelf count. The first passes exposed a too-dark ceiling,
+too-orange oak calibration, detached pillow trim and an unsafe living tour stop;
+these were corrected before the final captures. The final close review also
+removed loose back trim and moved the drape inside the recess to clear the shelf.
+Static exterior/shell batching reduced the living view from 347 to 60 draw calls;
+sofa subdivision was reduced without changing its silhouette. This is not an
+iPhone FPS measurement.
 
-The static scene has approximately 82,000 triangles. Geometry and four door-state
-buffers stay on the GPU. Static shadows use one 1024² sun target plus two 512²
-ceiling targets, RGBA8 with depth renderbuffers; no depth-texture extension is
-required. Shadow maps are baked once, with eight filtered taps in the main pass.
-Texture colours are lit in linear space and tone mapped to preserve highlights.
-DPR is capped at 1.55 and hidden tabs skip drawing.
+The changes substantially improve the floor and curtains, but do not reproduce
+the offline render pixel for pixel. See [remaining differences and material
+provenance](FINAL_IMPLEMENTATION.md). Actual physical iPhone Safari performance,
+sustained heat/frame pacing, Safari-specific touch handling and memory remain
+**unverified**. A software-Chromium mobile pass establishes interaction coverage,
+not real-device rendering performance or final visual acceptance.
 
-These are budgets, not proof of real iPhone frame rate. Real iPhone Safari testing
-remains necessary for sustained performance, heat, rotation, safe areas,
-simultaneous movement/look and background/resume behavior. Chromium emulation
-cannot verify Safari or on-device performance.
 
-This is a realtime reconstruction, not a photo-exact or path-traced match. Cloth
-and curtain drape are approximations, reflections are analytic rather than ray
-traced, static shadows do not update with opening doors, exterior architecture is
-estimated, and cabinet/camera proportions are fitted to the preserved floor plan.
-Other rooms remain simple. [REFERENCE_NOTES.md](REFERENCE_NOTES.md) records the
-mapping of the new references onto the connected house.
+To reproduce private comparisons (the output path is required to be outside git):
+
+```sh
+HW_REFERENCE_DIR=/path/to/private/reference-pack \
+HW_COMPARISON_DIR=/path/outside/repository/review \
+node v4/tools/compare.cjs
+```
+
+## Fidelity checklist for owner review
+
+| Item | Implementation / remaining qualification |
+| --- | --- |
+| Plan and scale | Mirrored source-plan trace; only outer dimensions explicitly measured on source |
+| Oak | Replaced material system; 2K colour + normal/roughness, lengthwise staggered boards, matte finish |
+| Curtains | Replaced with volumetric GLB, soft folds/tiebacks, woven shading; stylized drape remains |
+| Window / AC | Dark two-casement frame, handles, fixed lower panes, enclosed niche and solid AC support |
+| Sofa / dining | Rounded fabric GLB; 3 seats, cream/orange pillows; black table, four chairs in 2+2 arrangement |
+| Ceiling | L-track with exactly 3 heads; downlight/fan/downlight plus niche light |
+| TV wall | White/grey console, empty bracket/shelf, separate white mesh trolley |
+| Kitchen | White uppers continuous to washer end wall; retained appliances and grey surround |
+| Entrance | Wood door/hardware, switch/bulkhead; exactly two perpendicular, empty six-level mesh racks |
+| Lighting | Warm PBR, filtered environment and soft keys; indirect light remains approximated |
+| Controls | Four desktop/mobile PBR/Canvas regression cases and context recovery passed |
+| Physical iPhone Safari | Unverified; no physical-device FPS or Safari compatibility claim |

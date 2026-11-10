@@ -1,46 +1,34 @@
-# Housewalk V4 — connected living, dining and kitchen
+# Housewalk V4 — final-reference reconstruction for review
 
-> Architecture review pending: the earlier dimensions and functional QA do not establish plan accuracy. See [ARCHITECTURE_REVIEW.md](ARCHITECTURE_REVIEW.md). The source dimensioned plan and real-photo set are still needed. No further visual polishing is approved by this audit.
+This branch continues PR #4 (`codex/v4-architecture-review`, `e31a409`), including
+PR #3 and PR #2. Only `v4/` changes. It does not deploy, merge, or replace the
+production homepage.
 
-This preview implements a **real, walkable, depth-tested WebGL scene**, not a picture mapped onto a wall. Its targets are the latest owner-approved living/dining and kitchen images; see [REFERENCE_NOTES.md](REFERENCE_NOTES.md). It preserves the original Housewalk V3 production homepage, its mirrored floor plan, touch joystick, look gestures, door controls, mini map and guided tour.
+The final seven-image pack has now been inspected. The horizontally mirrored
+6.30 × 7.05 m source plan governs the connected shell; real photographs govern
+window/entrance construction; final approved mockups govern the finishes.
+Internal wall coordinates are image traces, not surveyed dimensions. Furniture,
+heights and camera lenses remain explicitly identified estimates.
 
-The renderer now uses edge-sampled rounded meshes, reclined and piped cushions,
-shaped fan blades, closed lamp lenses, a cross-room dining table and L track,
-and one-time RGBA8 sun and ceiling-light shadow bakes. It needs no external runtime libraries
-or WebGL depth-texture extensions.
+A focused rendering replacement uses self-hosted Three.js r180, PBR materials,
+custom upholstered-sofa and draped-curtain GLBs, and dedicated oak colour,
+normal and roughness maps. The existing first-person controls, joystick, doors,
+collision logic, mini-map, room labels and tours remain in the same application.
+No reference picture is rendered as a backdrop or panorama. No runtime CDN is used.
+A simple Canvas compatibility view remains available when WebGL2 is unavailable.
 
-## Review locally
+## Local review
 
-These changes are isolated to `v4/` on a development branch based on
-PR #2 (`codex/v4-reference-living-dining`). No deployment is part of this change.
-From the repository root, run `python3 -m http.server 8000 --bind 127.0.0.1`
-and open `http://127.0.0.1:8000/v4/`.
+```sh
+python3 -m http.server 8000 --bind 127.0.0.1
+# Open http://127.0.0.1:8000/v4/
+```
 
-See [QA.md](QA.md) for test commands, screenshots and remaining device checks.
+See [final implementation and reference provenance](FINAL_IMPLEMENTATION.md),
+[actual screenshots and testing](QA.md), and the [model plan](qa/final/plan.svg).
+Older `qa/` images outside `qa/final/` and `review/` artifacts are historical.
 
-## Details to verify
-
-- Dining near the entrance at **middle-left**, near the solid left wall; one dark rectangular table with **four** cream-seat ladder chairs, **two per long side**.
-- Black **L-shaped three-head** track lighting. Two heads are on the near-camera section and point toward the tabletop.
-- Living sequence from the entrance: **downlight → fan → downlight**; an additional centered downlight in the window recess.
-- **Straight** three-seat upholstered sofa against the left wall (no L-shape), textile texture, cushion seams, two light pillows, one warm accent pillow.
-- White wall-mounted air conditioner on the short projecting wall section at the far end of the sofa.
-- TV wall: low white cabinet with gray top and **empty black mounting bracket**, **no TV**, no clutter. Empty slim white five-level rack near the window.
-- Pale **lengthwise natural oak** flooring with generated tileable grain matched to the references; warm light and subtle soft contact shadow.
-- A **deep** alcove with **no horizontal beam**, taupe curtains and **two adjoining grey-blue framed windows**. Their glazed area is around **30% to 80%** of wall height, not floor-to-ceiling.
-- Bedroom and bathroom remain deliberately simple draft models until later reference images are provided.
-
-## Tech and fallback
-
-`webgl.js` is dependency-free WebGL 1, using static detail meshes with depth testing and an optional photo-derived `materials.jpg` atlas with generated tileable oak and woven upholstery. If WebGL is unsupported it falls back to the original canvas renderer. On a slow iPhone, wait for the atlas to decode; the procedural textures display first.
-
-## Limitations
-
-This is a **detailed interactive reconstruction**, not a photogrammetry scan or pixel-identical path-traced render. The original reference is only the visual target, never a disguised full-screen game texture. Actual iPhone Safari frame rate and the visual result must be inspected on device before promoting V4 to the live homepage.
-
-The kitchen now includes white upper cabinets, textured grey base fronts, black
-countertops, individually modeled backsplash tiles, a real sink cavity and curved
-faucet, framed window/lightwell, gas hob/hood, dark metallic refrigerator and
-front-loading washer. The living room has a three-tier white mesh trolley with
-black castors. The pantry-facing bathroom doorway and adjacent bedroom partition
-are reflected in the mini-map, collisions and tour stops.
+This is a substantial realtime rendering/material upgrade, with remaining
+lighting, cloth and exterior differences from the approved render. Review the
+actual screenshots before design approval. Physical iPhone Safari performance
+is **unverified**.
