@@ -1,3 +1,7 @@
+> Historical PR #5 implementation record. Current 19-image integrated work,
+> corrected shared-wall detail and bedroom/bathroom evidence are in
+> [INTEGRATED_V3.md](INTEGRATED_V3.md) and [QA.md](QA.md).
+
 # Final-reference implementation — 10 November 2026
 
 ## Reference inspection and priority

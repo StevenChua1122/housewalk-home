@@ -43,7 +43,7 @@
  <div class="bottom"><div id="joy" class="joy interact" aria-label="Movement joystick"><div id="stick" class="stick">✦</div></div><div class="gamebuttons interact"><button id="doorBtn" class="gamebtn secondary" disabled>Open door</button><button id="tourBtn" class="gamebtn">Tour →</button></div></div>
  <div class="desktophelp"><b>EXPLORE WITH YOUR KEYBOARD</b><p><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move · Drag mouse to look · <kbd>E</kbd> door · <kbd>M</kbd> map</p></div>
 </div>
-<div class="modal" id="planModal"><div class="panel"><div class="panelheader"><div><h2>Your mirrored floor plan</h2><p>6.30 × 7.05 m · Tap a room to jump there</p></div><button class="close" id="closePlan" title="Close">×</button></div><canvas id="bigmap" width="630" height="705"></canvas><div class="planfoot">Dining is middle-left, between the entrance and living room. Bedroom and bathroom furnishings are placeholders.</div></div></div>
+<div class="modal" id="planModal"><div class="panel"><div class="panelheader"><div><h2>Your mirrored floor plan</h2><p>6.30 × 7.05 m · Tap a room to jump there</p></div><button class="close" id="closePlan" title="Close">×</button></div><canvas id="bigmap" width="630" height="705"></canvas><div class="planfoot">Dining is middle-left, between the entrance and living room. Connected entrance, living, kitchen, bedroom and bathroom.</div></div></div>
 <div id="error"><h3>Preview couldn't start</h3><p>The viewer may have blocked interactive graphics. Open the website in Safari or Chrome instead.</p></div>
 <noscript><div style="padding:50px;background:#fff">This interactive house needs JavaScript. Please open the webpage in Safari or Chrome.</div></noscript>
 <script src="./layout.js"></script>
@@ -62,7 +62,7 @@ const keys=new Set(), joyAxis={x:0,y:0};
 let night=true,viewW=0,viewH=0,scale=1,last=performance.now(),lastRender=0,lastMap=0,tourIndex=0,noticeTimer=0;
 const panels=[],colliders=[];let drawable=[];
 const doors=window.HWLayout.doors;
-const scenes=[{name:'Entrance',x:.85,z:6.36,yaw:.12,pitch:-.03},{name:'Dining',x:2.14,z:4.6,yaw:-1.2,pitch:-.10},{name:'Living',x:1.90,z:3.55,yaw:.10,pitch:-.03},{name:'TV area',x:1.75,z:2.45,yaw:1.3,pitch:-.05},{name:'Kitchen',x:3.35,z:5.50,yaw:2.8,pitch:-.10},{name:'Bedroom',x:4.6,z:3.90,yaw:-.1,pitch:-.06},{name:'Bathroom',x:5.5,z:5.55,yaw:1.4,pitch:-.12}];
+const scenes=[{name:'Entrance',x:.85,z:6.36,yaw:.12,pitch:-.03},{name:'Dining',x:2.14,z:4.6,yaw:-1.2,pitch:-.10},{name:'Living',x:1.90,z:3.55,yaw:.10,pitch:-.03},{name:'TV area',x:1.75,z:2.45,yaw:1.3,pitch:-.05},{name:'Kitchen',x:3.35,z:5.50,yaw:2.8,pitch:-.10},{name:'Bedroom',x:3.78,z:3.65,yaw:.62,pitch:-.05},{name:'Bathroom',x:5.35,z:5.25,yaw:1.7,pitch:-.12}];
 const COLORS={wall:'#f1eee7',trim:'#dfdfd8',oak:'#dec7a6',wood:'#d6b790',white:'#f7f5ef',ivory:'#e5e2d9',slate:'#636465',sofa:'#77787b',grey:'#a9aaa9',curtain:'#bca99f',curtainDark:'#9d8981',steel:'#b6b9b7',black:'#363839',glass:'#b4d9dc',yellow:'#eab73c'};
 function rgb(c){c=c.replace('#','');return [parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)]}
 function shade(col,k){const a=rgb(col);return 'rgb('+a.map(v=>Math.max(0,Math.min(255,Math.round(v*k)))).join(',')+')'}
@@ -95,7 +95,7 @@ function createHome(){
  for(let x=0;x<6.3;x+=.18)for(let z=0;z<7.05;z+=1.65)block(x+.087,-.02,z+.80,.174,.025,Math.min(1.60,7.05-z),'#c9ac88');
  wallX(0,0,7.05);wallX(6.3,0,7.05);wallZ(0,0,6.3);wallZ(7.05,0,.30);wallZ(7.05,1.32,6.3);
  block(.675,0,.49,1.35,2.77,.98,'#e7dfd3');wallX(3.15,0,4.37);
- wallZ(4.37,3.15,3.43);wallZ(4.37,4.27,6.3);wallX(4.95,5.27,7.05);wallZ(4.43,4.95,6.3);
+ wallZ(4.37,3.15,3.43);wallZ(4.37,4.27,6.3);wallX(4.95,5.27,7.05);
  block(2.22,.23,.08,1.70,2.27,.03,'#8ea4ad');for(const x of [1.38,2.22,3.06])block(x,.23,.11,.055,2.27,.06,'#374147');block(2.22,.67,.11,1.74,.05,.06,'#374147');
  block(.54,.15,2.27,.90,.35,2.1,'#77736e');block(.16,.38,2.27,.20,.56,2.1,'#77736e');
  for(const z of [1.31,3.25])block(.54,.25,z,.91,.42,.17,'#77736e');
@@ -107,7 +107,14 @@ function createHome(){
  block(2.15,0,6.66,.76,2.14,.68,'#51595c');block(2.15,2.17,6.66,.80,.60,.70,'#96918a');block(4.55,0,6.66,.61,.86,.62,'#f5f2ea');
  block(.81,0,7.005,.98,2.25,.055,'#cfb89a');
  for(const x of [1.44,1.65]){for(const xx of [x-.09,x+.09])for(const z of [6.50,6.99])block(xx,.015,z,.018,1.20,.018,'#242424');for(let i=0;i<6;i++)block(x,.018+i*.208,6.745,.18,.012,.50,'#242424');}
- block(4.81,.2,2.32,1.5,.45,2.0,'#e2d8c5');
+ // Compatibility furniture follows the same final bedroom / bath coordinates.
+ block(5.65,0,.49,1.30,2.77,.98,'#e7dfd3');
+ block(6.21,0,2.65,.025,2.77,3.25,'#595650');
+ block(5.11,.04,2.44,2.12,.40,1.64,'#77716b');block(5.13,.44,2.44,2.00,.19,1.54,'#e5ddce');block(6.10,.17,2.44,.15,1.01,1.70,'#77716b');
+ block(5.37,0,4.01,1.66,2.10,.54,'#f1eee6');block(6.0,.015,1.31,.43,.57,.50,'#c8bba4');
+ block(3.53,.74,1.14,.46,.05,.80,'#f1eee6');block(3.32,.06,2.0,.035,1.65,.46,'#afb9b9');
+ block(5.625,.005,5.74,1.35,.010,2.62,'#9c968b');block(6.02,.73,4.89,.38,.13,.50,'#f4f2eb');block(5.90,.02,5.70,.66,.43,.38,'#f4f2eb');block(6.10,.34,5.70,.22,.43,.37,'#f4f2eb');
+ block(6.21,1.03,5.65,.03,1.45,.74,'#c7d4d5');block(6.15,0,6.24,.30,2.77,.28,'#66625d');
  for(const [i,d]of doors.entries()){
   if(i){block(d.x,0,d.z+d.len/2,.065,2.15,d.len,'#f0ece2','bathClosed');block(d.x+d.len/2,0,d.z,d.len,2.15,.065,'#f0ece2','bathOpen');}else{block(d.x+d.len/2,0,d.z,d.len,2.15,.065,'#f0ece2','bedClosed');block(d.x,0,d.z-d.len/2,.065,2.15,d.len,'#f0ece2','bedOpen');}
  }
@@ -157,19 +164,22 @@ function updateDoorButton(){const d=nearestDoor();doorBtn.disabled=!d;doorBtn.te
 function toast(msg){let e=document.getElementById('toast');e.textContent=msg;e.style.opacity=1;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>e.style.opacity=0,1900)}
 function changeDoor(){let d=nearestDoor();if(!d){toast('Move closer to a door');return}d.open=!d.open;updateDoorButton();toast(d.name+' door '+(d.open?'opened':'closed'))}
 function jump(s){player.x=s.x;player.z=s.z;player.yaw=s.yaw;player.pitch=s.pitch;document.getElementById('planModal').classList.remove('open');updateRoom();render()}
-function updateRoom(){let r=roomName();if(roomLabel.textContent!==r)roomLabel.textContent=r;provisional.classList.toggle('visible',r==='Bedroom'||r==='Bathroom');updateDoorButton()}
+function updateRoom(){let r=roomName();if(roomLabel.textContent!==r)roomLabel.textContent=r;provisional.classList.remove('visible');updateDoorButton()}
 function mapDraw(canvas){const c=canvas.getContext('2d');if(!c)return;let W=canvas.width,H=canvas.height,pad=canvas===largeMap?40:15,unit=Math.min((W-2*pad)/SIZE.w,(H-2*pad)/SIZE.h),left=(W-SIZE.w*unit)/2,top=(H-SIZE.h*unit)/2;
  const X=x=>left+x*unit,Z=z=>top+z*unit;
  c.clearRect(0,0,W,H);c.fillStyle='#f6f4ec';c.fillRect(0,0,W,H);
  const fill=(x,z,w,h,col)=>{c.fillStyle=col;c.fillRect(X(x),Z(z),w*unit,h*unit)};
- fill(0,0,3.15,3.65,'#e9d5bd');fill(0,3.65,3.15,1.47,'#e3d1b9');fill(0,5.12,4.95,1.93,'#e3d6bd');fill(3.15,4.37,1.8,.75,'#e3d6bd');fill(3.15,0,3.15,4.37,'#d6d6c7');fill(4.95,4.43,1.35,2.62,'#d1e5e9');
+ fill(0,0,3.15,3.65,'#e9d5bd');fill(0,3.65,3.15,1.47,'#e3d1b9');fill(0,5.12,4.95,1.93,'#e3d6bd');fill(3.15,4.37,1.8,.75,'#e3d6bd');fill(3.15,0,3.15,4.37,'#d6d6c7');fill(4.95,4.37,1.35,2.68,'#d1e5e9');
  fill(0,0,1.35,.98,'#b8b3a8');fill(.06,1.21,.93,2.13,'#808083');fill(2.59,1.10,.46,2.0,'#969695');fill(.075,3.77,1.65,.86,'#535152');fill(2.59,6.31,1.65,.68,'#92918e');fill(1.75,6.28,.82,.72,'#69767d');fill(4.245,6.32,.61,.68,'#edeee7');
+ const B=window.HWLayout.bedroom;
+ for(const [b,col]of [[B.bed,'#8b8580'],[B.wardrobe,'#f4f1e7'],[B.cabinet,'#b79873'],[B.vanity,'#f4f1e7'],[B.mirror,'#92acaf']])fill(b.x0,b.z0,b.x1-b.x0,b.z1-b.z0,col);
+ fill(5.82,4.64,.405,.50,'#f4f2eb');fill(5.55,5.48,.675,.46,'#f4f2eb');fill(6.0,6.10,.30,.28,'#737069');
  for(const x of [.46,1.25])for(const z of [3.57,4.83])fill(x-.20,z-.20,.40,.40,'#b3a58c');
  for(const x of [1.44,1.65])fill(x-.09,6.5,.18,.49,'#30383b');
  c.strokeStyle='#596b62';c.lineCap='square';c.lineWidth=canvas===largeMap?6:2.7;
  function lines(segs){c.beginPath();for(const [a,b,d,e]of segs){c.moveTo(X(a),Z(b));c.lineTo(X(d),Z(e))}c.stroke()}
- lines([[0,0,6.3,0],[0,0,0,7.05],[6.3,0,6.3,7.05],[0,7.05,.30,7.05],[1.32,7.05,6.3,7.05],[3.15,0,3.15,4.37],[3.15,4.37,3.43,4.37],[4.27,4.37,6.3,4.37],[4.95,5.27,4.95,7.05],[4.95,4.43,6.3,4.43]]);
- c.strokeStyle='#80bac5';c.lineWidth=canvas===largeMap?9:4;lines([[1.38,0,3.06,0],[3.25,0,4.95,0],[3.47,7.05,4.37,7.05]]);
+ lines([[0,0,6.3,0],[0,0,0,7.05],[6.3,0,6.3,7.05],[0,7.05,.30,7.05],[1.32,7.05,6.3,7.05],[3.15,0,3.15,4.37],[3.15,4.37,3.43,4.37],[4.27,4.37,6.3,4.37],[4.95,5.27,4.95,7.05]]);
+ c.strokeStyle='#80bac5';c.lineWidth=canvas===largeMap?9:4;lines([[1.38,0,3.06,0],[3.25,0,4.95,0],[3.47,7.05,4.37,7.05],[6.3,5.28,6.3,6.02]]);
  c.strokeStyle='#b08e68';c.lineWidth=canvas===largeMap?7:3;lines([[.30,7.05,1.32,7.05]]);
  function text(name,x,z,sz){c.fillStyle='#526258';c.font='700 '+sz+'px system-ui,-apple-system,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(name,X(x),Z(z))}
  let big=canvas===largeMap;for(const [name,x,z] of [['LIVING',1.95,1.18],['DINING',2.35,4.30],['KITCHEN',3.45,5.40],['BEDROOM',4.8,1.18],['BATH',5.57,5.05]])text(name,x,z,big?20:8.9);
@@ -198,15 +208,19 @@ function joyMove(e){const b=joy.getBoundingClientRect(),dx=e.clientX-(b.left+b.w
 joy.addEventListener('pointerdown',e=>{joyId=e.pointerId;try{joy.setPointerCapture(joyId)}catch(_){}joyMove(e)});joy.addEventListener('pointermove',e=>{if(joyId===e.pointerId)joyMove(e)});
 function stopJoy(e){if(joyId===e.pointerId){joyId=null;joyAxis.x=0;joyAxis.y=0;stick.style.transform='translate(0,0)'}}for(const event of ['pointerup','pointercancel','lostpointercapture'])joy.addEventListener(event,stopJoy);
 window.addEventListener('contextmenu',e=>e.preventDefault());
-function frame(now){let dt=Math.min(.055,(now-last)/1000||.016);last=now;
+function frame(now){let dt=Math.min(.15,(now-last)/1000||.016);last=now;
  if(!document.getElementById('planModal').classList.contains('open')){
   let f=0,s=0;
   if(keys.has('KeyW')||keys.has('ArrowUp'))f+=1;if(keys.has('KeyS')||keys.has('ArrowDown'))f-=1;if(keys.has('KeyA'))s-=1;if(keys.has('KeyD'))s+=1;
   f-=joyAxis.y;s+=joyAxis.x;
   let n=Math.max(1,Math.hypot(f,s)),vel=(keys.has('ShiftLeft')?2.75:1.85)*dt;
   let dx=(Math.sin(player.yaw)*f+Math.cos(player.yaw)*s)*vel/n,dz=(-Math.cos(player.yaw)*f+Math.sin(player.yaw)*s)*vel/n;
-  if(!blocked(player.x+dx,player.z))player.x+=dx;
-  if(!blocked(player.x,player.z+dz))player.z+=dz;
+  // Small collision steps preserve sliding and precise turns in the narrow rooms.
+  const steps=Math.max(1,Math.ceil(Math.hypot(dx,dz)/.025));
+  for(let i=0;i<steps;i++){
+   if(!blocked(player.x+dx/steps,player.z))player.x+=dx/steps;
+   if(!blocked(player.x,player.z+dz/steps))player.z+=dz/steps;
+  }
   if(keys.has('ArrowLeft'))player.yaw-=dt*1.45;if(keys.has('ArrowRight'))player.yaw+=dt*1.45;
  }
  if(now-lastRender>27){updateSize();render();lastRender=now}
@@ -218,5 +232,5 @@ updateSize();updateRoom();mapDraw(smallMap);render();requestAnimationFrame(frame
 setTimeout(()=>toast('Walk from the entrance to dining, then living room'),700);
 })();
 </script>
-<script type="module" src="./webgl.js?v=final-1"></script>
+<script type="module" src="./webgl.js?v=integrated-v3"></script>
 </body></html>
