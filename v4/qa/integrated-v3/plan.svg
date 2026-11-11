@@ -44,7 +44,10 @@
 <path d="M495.75,562.95 L495.75,714.25" stroke="#4b5754" stroke-width="5" fill="none"/>
 <path d="M189.75,115 L189.75,198.3" stroke="#4b5754" stroke-width="5" fill="none"/>
 <path d="M75,198.3 L189.75,198.3" stroke="#4b5754" stroke-width="5" fill="none"/>
+<path d="M500,115 L500,198.3" stroke="#4b5754" stroke-width="5" fill="none"/>
+<path d="M500,198.3 L610.5,198.3" stroke="#4b5754" stroke-width="5" fill="none"/>
 <path d="M192.3,115 L335.1,115" stroke="#709ca5" stroke-width="7" fill="none"/>
+<path d="M351.25,115 L495.75,115" stroke="#709ca5" stroke-width="7" fill="none"/>
 <path d="M369.95,714.25 L446.45,714.25" stroke="#709ca5" stroke-width="7" fill="none"/>
 <path d="M100.5,714.25 L187.2,714.25" stroke="#b0916f" stroke-width="6" fill="none"/>
 <path d="M610.5,563.8 L610.5,626.7" stroke="#709ca5" stroke-width="7" fill="none"/>
