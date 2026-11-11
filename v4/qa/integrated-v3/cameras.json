@@ -1,0 +1,387 @@
+{
+  "note": "Actual PBR scene, no objects hidden. Camera/furniture dimensions are estimates. Overhead proof is an inspection camera above the bed and below the AC, not a walking pose.",
+  "views": [
+    {
+      "name": "01-living-dining",
+      "x": 1.5,
+      "z": 6.26,
+      "yaw": 0.1,
+      "pitch": 0.06,
+      "eye": 1.45,
+      "fov": 68,
+      "w": 1672,
+      "h": 941,
+      "mobile": true
+    },
+    {
+      "name": "02-oak-floor",
+      "x": 2.02,
+      "z": 3.2,
+      "yaw": 0,
+      "pitch": -0.7,
+      "eye": 0.95,
+      "fov": 65,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "03-living-window",
+      "x": 1.8,
+      "z": 3.2,
+      "yaw": 0.13,
+      "pitch": 0.02,
+      "eye": 1.45,
+      "fov": 65,
+      "w": 1672,
+      "h": 941
+    },
+    {
+      "name": "04-kitchen",
+      "x": 2.35,
+      "z": 4.8,
+      "yaw": 2.43,
+      "pitch": -0.01,
+      "eye": 1.5,
+      "fov": 75,
+      "w": 1672,
+      "h": 941,
+      "mobile": true
+    },
+    {
+      "name": "05-entrance",
+      "x": 1,
+      "z": 5.35,
+      "yaw": 3.1,
+      "pitch": -0.12,
+      "eye": 1.4,
+      "fov": 86,
+      "w": 1585,
+      "h": 992
+    },
+    {
+      "name": "06-bedroom-main",
+      "x": 3.69,
+      "z": 3.6,
+      "yaw": 0.68,
+      "pitch": -0.05,
+      "eye": 1.5,
+      "fov": 84,
+      "w": 1536,
+      "h": 1024,
+      "bedOpen": true,
+      "mobile": true
+    },
+    {
+      "name": "07-bedroom-reverse",
+      "x": 4.24,
+      "z": 0.7,
+      "yaw": 2.76,
+      "pitch": -0.05,
+      "eye": 1.48,
+      "fov": 84,
+      "w": 1086,
+      "h": 1448,
+      "bedOpen": false
+    },
+    {
+      "name": "08-bedside-top",
+      "x": 4.75,
+      "z": 2.2,
+      "yaw": 0,
+      "pitch": -1.5707963267948966,
+      "eye": 2.1,
+      "fov": 110,
+      "w": 1400,
+      "h": 1400,
+      "bedOpen": true,
+      "inspection": true
+    },
+    {
+      "name": "08b-bedside-side",
+      "x": 3.85,
+      "z": 1.48,
+      "yaw": 1.4,
+      "pitch": -0.05,
+      "eye": 1.5,
+      "fov": 80,
+      "w": 1536,
+      "h": 1024,
+      "bedOpen": true
+    },
+    {
+      "name": "09-hallway",
+      "x": 2.35,
+      "z": 5.75,
+      "yaw": 0.7,
+      "pitch": 0,
+      "eye": 1.5,
+      "fov": 78,
+      "w": 1672,
+      "h": 941,
+      "bedOpen": true,
+      "mobile": true
+    },
+    {
+      "name": "10-bathroom-first",
+      "x": 5.25,
+      "z": 6.25,
+      "yaw": 0.57,
+      "pitch": -0.28,
+      "eye": 1.42,
+      "fov": 90,
+      "w": 768,
+      "h": 1024,
+      "bedOpen": true,
+      "mobile": true
+    },
+    {
+      "name": "11-bathroom-shower",
+      "x": 5.3,
+      "z": 5.1,
+      "yaw": 2.7,
+      "pitch": -0.14,
+      "eye": 1.5,
+      "fov": 82,
+      "w": 768,
+      "h": 1024,
+      "bedOpen": true,
+      "mobile": true
+    }
+  ],
+  "records": [
+    {
+      "name": "01-living-dining",
+      "mobile": false,
+      "stats": {
+        "triangles": 317586,
+        "drawCalls": 100,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 15
+      }
+    },
+    {
+      "name": "02-oak-floor",
+      "mobile": false,
+      "stats": {
+        "triangles": 240545,
+        "drawCalls": 45,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 22
+      }
+    },
+    {
+      "name": "03-living-window",
+      "mobile": false,
+      "stats": {
+        "triangles": 246900,
+        "drawCalls": 54,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 29
+      }
+    },
+    {
+      "name": "04-kitchen",
+      "mobile": false,
+      "stats": {
+        "triangles": 150434,
+        "drawCalls": 40,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 36
+      }
+    },
+    {
+      "name": "05-entrance",
+      "mobile": false,
+      "stats": {
+        "triangles": 85768,
+        "drawCalls": 20,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 44
+      }
+    },
+    {
+      "name": "06-bedroom-main",
+      "mobile": false,
+      "stats": {
+        "triangles": 249458,
+        "drawCalls": 66,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 51
+      }
+    },
+    {
+      "name": "07-bedroom-reverse",
+      "mobile": false,
+      "stats": {
+        "triangles": 249667,
+        "drawCalls": 73,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 58
+      }
+    },
+    {
+      "name": "08-bedside-top",
+      "mobile": false,
+      "stats": {
+        "triangles": 309124,
+        "drawCalls": 72,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 65
+      }
+    },
+    {
+      "name": "09-hallway",
+      "mobile": false,
+      "stats": {
+        "triangles": 325258,
+        "drawCalls": 99,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 78
+      }
+    },
+    {
+      "name": "01-living-dining",
+      "mobile": true,
+      "stats": {
+        "triangles": 223756,
+        "drawCalls": 60,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 17
+      }
+    },
+    {
+      "name": "04-kitchen",
+      "mobile": true,
+      "stats": {
+        "triangles": 135538,
+        "drawCalls": 28,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 24
+      }
+    },
+    {
+      "name": "06-bedroom-main",
+      "mobile": true,
+      "stats": {
+        "triangles": 177933,
+        "drawCalls": 40,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 31
+      }
+    },
+    {
+      "name": "09-hallway",
+      "mobile": true,
+      "stats": {
+        "triangles": 210031,
+        "drawCalls": 65,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 38
+      }
+    },
+    {
+      "name": "08b-bedside-side",
+      "mobile": false,
+      "stats": {
+        "triangles": 206392,
+        "drawCalls": 48,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 15
+      }
+    },
+    {
+      "name": "10-bathroom-first",
+      "mobile": false,
+      "stats": {
+        "triangles": 248778,
+        "drawCalls": 66,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 22
+      }
+    },
+    {
+      "name": "11-bathroom-shower",
+      "mobile": false,
+      "stats": {
+        "triangles": 137050,
+        "drawCalls": 29,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 29
+      }
+    },
+    {
+      "name": "10-bathroom-first",
+      "mobile": true,
+      "stats": {
+        "triangles": 207070,
+        "drawCalls": 60,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 16
+      }
+    },
+    {
+      "name": "11-bathroom-shower",
+      "mobile": true,
+      "stats": {
+        "triangles": 137050,
+        "drawCalls": 29,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 24
+      }
+    }
+  ]
+}

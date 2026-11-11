@@ -63,12 +63,14 @@ for side in [-1,1]:
   t=j/V;y=.025+2.61*t
   width=.35+.40*t**1.7-.15*math.exp(-((t-.30)/.16)**2)
   for i in range(U+1):
-   u=i/U;ph=u*math.tau*5.6+.32*math.sin(t*3+u*2)+.15*math.sin(u*11)
-   amp=(.038+.030*t)*(1-.50*math.exp(-((t-.30)/.15)**2))
-   fold=amp*(math.sin(ph)+.07*math.sin(ph*2+.5))
+   u=i/U
+   warped=u+.14*u*(1-u)*math.sin(u*9+.6*side)+.06*u*(1-u)*math.sin(u*23+1.2)
+   ph=warped*math.tau*6.1+.25*math.sin(t*3+u*7+side)+.12*math.sin(t*5+u*13)
+   amp=(.020+.014*t)*(1+.23*math.sin(u*15+side)+.12*math.sin(u*33+t))*(1-.45*math.exp(-((t-.30)/.15)**2))
+   fold=amp*(math.sin(ph)+.025*math.sin(ph*2+.5))
    x=outer+(-side)*width*u
-   z=.965+fold+.065*math.sin(math.pi*t)*(1-t)+.010*math.sin(u*9+t*5)
-   yy=y+.003*math.sin(ph)*(1-t)**5
+   z=.965+fold+.065*math.sin(math.pi*t)*(1-t)+.014*math.sin(u*9+t*5+side)
+   yy=y-.055*math.sin(math.pi*u)*math.sin(math.pi*t)*(1-.8*math.exp(-((t-.30)/.15)**2))+.003*math.sin(ph)*(1-t)**5
    verts.append(xyz((x,yy,z)));uv.append((u*1.3,t*3.8))
  for j in range(V):
   for i in range(U):

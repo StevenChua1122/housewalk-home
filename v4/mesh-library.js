@@ -118,7 +118,7 @@ export function interiorDetails(){
    box(2.82,.275,2.10,.425,.54,2.00,M.white,'#fffefb');
    box(2.59,.285,2.10,.018,.48,1.95,M.ivory,'#f5efe3');
    roundBox(2.82,.565,2.10,.475,.050,2.04,.017,M.slate,'#f2ece5');
-   box(2.82,.043,2.10,.44,.075,1.94,M.dark,'#6c6e70');
+   box(2.82,.0325,2.10,.44,.035,1.94,M.white,'#f3efe7'); // Floor-standing white plinth; no under-cabinet light.
    for(let zz of [1.60,2.10,2.60])box(2.575,.285,zz,.013,.43,.009,M.white,'#dbd7d1');
    trolley();
    // Wall TV MOUNT ONLY — no television, no electronics, no decorations.

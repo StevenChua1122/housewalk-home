@@ -1,2 +1,2 @@
-// Preserve the existing capture command; final-reference cameras supersede PR #3 views.
-require('./capture-final.cjs');
+// Preserve the existing command; current integrated reference cameras live here.
+require('./capture-integrated.cjs');

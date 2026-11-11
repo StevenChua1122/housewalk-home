@@ -1,34 +1,27 @@
-# Housewalk V4 — final-reference reconstruction for review
+# Housewalk V4 — integrated final-reference review
 
-This branch continues PR #4 (`codex/v4-architecture-review`, `e31a409`), including
-PR #3 and PR #2. Only `v4/` changes. It does not deploy, merge, or replace the
-production homepage.
+This targeted branch continues the latest PR #5 head (`a96da34`), including
+PR #2–4. The existing Three.js/PBR/GLB renderer and interaction bridge remain.
+Only `v4/` changes; production root, main and Daylight are untouched. No deploy
+or merge is included.
 
-The final seven-image pack has now been inspected. The horizontally mirrored
-6.30 × 7.05 m source plan governs the connected shell; real photographs govern
-window/entrance construction; final approved mockups govern the finishes.
-Internal wall coordinates are image traces, not surveyed dimensions. Furniture,
-heights and camera lenses remain explicitly identified estimates.
-
-A focused rendering replacement uses self-hosted Three.js r180, PBR materials,
-custom upholstered-sofa and draped-curtain GLBs, and dedicated oak colour,
-normal and roughness maps. The existing first-person controls, joystick, doors,
-collision logic, mini-map, room labels and tours remain in the same application.
-No reference picture is rendered as a backdrop or panorama. No runtime CDN is used.
-A simple Canvas compatibility view remains available when WebGL2 is unavailable.
-
-## Local review
+All 19 corrected references were inspected. Living/dining, kitchen and entrance
+arrangements are retained, with refined oak/drapery and a contacting white TV
+console plinth. The approved bedroom, under-AC cabinet, hallway transition and
+two-view bathroom now occupy the same continuous apartment. Real 3D geometry,
+local material maps and actual mirror reflections are used. No source image is
+a scene background or panorama, and no private photo/floor plan is committed.
 
 ```sh
 python3 -m http.server 8000 --bind 127.0.0.1
 # Open http://127.0.0.1:8000/v4/
 ```
 
-See [final implementation and reference provenance](FINAL_IMPLEMENTATION.md),
-[actual screenshots and testing](QA.md), and the [model plan](qa/final/plan.svg).
-Older `qa/` images outside `qa/final/` and `review/` artifacts are historical.
+See [screenshots and PASS/PARTIAL/FAIL review](QA.md), [reference/implementation
+provenance](INTEGRATED_V3.md), and [model plan](qa/integrated-v3/plan.svg).
+Older `qa/final/` and `review/` evidence remains historical.
 
-This is a substantial realtime rendering/material upgrade, with remaining
-lighting, cloth and exterior differences from the approved render. Review the
-actual screenshots before design approval. Physical iPhone Safari performance
+Walking/look, joystick, collisions, doors, map/labels, tours, day/night and the
+Canvas compatibility renderer remain. Visual acceptance is for owner review;
+this is not a pixel-identical offline render. Physical iPhone Safari performance
 is **unverified**.
