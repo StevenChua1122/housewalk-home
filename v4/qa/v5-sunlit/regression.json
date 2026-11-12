@@ -1,0 +1,157 @@
+{
+  "base": "c5ac96dd18db682ee11b9503964f7b61b3b54617",
+  "date": "2026-11-12",
+  "matrix": [
+    {
+      "renderer": "PBR",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "PBR",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "errors": []
+    }
+  ],
+  "geometry": [
+    {
+      "geometryProof": "desktop",
+      "acRear": 0.9799999998137354,
+      "caseRear": 1.005000002682209,
+      "padFront": 1.0050000001862645,
+      "acSupported": true,
+      "ceiling": [
+        2.767999999999999,
+        2.7679999999999993,
+        2.7679999999999993
+      ],
+      "floor": [
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873
+      ],
+      "rugHidden": true,
+      "vertices": 10961,
+      "sun": 3.8
+    },
+    {
+      "geometryProof": "mobile",
+      "acRear": 0.9799999998137354,
+      "caseRear": 1.005000002682209,
+      "padFront": 1.0050000001862645,
+      "acSupported": true,
+      "ceiling": [
+        2.767999999999999,
+        2.7679999999999993,
+        2.7679999999999993
+      ],
+      "floor": [
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873
+      ],
+      "rugHidden": true,
+      "vertices": 10961,
+      "sun": 3.8
+    }
+  ],
+  "contextRecovery": "PASS: Canvas appeared after forced loss; restored PBR assets reloaded.",
+  "notes": [
+    "PBR desktop succeeded in the full run; remaining cases completed in a targeted rerun after using fine joystick alignment for the narrow bathroom turn.",
+    "An earlier new-proof test lookup was corrected. A missing alcove rear-wall collision proxy was found and fixed before the successful matrix cases.",
+    "A full-speed mobile scripted turn timed out under software rendering; the final continuous route uses fine joystick alignment.",
+    "Physical iPhone Safari performance remains UNVERIFIED."
+  ]
+}

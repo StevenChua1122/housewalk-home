@@ -3,7 +3,7 @@
 window.HWLayout={width:6.30,length:7.05,height:2.77,partition:3.15,bedSouth:4.37,bathWest:4.95,bathNorth:4.37,
  bedroom:{
   bed:{x0:4.05,x1:6.17,z0:1.62,z1:3.26,headWall:'east'},
-  ac:{x:5.68,y:2.34,z:1.10,supportPlaneZ:.98},
+  ac:{x:5.68,y:2.34,z:1.125,supportPlaneZ:.98,depth:.24,mountDepth:.025},
   cabinet:{x0:5.78,x1:6.21,z0:1.06,z1:1.56,height:.59,frontNormal:[-1,0,0],acWallNormal:[0,0,1],count:1},
   vanity:{x0:3.245,x1:3.645,z0:.74,z1:1.54},
   mirror:{x0:3.30,x1:3.57,z0:1.76,z1:2.24},
@@ -11,12 +11,15 @@ window.HWLayout={width:6.30,length:7.05,height:2.77,partition:3.15,bedSouth:4.37
   lamp:{x:6.0,z:3.48,height:1.94,heads:2}
  },
  bathroom:{window:{x:6.30,z0:5.28,z1:6.02,sill:1.03,head:2.48},sink:{x:6.02,z:4.89},toilet:{x:5.90,z:5.70},column:{x0:6.0,x1:6.3,z0:6.10,z1:6.38}},
- bay:{left:1.35,right:3.15,back:0,front:.98},
+ // Heights are photo-fit estimates from V5 real photos 10/22; no measured sill was supplied.
+ bay:{left:1.35,right:3.15,back:0,front:.98,sill:.62,divider:1.02,head:2.45,ceiling:2.77},
  doors:[{name:'Bedroom',open:false,axis:'x',x:3.43,z:4.37,len:.84},{name:'Bathroom',open:true,axis:'z',x:4.95,z:4.49,len:.78}],
  colliders:[
  {x0:3.075,x1:3.225,z0:0,z1:4.37},{x0:3.15,x1:3.43,z0:4.295,z1:4.445},{x0:4.27,x1:6.3,z0:4.295,z1:4.445},
  {x0:4.875,x1:5.025,z0:5.27,z1:7.05},{x0:4.875,x1:5.025,z0:4.37,z1:4.49},
  {x0:0,x1:1.35,z0:0,z1:.98},{x0:.055,x1:.985,z0:1.20,z1:3.34},
+ {x0:1.35,x1:1.42,z0:.17,z1:.86},
+ {x0:1.35,x1:3.15,z0:-.075,z1:.075},
  {x0:.06,x1:1.74,z0:3.76,z1:4.65},{x0:.21,x1:1.52,z0:3.33,z1:3.81},{x0:.21,x1:1.52,z0:4.59,z1:5.07},
  {x0:2.57,x1:3.07,z0:1.08,z1:3.12},{x0:2.60,x1:3.04,z0:3.12,z1:3.75},{x0:2.61,x1:3.08,z0:.52,z1:1.11},
  {x0:1.75,x1:2.57,z0:6.27,z1:7.05},{x0:2.59,x1:4.24,z0:6.31,z1:7.05},{x0:4.245,x1:4.855,z0:6.31,z1:7.05},

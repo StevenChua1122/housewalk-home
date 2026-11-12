@@ -17,7 +17,11 @@ def soft(name,loc,size,r,material,sub=1):
  if sub:
   q=o.modifiers.new('Cushion surface','SUBSURF');q.levels=sub;q.render_levels=sub
  for f in o.data.polygons:f.use_smooth=True
- o.data.materials.append(material);return o
+ o.data.materials.append(material)
+ if name.startswith(('Seat cushion','Reclined back cushion','Rounded arm')):
+  texture=bpy.data.textures.new(name+' subtle cloth pressure','CLOUDS');texture.noise_scale=.09
+  dis=o.modifiers.new('Soft fabric compression','DISPLACE');dis.texture=texture;dis.strength=.002;dis.texture_coords='GLOBAL'
+ return o
 def cord(name,points,r,m):
  c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=12;c.bevel_depth=r;c.bevel_resolution=3
  p=c.splines.new('POLY');p.points.add(len(points)-1)
@@ -64,10 +68,10 @@ for side in [-1,1]:
   width=.35+.40*t**1.7-.15*math.exp(-((t-.30)/.16)**2)
   for i in range(U+1):
    u=i/U
-   warped=u+.14*u*(1-u)*math.sin(u*9+.6*side)+.06*u*(1-u)*math.sin(u*23+1.2)
-   ph=warped*math.tau*6.1+.25*math.sin(t*3+u*7+side)+.12*math.sin(t*5+u*13)
-   amp=(.020+.014*t)*(1+.23*math.sin(u*15+side)+.12*math.sin(u*33+t))*(1-.45*math.exp(-((t-.30)/.15)**2))
-   fold=amp*(math.sin(ph)+.025*math.sin(ph*2+.5))
+   warped=u+.23*u*(1-u)*math.sin(u*9+.6*side)+.13*u*(1-u)*math.sin(u*21+1.2)
+   ph=warped*math.tau*4.9+.39*math.sin(t*2.5+u*5+side)+.20*math.sin(t*4+u*11)
+   amp=(.028+.016*t)*(1+.28*math.sin(u*15+side)+.16*math.sin(u*29+t))*(1-.45*math.exp(-((t-.30)/.15)**2))
+   fold=amp*(math.sin(ph)+.085*math.sin(ph*2+.5))
    x=outer+(-side)*width*u
    z=.965+fold+.065*math.sin(math.pi*t)*(1-t)+.014*math.sin(u*9+t*5+side)
    yy=y-.055*math.sin(math.pi*u)*math.sin(math.pi*t)*(1-.8*math.exp(-((t-.30)/.15)**2))+.003*math.sin(ph)*(1-t)**5

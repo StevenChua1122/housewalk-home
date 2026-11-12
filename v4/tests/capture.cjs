@@ -1,2 +1,2 @@
-// Preserve the existing command; current integrated reference cameras live here.
-require('./capture-integrated.cjs');
+// Preserve the existing command; current V5 reference cameras live here.
+require('./capture-v5.cjs');
