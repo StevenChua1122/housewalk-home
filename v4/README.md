@@ -1,27 +1,29 @@
-# Housewalk V4 — integrated final-reference review
+# Housewalk V4 — V5 sunlit correction review
 
-This targeted branch continues the latest PR #5 head (`a96da34`), including
-PR #2–4. The existing Three.js/PBR/GLB renderer and interaction bridge remain.
-Only `v4/` changes; production root, main and Daylight are untouched. No deploy
-or merge is included.
+This focused pass continues PR #6 (`c5ac96d`) on
+`codex/v5-sunlit-alcove-refinement`. The existing local Three.js/PBR/GLB engine,
+controls and Canvas fallback remain. Only `v4/` changes; no merge or deploy.
 
-All 19 corrected references were inspected. Living/dining, kitchen and entrance
-arrangements are retained, with refined oak/drapery and a contacting white TV
-console plinth. The approved bedroom, under-AC cabinet, hallway transition and
-two-view bathroom now occupy the same continuous apartment. Real 3D geometry,
-local material maps and actual mirror reflections are used. No source image is
-a scene background or panorama, and no private photo/floor plan is committed.
+See [actual V5 screenshots and checklist](V5_QA.md),
+[reference audit / geometry and material notes](V5_REVIEW.md), and
+[derived model plan](qa/v5-sunlit/plan.svg).
 
 ```sh
 python3 -m http.server 8000 --bind 127.0.0.1
 # Open http://127.0.0.1:8000/v4/
 ```
 
-See [screenshots and PASS/PARTIAL/FAIL review](QA.md), [reference/implementation
-provenance](INTEGRATED_V3.md), and [model plan](qa/integrated-v3/plan.svg).
-Older `qa/final/` and `review/` evidence remains historical.
+The sunny living alcove is enclosed real geometry with continuous oak and a
+level ceiling. The approved furniture positions remain. Bedroom AC clearance,
+open curtains, layered bedding, fixed-wall mirrors, one corner cabinet and the
+occluded cat runner are modeled. The toilet is remodelled in the retained
+bathroom layout. No private source photograph, original plan or collage is a
+runtime asset. The shelf frame uses a neutral insert for privacy.
 
-Walking/look, joystick, collisions, doors, map/labels, tours, day/night and the
-Canvas compatibility renderer remain. Visual acceptance is for owner review;
-this is not a pixel-identical offline render. Physical iPhone Safari performance
-is **unverified**.
+Walking/look, joystick, collisions, doors, map/labels, tours, day/night and
+context recovery remain. Visual fidelity is for owner review; authored cloth,
+indirect lighting and the shared outdoor context remain approximations.
+Physical iPhone Safari performance is **UNVERIFIED**.
+
+PR #6 documentation is historical: [INTEGRATED_V3.md](INTEGRATED_V3.md) and
+[QA.md](QA.md). Earlier captures remain unchanged.

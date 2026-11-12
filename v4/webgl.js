@@ -6,6 +6,7 @@ import {RoomEnvironment} from './vendor/RoomEnvironment.js';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 import {interiorDetails} from './mesh-library.js';
 import {connectedRoomDetails} from './room-details.js';
+import {windowAlcove} from './window-alcove.js';
 const bridge=window.HousewalkBridge,L=window.HWLayout;
 const old=document.getElementById('view');
 let renderer;
@@ -13,7 +14,7 @@ try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference
 if(renderer&&bridge&&L){
  const canvas=renderer.domElement;canvas.id='realView';canvas.setAttribute('aria-hidden','true');canvas.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:0';old.after(canvas);
  renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
- renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.VSMShadowMap;renderer.shadowMap.autoUpdate=false;
+ renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;
  const scene=new THREE.Scene();scene.background=new THREE.Color('#a9bac5');
  const camera=new THREE.PerspectiveCamera(72,1,.06,80);camera.rotation.order='YXZ';camera.layers.enable(2);renderer.info.autoReset=false;
  const pmrem=new THREE.PMREMGenerator(renderer),roomEnv=new RoomEnvironment();scene.environment=pmrem.fromScene(roomEnv,.025).texture;scene.environmentIntensity=.24;roomEnv.dispose();pmrem.dispose();
@@ -23,10 +24,10 @@ if(renderer&&bridge&&L){
  const oak=tex('oak-albedo.jpg',true),oakN=tex('oak-normal.webp'),oakR=tex('oak-roughness.jpg');
  const fabric=tex('fabric-color.jpg',true),fabricN=tex('fabric-normal.webp'),cabinetMap=tex('cabinet-weave.jpg',true);
  const standard=(color,roughness=.7,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness,envMapIntensity:.55});
- const wall=standard('#e5d1bd',.94),white=standard('#f5f2ea',.50),greyTop=standard('#777775',.48),black=standard('#242424',.38),metal=standard('#b7b6b1',.31,.88);
+ const wall=standard('#eee5d9',.94),white=standard('#f5f2ea',.50),greyTop=standard('#777775',.48),black=standard('#242424',.38),metal=standard('#b7b6b1',.31,.88);
  const cloth=(color)=>new THREE.MeshPhysicalMaterial({color,map:fabric,normalMap:fabricN,normalScale:new THREE.Vector2(.065,.065),roughness:.90,sheen:.45,sheenColor:new THREE.Color(color),sheenRoughness:.82,envMapIntensity:.18});
- const upholstery=cloth('#77746f'),cream=cloth('#e7dfcf'),taupe=cloth('#b8a18d');taupe.normalScale.set(.05,.05);taupe.sheen=.28;taupe.sheenRoughness=.95;
- const floorMat=new THREE.MeshStandardMaterial({map:oak,normalMap:oakN,normalScale:new THREE.Vector2(.045,.045),roughnessMap:oakR,roughness:1,color:'#e0d0c3',metalness:0,envMapIntensity:.38,vertexColors:true});
+ const upholstery=cloth('#77746f'),cream=cloth('#e7dfcf'),taupe=cloth('#a48d74');taupe.normalScale.set(.05,.05);taupe.sheen=.28;taupe.sheenRoughness=.95;
+ const floorMat=new THREE.MeshStandardMaterial({map:oak,normalMap:oakN,normalScale:new THREE.Vector2(.085,.085),roughnessMap:oakR,roughness:1,color:'#d9c2a3',metalness:0,envMapIntensity:.38,vertexColors:true});
  const materials=[floorMat,wall,black,cream,upholstery,white,greyTop,metal,taupe,new THREE.MeshStandardMaterial({color:'#d0cbc2',map:cabinetMap,normalMap:fabricN,normalScale:new THREE.Vector2(.09,.09),roughness:.78}),standard('#63503c'),standard('#ded9cd',.55),standard('#a8bcc6',.14,.15),standard('#161a1d',.25),new THREE.MeshStandardMaterial({color:'#fff2d6',emissive:'#ffdfaa',emissiveIntensity:1.5,roughness:.4}),standard('#bba181')];
  metal.envMapIntensity=1.4;
  const fixtureLights=[],nightWindows=[];
@@ -41,9 +42,9 @@ if(renderer&&bridge&&L){
  for(let x=.0,row=0;x<6.3;x+=.18,row++){
   const w=Math.min(.178,6.3-x),start=-((row%4)*.411);
   for(let z=start;z<7.05;z+=1.66){const a=Math.max(0,z),b=Math.min(7.05,z+1.658);if(b-a<.02)continue;
-   const u0=rand()*5,v0=rand()*4,flip=rand()>.5?1:-1,shade=.985+rand()*.03;
+   const u0=rand()*5,v0=rand()*4,flip=rand()>.5?1:-1,shade=.956+rand()*.075;
    const strips=x<4.95&&x+w>4.95?[[x,4.95,a,b],[4.95,x+w,a,Math.min(b,4.43)]]:[[x,x+w,a,x>=4.95?Math.min(b,4.43):b]];
-   for(const [xa,xb,za,zb]of strips){if(zb-za<.005)continue;for(const [xx,zz] of [[xa,za],[xa,zb],[xb,zb],[xa,za],[xb,zb],[xb,za]]){fp.push(xx,.015,zz);fn.push(0,1,0);fu.push(u0+(xx-x)*.95,v0+flip*(zz-a)*.55);fc.push(shade,shade,shade);}}
+   for(const [xa,xb,za,zb]of strips){if(zb-za<.005)continue;for(const [xx,zz] of [[xa,za],[xa,zb],[xb,zb],[xa,za],[xb,zb],[xb,za]]){fp.push(xx,.015,zz);fn.push(0,1,0);fu.push(u0+(xx-x)*1.65,v0+flip*(zz-a)*.70);fc.push(shade,shade,shade);}}
   }
  }
  const fg=new THREE.BufferGeometry();fg.setAttribute('position',new THREE.Float32BufferAttribute(fp,3));fg.setAttribute('normal',new THREE.Float32BufferAttribute(fn,3));fg.setAttribute('uv',new THREE.Float32BufferAttribute(fu,2));fg.setAttribute('color',new THREE.Float32BufferAttribute(fc,3));add(new THREE.Mesh(fg,floorMat),false);
@@ -79,10 +80,10 @@ if(renderer&&bridge&&L){
 
  wallX(0,0,7.05);wallX(6.30,0,5.28);wallX(6.30,6.02,7.05);box(6.30,.515,5.65,.15,1.03,.74);box(6.30,2.625,5.65,.15,.29,.74);wallZ(7.05,0,.30);wallZ(7.05,1.32,3.47);wallZ(7.05,4.37,6.30);
  box(3.92,.52,7.05,.90,1.04,.15);box(3.92,2.245,7.05,.90,1.05,.15);
- // Window wall and recess; frame bottom .23, head 2.50 are photo-fit heights.
+ // Retain source-plan support depth; construct V5 opening / enclosed returns separately.
  box(.675,1.385,.49,1.35,2.77,.98);wallX(3.15,0,4.37);
- box(2.2125,.115,0,1.725,.23,.15);box(2.2125,2.635,0,1.725,.27,.15);
- box(5.65,1.385,.49,1.30,2.77,.98);box(4.10,.35,0,1.75,.70,.15);box(4.10,2.635,0,1.75,.27,.15);box(4.10,1.60,0,1.65,1.80,.01,materials[12]);
+ const alcove=windowAlcove({scene,L,wall,white,metal});
+ box(5.65,1.385,.49,1.30,2.77,.98);box(4.10,.35,0,1.75,.70,.15);box(4.10,2.635,0,1.75,.27,.15);
  // Bedroom entry on south wall; bath entry in upper west wall, traced from the swing arc.
  wallZ(4.37,3.15,3.43);wallZ(4.37,4.27,6.30);box(3.85,2.49,4.37,.84,.56,.15);
  wallX(4.95,5.27,7.05);box(4.95,2.49,4.88,.15,.56,.78);
@@ -128,25 +129,19 @@ if(renderer&&bridge&&L){
  bar([.44,2.23,6.90],[.55,2.36,6.84],.012,metal);bar([.55,2.36,6.84],[.72,2.31,6.96],.010,metal);
  box(1.53,1.40,6.96,.09,.09,.018,white);
  bar([1.35,2.67,.32],[3.10,2.67,.32],.010,metal);
- // Real two-casement window, paired handles and two lower fixed glass panels.
- const frame=standard('#343e43',.36,.58);const glass=new THREE.MeshPhysicalMaterial({color:'#afc3ce',roughness:.045,metalness:.04,transparent:true,opacity:.18,depthWrite:false,envMapIntensity:.9,clearcoat:1,clearcoatRoughness:.05});
- for(const x of [1.38,2.22,3.06])box(x,1.36,.045,.055,2.27,.10,frame);
- for(const y of [.23,.67,2.49])box(2.22,y,.045,1.735,.052,.105,frame);
- for(const [a,b]of [[1.41,2.18],[2.26,3.03]]){
-  for(const x of [a,b])box(x,1.59,.084,.025,1.74,.065,frame);
-  for(const y of [.715,2.46])box((a+b)/2,y,.084,b-a,.025,.065,frame);
-  for(const [lo,hi]of [[.26,.64],[.73,2.44]])box((a+b)/2,(lo+hi)/2,.071,b-a-.025,hi-lo,.007,glass,false);
- }
- for(const x of [2.155,2.285]){bar([x,1.28,.142],[x,1.43,.142],.009,metal);box(x,1.35,.115,.027,.20,.022,frame);}
- box(2.22,.202,.10,1.79,.045,.23,white);
+ const glass=alcove.glass;
  // Kitchen glazing is a single operable pane, not a room photograph.
  const kitchenGlass=glass.clone();kitchenGlass.color.set('#afcede');kitchenGlass.roughness=.25;kitchenGlass.opacity=.65;kitchenGlass.emissive.set('#7bacc7');kitchenGlass.emissiveIntensity=.18;box(3.92,1.385,7.015,.85,.59,.006,kitchenGlass,false);
- // Real geometry beyond the windows supplies parallax and reflected depth.
- const outside=standard('#74818b',.88),blueGlass=standard('#304450',.16,.45),windowGlow=new THREE.MeshStandardMaterial({color:'#5b6a73',emissive:'#b9bb98',emissiveIntensity:0,roughness:.25});
- box(2.2,5,-7.5,15,22,.5,outside);
- for(let x=-4.6;x<9;x+=1.4)for(let y=-4;y<15;y+=1.7){box(x,y,-7.22,.85,1.1,.035,blueGlass);box(x,y-.63,-6.97,1.2,.10,.50,outside);if(rand()>.6)box(x,y,-7.19,.72,.97,.012,windowGlow);}
- nightWindows.push(windowGlow);
- box(3.9,2,9.2,4.6,5,.20,wall);
+ // Shared exterior geometry gives both north windows a consistent sunlit city view.
+ const outside=standard('#cad0c9',.88),blueGlass=standard('#94b9c8',.20,.35),windowGlow=new THREE.MeshStandardMaterial({color:'#94b0b7',emissive:'#c5c6a6',emissiveIntensity:0,roughness:.3});
+ for(const bx of [-3.3,1.3,6.1,10.8]){
+  const bz=-32-(bx>5?5:0);box(bx,1.3,bz,3.6,19,.8,outside);
+  for(let xx=bx-1.45;xx<bx+1.5;xx+=.72)for(let y=-7;y<10;y+=.86){box(xx,y,bz+.425,.49,.61,.025,blueGlass);box(xx,y-.34,bz+.52,.64,.055,.24,outside);if(rand()>.8)box(xx,y,bz+.442,.44,.55,.008,windowGlow);}
+ }
+ const foliage=new THREE.MeshStandardMaterial({color:'#81915b',roughness:1});
+ const trees=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,2),foliage,54),tm=new THREE.Object3D();
+ for(let i=0;i<54;i++){tm.position.set(-6+rand()*19,-4.2+rand()*1.2,-14.0-rand()*4.5);tm.scale.set(.38+rand()*.7,.38+rand()*.5,.38+rand()*.7);tm.updateMatrix();trees.setMatrixAt(i,tm.matrix);trees.setColorAt(i,new THREE.Color().setHSL(.20+rand()*.08,.20+rand()*.18,.30+rand()*.15));}scene.add(trees);
+ nightWindows.push(windowGlow);box(3.9,2,9.2,4.6,5,.20,wall);
  // Door transforms and navigation share the same source-plan coordinates.
  const doorGroups=[];
  for(const d of L.doors){
@@ -161,7 +156,7 @@ scene.add(g);doorGroups.push(g);
  }
 
  const roomShadowLights=[];
- const rooms=connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe,cloth,shadowLights:roomShadowLights});
+ const rooms=connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,taupe,cloth,glass:alcove.glass,shadowLights:roomShadowLights});
  // Batch immutable opaque shell/exterior geometry by material. Door/hero/rack groups
  // and sorted glass stay independent. This removes hundreds of tiny exterior draws.
  const staticBatches=new Map();
@@ -182,7 +177,11 @@ scene.add(g);doorGroups.push(g);
  spot(.45,4.24,7,false,.7,4.2);spot(1.30,4.24,7,false,1.2,4.2);spot(1.78,4.72,7,false,.95,4.2);
  spot(3.65,5.70,15,true,3.85,6.50);spot(.85,6.24,6);
  const task=new THREE.PointLight('#ffebd4',3,2,2);task.position.set(3.7,1.70,6.64);scene.add(task);
- const daylight=new THREE.DirectionalLight('#e8f2ff',.50);daylight.position.set(2.5,5,-3);daylight.target.position.set(1.4,0,2.5);scene.add(daylight,daylight.target);
+ // Actual sunlight is shadowed by the shell, frames, curtains and furniture.
+ const daylight=new THREE.DirectionalLight('#ffe3bc',3.8);daylight.position.set(1.4,7,-12);daylight.target.position.set(3.2,0,4.0);scene.add(daylight,daylight.target);
+ daylight.castShadow=true;daylight.shadow.mapSize.set(2048,2048);Object.assign(daylight.shadow.camera,{left:-5.2,right:5.2,top:6.3,bottom:-6.3,near:.2,far:35});daylight.shadow.camera.updateProjectionMatrix();daylight.shadow.bias=-.00010;daylight.shadow.normalBias=.012;daylight.shadow.radius=2;daylight.shadow.blurSamples=8;
+ const windowBounces=[];for(const x of [2.22,4.10]){const l=new THREE.PointLight('#fff2db',4,4.6,2);l.position.set(x,1.65,.70);scene.add(l);windowBounces.push(l);}
+ const fixturePower=fixtureLights.map(l=>l.intensity),roomPower=rooms.lights.map(l=>l.intensity);
  const heroLoader=new GLTFLoader();
  async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file);const g=gltf.scene;
   if(kind==='sofa'){g.scale.set(.94,1,.90);g.position.z=.12;}
@@ -190,16 +189,16 @@ scene.add(g);doorGroups.push(g);
   g.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;const name=o.material?.name||'';
    if(kind==='curtain'||name.includes('taupe'))o.material=taupe;
    else if(!name.includes('timber')){const m=o.material.clone();if(name.includes('Grey'))m.color.set('#77736e');if(name.includes('Bedroom grey'))m.color.set('#76716b');if(name.includes('Bedroom cream'))m.color.set('#e5ddce');if(name.includes('Cream'))m.color.set('#e3d9c8');if(name.includes('orange'))m.color.set('#b85c1d');if(name.includes('piping'))m.color.set('#65615b');m.map=fabric;m.sheen=.25;m.sheenColor?.copy(m.color);m.sheenRoughness=.9;m.normalMap=fabricN;m.normalScale=new THREE.Vector2(.065,.065);m.roughness=.90;m.envMapIntensity=.20;o.material=m;}
-  });scene.add(g);return g;
+  });scene.add(g);window.HWScene.heroGroups[kind]=g;return g;
  }
  Promise.all([hero('sofa-tailored.glb','sofa'),hero('curtains-draped.glb','curtain'),hero('bedroom-soft.glb','bedroom')]).then(()=>{window.__HW4_ASSETS=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
- window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms};
+ window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms,alcove,daylight,heroGroups:{}};
  let previousNight=null,doorState='',lastW=0,lastH=0,first=true;
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';});
  canvas.addEventListener('webglcontextrestored',()=>location.reload());
  function render(){requestAnimationFrame(render);if(document.hidden||renderer.getContext().isContextLost())return;
   const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5);if(w!==lastW||h!==lastH){renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();lastW=w;lastH=h;}
-  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;rooms.updateNight(n);daylight.intensity=n?.025:.30;hemi.intensity=n?.72:.82;scene.environmentIntensity=n?.20:.30;ceilingMat.lightMapIntensity=n?2.8:2.4;scene.background.set(n?'#1a2635':'#a9bac5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
+  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;rooms.updateNight(n);daylight.intensity=n?.025:3.8;daylight.castShadow=!n;hemi.intensity=n?.72:.48;scene.environmentIntensity=n?.20:.28;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach(l=>l.intensity=n?0:2.8);scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
   const state=bridge.doors.map(d=>d.open).join();if(state!==doorState){doorState=state;doorGroups.forEach((g,i)=>g.rotation.y=i?(bridge.doors[i].open?0:-Math.PI/2):(bridge.doors[i].open?Math.PI/2:0));renderer.shadowMap.needsUpdate=true;}
   const p=bridge.player,c=bridge.camera||{};camera.position.set(p.x,c.eyeHeight||1.55,p.z);camera.rotation.set(p.pitch,-p.yaw,0,'YXZ');camera.fov=c.verticalFov||(w<h?72:75);camera.updateProjectionMatrix();renderer.info.reset();renderer.render(scene,camera);window.__HW4_FRAME=(window.__HW4_FRAME||0)+1;
   if(first){first=false;window.__HW3D_READY=true;old.style.opacity='0';canvas.style.opacity='1';document.documentElement.dataset.renderer='pbr-final';renderer.shadowMap.needsUpdate=true;}

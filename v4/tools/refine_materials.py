@@ -6,16 +6,16 @@ from pathlib import Path
 from io import BytesIO
 import subprocess,numpy as np
 out=Path(__file__).resolve().parents[1]/'assets/materials'
-original=subprocess.check_output(['git','show','a96da346e86e55db764dc2a2769c5e847b28e45b:v4/assets/materials/oak-albedo.jpg'])
+original=subprocess.check_output(['git','show','c5ac96dd18db682ee11b9503964f7b61b3b54617:v4/assets/materials/oak-albedo.jpg'])
 im=Image.open(BytesIO(original)).convert('RGB');a=np.asarray(im,dtype=float)
 mid=np.asarray(im.filter(ImageFilter.GaussianBlur(.85)),dtype=float)
 # Retain long grain, suppress harsh high-frequency fibres, and remove the yellow cast.
-target=np.array([210.,179.,151.]);colour=target+(mid-mid.mean((0,1)))*.78+(a-mid)*.20
+target=np.array([214.,190.,165.]);colour=target+(mid-mid.mean((0,1)))*.94+(a-mid)*.32
 Image.fromarray(np.uint8(np.clip(colour,0,255))).save(out/'oak-albedo.jpg',quality=95,subsampling=0)
 height=mid.mean(2)/255;dy,dx=np.gradient(height)
 n=np.stack([-dx*.9,-dy*.9,np.ones_like(dx)],2);n/=np.sqrt((n*n).sum(2))[:,:,None]
 Image.fromarray(np.uint8((n*.5+.5)*255)).save(out/'oak-normal.webp',quality=95,method=6)
-r=np.clip(.70+(height-height.mean())*.07,.65,.75)
+r=np.clip(.63+(height-height.mean())*.14,.57,.72)
 Image.fromarray(np.uint8(r*255)).save(out/'oak-roughness.jpg',quality=92)
 # Restrained upholstery weave; cabinet maps and entrance-door finish stay untouched.
 old=Image.open(BytesIO(subprocess.check_output(['git','show','a96da346e86e55db764dc2a2769c5e847b28e45b:v4/assets/materials/fabric-color.jpg']))).convert('L');v=np.asarray(old,dtype=float)

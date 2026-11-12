@@ -29,3 +29,20 @@ Model dimensions are design/photo fits, not surveyed product specifications.
   Bathroom/lamp/vanity/wardrobe geometry is authored in `room-details.js`.
 
 No reference image or private photograph is embedded in these assets.
+
+## V5 sunny / alcove correction
+
+- Oak refinements now use the fixed PR #6 authored albedo blob, with independent
+  normal/roughness maps, revised physical UV scale and restrained board tones.
+  Regenerate with `python3 v4/tools/refine_materials.py` from the repository root.
+- `hero_assets.py` keeps the approved sofa envelope while adding subtle fabric
+  compression; it refines the existing thick tied living drapery.
+- `bedroom_assets.py` retains the bed/headboard envelope and supplies less-inflated
+  pillows, fitted sheet, turned duvet cuff and open/tied volumetric curtains.
+- `window-alcove.js`, `toilet-model.js` and `bedroom-rug.js` are original targeted
+  geometry. The cat motif is vector geometry, not a crop of the private rug photo.
+- Shelf decor retains its approved silhouettes; a neutral insert replaces the
+  private personal collage. No new reference image is embedded or committed.
+- Exterior towers/foliage are shared original 3D approximations. They are placed
+  beyond the incoming sun path rather than used as a flat photographic backdrop.
+- No new runtime dependency or third-party furniture asset was downloaded.

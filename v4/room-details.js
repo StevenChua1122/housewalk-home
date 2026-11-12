@@ -4,14 +4,16 @@
 import * as THREE from './vendor/three.module.min.js';
 import {RoundedBoxGeometry} from './vendor/RoundedBoxGeometry.js';
 import {Reflector} from './vendor/Reflector.js';
+import {toiletModel} from './toilet-model.js';
+import {bedroomRug} from './bedroom-rug.js';
 
-export function connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe,cloth,shadowLights}){
+export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,taupe,cloth,shadowLights,glass}){
  const named={},mirrors=[],lights=[];
  const put=(o,name)=>{o.castShadow=!o.material?.transparent;o.receiveShadow=true;if(name){o.name=name;named[name]=o;}scene.add(o);return o;};
  const standard=(color,roughness=.75,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness,envMapIntensity:.7});
  const plaster=tex('plaster-color.jpg',true),plasterN=tex('plaster-normal.webp');
- const charcoal=standard('#77716b',.88);charcoal.map=plaster;charcoal.normalMap=plasterN;charcoal.normalScale=new THREE.Vector2(.08,.08);
- const tileDark=standard('#66625d',.76),tileLight=standard('#d2cec5',.76),tileFloor=standard('#a19a8e',.81),grout=standard('#8c867d',.9),lightGrout=standard('#b8b2a9',.9);
+ const charcoal=standard('#686867',.88);charcoal.map=plaster;charcoal.normalMap=plasterN;charcoal.normalScale=new THREE.Vector2(.08,.08);
+ const tileDark=standard('#5d6162',.76),tileLight=standard('#d2cec5',.76),tileFloor=standard('#a19a8e',.81),grout=standard('#8c867d',.9),lightGrout=standard('#b8b2a9',.9);
  for(const m of [tileDark,tileLight,tileFloor]){m.map=plaster;m.normalMap=plasterN;m.normalScale=new THREE.Vector2(.025,.025);}
  const porcelain=new THREE.MeshPhysicalMaterial({color:'#f4f2eb',roughness:.25,metalness:0,clearcoat:.12,clearcoatRoughness:.28,envMapIntensity:.55});
  const wood=standard('#b8946d',.58);wood.map=tex('door-ash.jpg',true);
@@ -80,16 +82,7 @@ export function connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe
   const backing=new THREE.Mesh(new THREE.CylinderGeometry(.227,.227,.007,64),metal);backing.rotation.z=Math.PI/2;backing.position.set(6.196,1.56,z);put(backing);
  }
  function toilet(){
-  const z=5.70,N=80,profile=[[6.01,.055,.16,.12],[5.99,.18,.175,.14],[5.93,.30,.23,.16],[5.87,.39,.30,.185],[5.87,.435,.315,.19],[5.87,.449,.295,.174],[5.88,.435,.265,.145],[5.91,.35,.22,.125],[5.99,.24,.11,.08],[6.02,.225,.045,.038]];
-  const p=[],idx=[],uv=[],colours=[];
-  for(let j=0;j<profile.length;j++){const [x,y,rx,rz]=profile[j];for(let i=0;i<=N;i++){const a=i/N*Math.PI*2;p.push(x+rx*Math.cos(a),y,z+rz*Math.sin(a));uv.push(i/N,j/(profile.length-1));const ao=j<6?1:[.95,.84,.73,.67][j-6];colours.push(ao,ao,ao);}}
-  for(let j=0;j<profile.length-1;j++)for(let i=0;i<N;i++){const a=j*(N+1)+i;idx.push(a,a+N+2,a+1,a,a+N+1,a+N+2);}
-  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.setIndex(idx);g.setAttribute('color',new THREE.Float32BufferAttribute(colours,3));g.computeVertexNormals();const m=porcelain.clone();m.vertexColors=true;m.side=THREE.DoubleSide;put(new THREE.Mesh(g,m),'Bathroom toilet bowl');
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(1,.065,10,80),porcelain);ring.rotation.x=Math.PI/2;ring.scale.set(.289,.165,.22);ring.position.set(5.87,.457,z);put(ring);
-  box(6.10,.55,z,.22,.43,.37,porcelain,.035,'Bathroom toilet cistern');box(6.10,.775,z,.225,.035,.38,porcelain,.014);
-  sphere(5.96,.715,z,.022,.255,.176,porcelain);cylinder(6.12,.797,z,.026,.005,metal);
-  for(const zz of [z-.11,z+.11])bar([5.96,.47,zz],[6.01,.47,zz],.013,metal);
-  const water=new THREE.MeshPhysicalMaterial({color:'#c7d2cb',roughness:.10,transparent:true,opacity:.22,depthWrite:false});const pool=new THREE.Mesh(new THREE.CircleGeometry(1,48),water);pool.rotation.x=-Math.PI/2;pool.scale.set(.044,.033,1);pool.position.set(6.02,.229,z);put(pool);
+  const model=toiletModel(porcelain,metal);scene.add(model);named.toilet=model;
   // Bidet and holder remain on the actual window wall, on either side of the toilet.
   box(6.186,.74,5.20,.025,.06,.04,metal,.006);bar([6.17,.68,5.20],[6.17,.81,5.20],.014);bar([6.17,.81,5.20],[6.12,.81,5.20],.019);
   tube([[6.17,.68,5.20],[6.08,.27,5.17],[5.98,.19,5.28],[6.10,.62,5.37]],.007,metal);
@@ -113,9 +106,15 @@ export function connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe
 
  // Bedroom's fixed feature wall, AC-support mass, closed wardrobe and side-wall furniture.
  box(6.208,1.385,2.65,.018,2.77,3.25,charcoal,0,'Bedroom charcoal feature wall');
- box(5.68,2.34,1.105,.83,.32,.24,white,.028,'Bedroom wall AC');box(5.68,2.205,1.232,.77,.025,.014,black,.003);
- for(let i=0;i<4;i++)box(5.68,2.19+i*.006,1.24,.74,.002,.018,metal,0);
- box(5.68,2.30,1.23,.64,.008,.008,white,.001);
+ // A complete assembly with an explicit rear mounting pad contacts z=.98.
+ const acStart=scene.children.length,A=L.bedroom.ac;
+ box(A.x,A.y,A.supportPlaneZ+.0125,.78,.25,.025,white,.008);
+ box(A.x,A.y,A.z,.83,.32,A.depth,white,.028);
+ box(A.x,A.y-.135,A.z+.127,.77,.025,.014,black,.003);
+ for(let i=0;i<4;i++)box(A.x,A.y-.15+i*.006,A.z+.135,.74,.002,.018,metal,0);
+ box(A.x,A.y-.04,A.z+.125,.64,.008,.008,white,.001);
+ const ac=new THREE.Group();ac.name='Bedroom wall AC';ac.userData={supportPlaneZ:A.supportPlaneZ,casingRear:A.z-A.depth/2};
+ for(const o of scene.children.slice(acStart)){scene.remove(o);ac.add(o);}scene.add(ac);named[ac.name]=ac;
  bar([3.24,2.67,.425],[4.99,2.67,.425],.008,metal);
  const c=L.bedroom.cabinet,cz=(c.z0+c.z1)/2,cx=(c.x0+c.x1)/2;
  const cabinet=box(cx,.30,cz,c.x1-c.x0,.52,c.z1-c.z0,standard('#c8bba4',.7),.008,'Bedroom corner cabinet');cabinet.userData={...c,frontNormal:[-1,0,0],supportPlaneZ:.98};
@@ -123,6 +122,12 @@ export function connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe
  for(const y of [.19,.405]){box(c.x0-.007,y,cz,.018,.20,.456,standard('#d1c4ad',.72),.004);tube([[c.x0-.021,y+.03,cz-.012],[c.x0-.042,y,cz],[c.x0-.021,y-.025,cz+.012]],.008,standard('#a77b4d',.7));}
  for(const x of [c.x0+.025,c.x1-.025])for(const z of [c.z0+.025,c.z1-.025])box(x,.052,z,.032,.074,.032,white,.003);
  box(6.115,1.29,1.36,.22,.035,.62,white,.005,'Bedroom floating shelf');
+ // Keep the approved frame silhouette; personal collage pixels are never shipped.
+ box(6.084,1.46,1.23,.024,.30,.22,white,.004,'Bedroom personal-photo frame');
+ const insert=box(6.070,1.46,1.23,.002,.272,.192,standard('#a5a39b',.95),0,'Bedroom private-photo neutral insert');insert.userData.privateImageOmitted=true;
+ cylinder(6.08,1.35,1.54,.035,.085,standard('#3f4140',.55));for(let i=0;i<5;i++)bar([6.08,1.38,1.54],[6.06+(i%2)*.035,1.62,1.50+i*.018],.0018,black,4);
+ cylinder(6.08,1.335,1.40,.027,.055,white);
+ const rug=bedroomRug(cloth);scene.add(rug);named.rug=rug;
  box(5.37,1.06,4.01,1.66,2.10,.54,white,.009,'Bedroom three-door wardrobe');
  for(let k=0;k<3;k++){const x=4.82+k*.55;box(x,1.065,3.726,.54,2.075,.023,white,.004);bar([x+.20,.93,3.70],[x+.20,1.10,3.70],.007,black);}
  // Fixed west wall: vanity, translucent empty drawers, perforated chair, arched mirror.
@@ -133,8 +138,8 @@ export function connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe
  for(const y of [.17,.37,.57]){box(3.445,y,1.33,.34,.16,.29,plastic,.009);box(3.625,y+.045,1.33,.012,.015,.11,white,.004);}
  archFrame(.46,1.64,3.30,.065,2.0,Math.PI/2);bar([3.32,.025,2.0],[3.32,.10,2.0],.012,white);const base=cylinder(3.43,.025,2.0,.20,.025,white);base.scale.x=.65;base.scale.z=1.08;
  const wave=new THREE.Shape();for(let i=0;i<=80;i++){const a=i/80*Math.PI*2,r=1+.055*Math.sin(a*5+.4)+.035*Math.cos(a*7);const x=.145*Math.cos(a)*r,y=.205*Math.sin(a)*r;if(i===0)wave.moveTo(x,y);else wave.lineTo(x,y);}wave.closePath();
- const wavyFrame=new THREE.Mesh(new THREE.ExtrudeGeometry(wave,{depth:.012,bevelEnabled:true,bevelThickness:.007,bevelSize:.009,bevelSegments:2,curveSegments:24}),white);wavyFrame.rotation.y=.30;wavyFrame.position.set(3.40,1.04,1.14);put(wavyFrame);
- mirror(new THREE.ShapeGeometry(wave,32),3.4062,1.04,1.1601,.30,'Bedroom wavy tabletop mirror');box(3.43,.80,1.14,.12,.025,.25,white,.008);
+ const wavyFrame=new THREE.Mesh(new THREE.ExtrudeGeometry(wave,{depth:.012,bevelEnabled:true,bevelThickness:.007,bevelSize:.009,bevelSegments:2,curveSegments:24}),white);wavyFrame.rotation.y=Math.PI/2;wavyFrame.position.set(3.40,1.04,1.14);put(wavyFrame);
+ mirror(new THREE.ShapeGeometry(wave,32),3.422,1.04,1.14,Math.PI/2,'Bedroom wavy tabletop mirror');box(3.43,.80,1.14,.12,.025,.25,white,.008);
  box(3.84,.43,.94,.38,.035,.39,white,.025,'Bedroom perforated chair seat');
  for(const x of [3.69,3.99])for(const z of [.78,1.10])bar([x,.018,z],[x,.43,z],.012,white);
  // Open perforated chair back: real holes between rounded strips, no opaque dot decal.
@@ -146,6 +151,18 @@ export function connectedRoomDetails({scene,L,bridge,tex,white,metal,black,taupe
  for(let k=0;k<5;k++){const shape=new THREE.Shape();shape.moveTo(.10,-.035);shape.bezierCurveTo(.26,-.07,.55,-.095,.64,-.025);shape.bezierCurveTo(.68,.035,.60,.09,.46,.095);shape.lineTo(.16,.045);shape.closePath();const blade=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:.008,bevelEnabled:true,bevelSize:.003,bevelThickness:.002,bevelSegments:1,curveSegments:12}),black);blade.rotation.x=-Math.PI/2;blade.rotation.z=k*Math.PI*2/5+.25;blade.position.set(4.85,2.48,2.46);put(blade);}
  for(const [x,z]of [[4.36,1.55],[5.0,3.66]]){cylinder(x,2.69,z,.070,.13,black);cylinder(x,2.615,z,.057,.012,lightFace);}
 
+ // Bedroom north window, not an opaque blue wall or a photograph.
+ const bedroomFrame=standard('#3c4447',.32,.55),lo=.70,hi=2.50,div=1.08;
+ box(3.2375,(lo+hi)/2,0,.025,hi-lo,.15,wall,0);box(4.975,(lo+hi)/2,0,.050,hi-lo,.15,wall,0);
+ for(const x of [3.25,4.10,4.95])box(x,(lo+hi)/2,.047,.045,hi-lo,.105,bedroomFrame,.003);
+ for(const y of [lo,div,hi])box(4.10,y,.047,1.745,.045,.105,bedroomFrame,.003);
+ for(const [x0,x1]of [[3.285,4.067],[4.133,4.915]]){
+  for(const x of [x0,x1])box(x,(div+hi)/2,.090,.021,hi-div-.04,.060,bedroomFrame,.002);
+  for(const y of [div+.035,hi-.035])box((x0+x1)/2,y,.090,x1-x0,.022,.060,bedroomFrame,.002);
+  for(const [a,b]of [[lo+.025,div-.025],[div+.05,hi-.05]])box((x0+x1)/2,(a+b)/2,.065,x1-x0-.025,b-a,.006,glass,0).castShadow=false;
+ }
+ for(const x of [4.04,4.16]){box(x,1.52,.14,.014,.135,.022,metal,.003);}
+ box(4.10,.68,.115,1.78,.035,.24,white,.003);
  // Bathroom tile envelope and physical frosted window reveal, not a scenic backdrop.
  box(5.625,1.385,4.447,1.20,2.70,.006,lightGrout,0);box(5.035,1.385,6.15,.012,2.70,1.72,lightGrout,0);box(5.625,1.385,6.965,1.20,2.70,.012,lightGrout,0);
  box(6.222,1.385,4.90,.008,2.70,.76,grout,0);box(6.222,1.385,6.49,.008,2.70,.94,grout,0);box(6.222,.52,5.65,.008,1.03,.74,grout,0);box(6.222,2.625,5.65,.008,.29,.74,grout,0);
