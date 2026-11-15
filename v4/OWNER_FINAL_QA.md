@@ -1,3 +1,5 @@
+> Historical first PR #8 pass at `563ad42`. For the subsequent full visual refinement, see [VISUAL_REFINEMENT_QA.md](VISUAL_REFINEMENT_QA.md).
+
 # Current owner-reference pass: actual scene evidence
 
 Baseline and limitations: [OWNER_FINAL_REVIEW.md](OWNER_FINAL_REVIEW.md).

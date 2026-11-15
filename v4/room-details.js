@@ -4,7 +4,7 @@
 import * as THREE from './vendor/three.module.min.js';
 import {RoundedBoxGeometry} from './vendor/RoundedBoxGeometry.js';
 import {Reflector} from './vendor/Reflector.js';
-import {toiletModel} from './toilet-model.js';
+import {toiletModel} from './toilet-model.js?v=visual-refinement-20261115';
 import {bedroomRug} from './bedroom-rug.js';
 
 export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,taupe,cloth,shadowLights,glass}){
@@ -13,9 +13,11 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
  const standard=(color,roughness=.75,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness,envMapIntensity:.7});
  const plaster=tex('plaster-color.jpg',true),plasterN=tex('plaster-normal.webp');
  const charcoal=standard('#686867',.88);charcoal.map=plaster;charcoal.normalMap=plasterN;charcoal.normalScale=new THREE.Vector2(.08,.08);
- const tileDark=standard('#5d6162',.76),tileLight=standard('#d2cec5',.76),tileFloor=standard('#a19a8e',.81),grout=standard('#8c867d',.9),lightGrout=standard('#b8b2a9',.9);
- for(const m of [tileDark,tileLight,tileFloor]){m.map=plaster;m.normalMap=plasterN;m.normalScale=new THREE.Vector2(.025,.025);}
- const porcelain=new THREE.MeshPhysicalMaterial({color:'#f4f2eb',roughness:.25,metalness:0,clearcoat:.12,clearcoatRoughness:.28,envMapIntensity:.55});
+ const tileDark=standard('#595851',.82),tileLight=standard('#d6d0c7',.95),tileFloor=standard('#aaa296',1.0),grout=standard('#918b81',.95),lightGrout=standard('#bab5ac',.95);
+ const tileMap=tex('refined-tile-color.jpg',true),tileN=tex('refined-tile-normal.webp'),tileR=tex('refined-tile-roughness.jpg');
+ for(const m of [tileDark,tileLight,tileFloor]){m.map=tileMap;m.normalMap=tileN;m.normalScale=new THREE.Vector2(.07,.07);m.roughnessMap=tileR;}
+ const porcelain=new THREE.MeshPhysicalMaterial({color:'#f6f4ef',roughness:.19,metalness:0,clearcoat:.20,clearcoatRoughness:.18,envMapIntensity:.90});
+ const bathChrome=new THREE.MeshPhysicalMaterial({color:'#d8dcdb',roughness:.20,metalness:.95,envMapIntensity:1.65});
  const wood=standard('#b8946d',.58);wood.map=tex('door-ash.jpg',true);
  const lightFace=new THREE.MeshStandardMaterial({color:'#fff7e6',emissive:'#ffe4bb',emissiveIntensity:.8,roughness:.6});
  function box(x,y,z,w,h,d,m=white,r=.006,name){const geo=r?new RoundedBoxGeometry(w,h,d,2,Math.min(r,w/3,h/3,d/3)):new THREE.BoxGeometry(w,h,d);const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);return put(o,name);}
@@ -56,27 +58,34 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   mirror(new THREE.ShapeGeometry(archShape(w-.037,h-.038),32),x+.029,y+.018,z,angle,'Bedroom full-length mirror');
  }
  function tilesX(x,z0,z1,y0,y1,mat,gap){
-  for(let z=z0;z<z1-.001;z+=.60)for(let y=y0;y<y1-.001;y+=.30){const w=Math.min(.60,z1-z),h=Math.min(.30,y1-y);if(gap&&z+w>gap.z0&&z<gap.z1&&y+h>gap.y0&&y<gap.y1)continue;box(x,y+h/2,z+w/2,.010,h-.0025,w-.0025,mat,.001).castShadow=false;}
+  for(let z=z0;z<z1-.001;z+=.60)for(let y=y0;y<y1-.001;y+=.30){const w=Math.min(.60,z1-z),h=Math.min(.30,y1-y);if(gap&&z+w>gap.z0&&z<gap.z1&&y+h>gap.y0&&y<gap.y1)continue;box(x,y+h/2,z+w/2,.010,h-.0025,w-.0025,mat,.00035).castShadow=false;}
  }
- function tilesZ(z,x0,x1,y0,y1,mat){for(let x=x0;x<x1-.001;x+=.60)for(let y=y0;y<y1-.001;y+=.30){const w=Math.min(.60,x1-x),h=Math.min(.30,y1-y);box(x+w/2,y+h/2,z,w-.0025,h-.0025,.010,mat,.001).castShadow=false;}}
+ function tilesZ(z,x0,x1,y0,y1,mat){for(let x=x0;x<x1-.001;x+=.60)for(let y=y0;y<y1-.001;y+=.30){const w=Math.min(.60,x1-x),h=Math.min(.30,y1-y);box(x+w/2,y+h/2,z,w-.0025,h-.0025,.010,mat,.00035).castShadow=false;}}
  function basin(){
   const x=6.02,z=4.89,N=96,profile=[[.17,.23,.735],[.19,.25,.825],[.19,.25,.855],[.182,.242,.866],[.151,.210,.855],[.143,.202,.835],[.107,.160,.775],[.065,.095,.756],[.015,.018,.753]];
   const p=[],uv=[],idx=[];
   for(let j=0;j<profile.length;j++){const [rx,rz,y]=profile[j];for(let i=0;i<=N;i++){const t=i/N*Math.PI*2,xx=Math.sign(Math.cos(t))*Math.abs(Math.cos(t))**.35,zz=Math.sign(Math.sin(t))*Math.abs(Math.sin(t))**.35;p.push(x+rx*xx,y,z+rz*zz);uv.push(i/N,j/(profile.length-1));}}
   for(let j=0;j<profile.length-1;j++)for(let i=0;i<N;i++){const a=j*(N+1)+i;idx.push(a,a+N+2,a+1,a,a+N+1,a+N+2);}
-  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(p,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();const m=porcelain.clone();m.side=THREE.DoubleSide;put(new THREE.Mesh(geo,m),'Bathroom wall-mounted sink');
-  box(x,.742,z,.32,.014,.43,porcelain,.006);cylinder(x,.756,z,.016,.008,metal);bar([6.145,.86,z],[6.145,1.0,z],.022);bar([6.145,.98,z],[6.02,.98,z],.016);box(6.14,1.02,z,.075,.012,.022,metal,.005);
-  tube([[x,.735,z],[x,.61,z],[x+.04,.555,z],[6.16,.555,z]],.018,white);
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(p,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();const basinAO=[];for(let j=0;j<profile.length;j++)for(let i=0;i<=N;i++){const a=j<4?1:1-(j-3)*.085;basinAO.push(a,a,a);}geo.setAttribute('color',new THREE.Float32BufferAttribute(basinAO,3));const m=porcelain.clone();m.vertexColors=true;m.side=THREE.DoubleSide;put(new THREE.Mesh(geo,m),'Bathroom wall-mounted sink');
+  box(x,.742,z,.32,.014,.43,porcelain,.006);cylinder(x,.756,z,.016,.008,bathChrome);
+  cylinder(6.13,.922,z,.022,.113,bathChrome);cylinder(6.13,.873,z,.030,.013,bathChrome);
+  tube([[6.13,.97,z],[6.11,.993,z],[6.04,.993,z],[6.02,.982,z]],.013,bathChrome);
+  cylinder(6.02,.978,z,.014,.020,bathChrome);box(6.13,1.011,z,.071,.009,.023,bathChrome,.004);
+  tube([[x,.735,z],[x,.61,z],[x+.04,.555,z],[6.19,.555,z]],.018,white);
+  const flange=cylinder(6.202,.555,z,.027,.012,bathChrome);flange.rotation.z=Math.PI/2;
   mirror(new THREE.CircleGeometry(.225,64),6.190,1.56,z,-Math.PI/2,'Bathroom plain round mirror');
-  const backing=new THREE.Mesh(new THREE.CylinderGeometry(.227,.227,.007,64),metal);backing.rotation.z=Math.PI/2;backing.position.set(6.196,1.56,z);put(backing);
+  const backing=new THREE.Mesh(new THREE.CylinderGeometry(.227,.227,.007,64),metal);backing.rotation.z=Math.PI/2;backing.position.set(6.196,1.56,z);put(backing);const mount=cylinder(6.204,1.56,z,.060,.012,white);mount.rotation.z=Math.PI/2;
  }
  function toilet(){
-  const model=toiletModel(porcelain,metal);scene.add(model);named.toilet=model;
+  const model=toiletModel(porcelain,bathChrome);scene.add(model);named.toilet=model;
   // Bidet and holder remain on the actual window wall, on either side of the toilet.
-  box(6.186,.74,5.20,.025,.06,.04,metal,.006);bar([6.17,.68,5.20],[6.17,.81,5.20],.014);bar([6.17,.81,5.20],[6.12,.81,5.20],.019);
-  tube([[6.17,.68,5.20],[6.08,.27,5.17],[5.98,.19,5.28],[6.10,.62,5.37]],.007,metal);
-  bar([6.20,.70,6.015],[6.04,.70,6.015],.013);bar([6.04,.70,5.94],[6.04,.70,6.10],.012);
-  const paper=cylinder(6.04,.70,6.02,.060,.145,standard('#eee9de',.95));paper.rotation.x=Math.PI/2;
+  box(6.204,.74,5.20,.016,.056,.036,bathChrome,.004);box(6.186,.74,5.20,.025,.06,.04,metal,.006);bar([6.17,.68,5.20],[6.17,.81,5.20],.014);bar([6.17,.81,5.20],[6.12,.81,5.20],.019);
+  tube([[6.17,.68,5.20],[6.08,.27,5.17],[5.98,.19,5.28],[6.10,.25,5.37],[6.20,.25,5.37]],.007,bathChrome);
+  const valve=cylinder(6.20,.25,5.37,.021,.035,bathChrome);valve.rotation.z=Math.PI/2;
+  const paperMount=cylinder(6.204,.70,6.015,.024,.012,bathChrome);paperMount.rotation.z=Math.PI/2;bar([6.20,.70,6.015],[6.04,.70,6.015],.013);bar([6.04,.70,5.94],[6.04,.70,6.10],.012);
+  const paper=new THREE.Mesh(new THREE.LatheGeometry([[.021,-.0725],[.057,-.0725],[.060,-.069],[.060,.069],[.057,.0725],[.021,.0725],[.021,-.0725]].map(p=>new THREE.Vector2(...p)),64),standard('#eee9de',.95));paper.position.set(6.04,.70,6.02);paper.rotation.x=Math.PI/2;put(paper,'Bathroom hollow paper roll');
+  const core=new THREE.Mesh(new THREE.LatheGeometry([[.019,-.072],[.022,-.072],[.022,.072],[.019,.072],[.019,-.072]].map(p=>new THREE.Vector2(...p)),48),standard('#ada185',.94));core.position.copy(paper.position);core.rotation.x=Math.PI/2;put(core,'Bathroom cardboard roll core');
+
  }
  function shower(){
   // Real recessed niche directly below the heater. Four masonry pieces leave
@@ -90,17 +99,51 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   tilesX(5.992,6.10,6.38,1.38,2.75,tileDark);
   tilesZ(6.093,6.0,6.225,.02,2.75,tileDark);
   box(5.95,1.68,6.24,.075,.40,.20,black,.025,'Bathroom black water heater');
-  cylinder(5.905,1.66,6.24,.019,.025,metal).rotation.z=Math.PI/2;
+  box(5.990,1.68,6.24,.014,.33,.14,black,.005,'Heater contacting mounting pad');
+  box(5.909,1.70,6.24,.006,.29,.145,standard('#1b1e20',.44),.018,'Heater inset front fascia');
+  box(5.904,1.525,6.24,.006,.009,.042,standard('#6c3b35',.6),.002,'Heater small status lens');
+  cylinder(5.905,1.66,6.24,.019,.025,bathChrome).rotation.z=Math.PI/2;
   for(const z of [6.18,6.31])bar([6.0,.97,z],[5.92,.97,z],.013);
   bar([5.92,.96,6.30],[5.92,2.17,6.30],.014);
   tube([[5.92,2.16,6.30],[5.92,2.28,6.35],[5.83,2.31,6.48],[5.75,2.31,6.59]],.015);
-  const rain=cylinder(5.74,2.285,6.59,.108,.018,metal);for(let i=0;i<24;i++){const a=i*Math.PI/12;const dot=new THREE.Mesh(new THREE.SphereGeometry(.0035,4,4),black);dot.position.set(5.74+.07*Math.cos(a),2.273,6.59+.07*Math.sin(a));put(dot);}
-  tube([[5.91,1.47,6.23],[5.82,.63,6.25],[5.88,.68,6.36],[5.91,1.22,6.30]],.006);
-  bar([5.91,1.20,6.30],[5.865,1.40,6.30],.013);sphere(5.86,1.43,6.30,.015,.043,.026,metal);
-  box(5.90,.018,6.73,.12,.005,.12,metal,.002,'Bathroom floor drain');for(let i=0;i<5;i++)box(5.858+i*.021,.021,6.73,.007,.001,.082,black,0);
+  cylinder(5.75,2.300,6.59,.014,.026,bathChrome);
+  const rain=cylinder(5.74,2.285,6.59,.108,.018,bathChrome);cylinder(5.74,2.274,6.59,.099,.004,bathChrome);
+  for(const [radius,count]of [[.035,12],[.063,20],[.085,28]])for(let i=0;i<count;i++){const a=i*Math.PI*2/count;const dot=new THREE.Mesh(new THREE.SphereGeometry(.0016,6,4),black);dot.position.set(5.74+radius*Math.cos(a),2.271,6.59+radius*Math.sin(a));put(dot);}
+  cylinder(5.915,1.480,6.23,.010,.025,white);
+  tube([[5.91,1.47,6.23],[5.84,.91,6.22],[5.82,.58,6.26],[5.83,.55,6.34],[5.88,.73,6.34],[5.91,1.22,6.30]],.006,bathChrome);
+  bar([5.91,1.20,6.30],[5.865,1.40,6.30],.013);sphere(5.86,1.43,6.30,.015,.043,.026,bathChrome);
+  sphere(5.842,1.43,6.30,.003,.035,.022,black);
+  for(let i=0;i<9;i++){const a=i*Math.PI*2/9;sphere(5.838,1.43+.023*Math.cos(a),6.30+.013*Math.sin(a),.0015,.0015,.0015,bathChrome);}
+  box(5.90,.013,6.73,.12,.005,.12,metal,.002,'Bathroom floor drain');for(let i=0;i<5;i++)box(5.858+i*.021,.0157,6.73,.007,.0002,.082,black,0);
   // The three triangular trays and simplified contents are Blender-authored
   // in final-room-props.glb; do not duplicate the old rectangular empty rack.
   named.bathShelf={userData:{tiers:3,triangular:true,empty:false}};
+ }
+
+ // Decorative sign on the real opposite shower wall; it is outside the locked
+ // shower camera. Its lettering and bear/towel drawing are thin vector geometry,
+ // not an electrical plate, room image, billboard or copied wall photograph.
+ function bathPlaque(){
+  const start=scene.children.length,x=5.055,y=1.75,z=6.20;
+  const ink=standard('#242525',.94),paper=standard('#f2f1e9',.90),aqua=standard('#98c7c5',.87);
+  box(x,y,z,.014,.64,.43,paper,.003);
+  const P=(u,v,offset=.008)=>[x+offset,y+v,z-u];
+  const line=(points,r=.0018,m=ink)=>tube(points.map(p=>P(...p)),r,m);
+  const glyph={G:[[[.9,.85],[.7,1],[.25,1],[0,.75],[0,.25],[.25,0],[.9,0],[.9,.5],[.55,.5]]],O:[[[.25,0],[0,.25],[0,.75],[.25,1],[.75,1],[1,.75],[1,.25],[.75,0],[.25,0]]],B:[[[0,0],[0,1],[.65,1],[1,.8],[.65,.55],[0,.55]],[[.65,.55],[1,.3],[.8,0],[0,0]]],A:[[[0,0],[.50,1],[1,0]],[[.23,.40],[.77,.40]]],T:[[[0,1],[1,1]],[[.5,1],[.5,0]]],H:[[[0,0],[0,1]],[[1,0],[1,1]],[[0,.5],[1,.5]]]};
+  let cursor=-.16;for(const ch of 'GO BATH'){if(ch===' '){cursor+=.018;continue;}for(const path of glyph[ch])line(path.map(([u,v])=>[cursor+u*.042,.202+v*.060]),.0024);cursor+=.053;}
+  // Puffy white bear silhouette with a cyan bath towel over its head and side.
+  const outline=[];for(let i=0;i<=72;i++){const a=i/72*Math.PI*2,r=1+.045*Math.cos(11*a);outline.push([-.026+.105*Math.cos(a)*r,-.045+.133*Math.sin(a)*r]);}line(outline,.0026);
+  for(const side of [-1,1]){const ear=[];for(let i=0;i<=24;i++){const a=i/24*Math.PI*2;ear.push([-.026+side*.068+.022*Math.cos(a),.064+.025*Math.sin(a)]);}line(ear,.0023);}
+  for(const u of [-.059,.005])sphere(...P(u,.015,.010),.0015,.006,.006,ink);
+  sphere(...P(-.028,-.019,.010),.0018,.013,.010,ink);
+  line([[-.036,-.033],[-.028,-.041],[-.018,-.033]],.0015);
+  // A raised blue towel panel with a rolled upper arch and hanging lower end.
+  box(x+.010,y-.050,z-.092,.003,.285,.080,aqua,.001);
+  line([[.055,-.194],[.145,-.194],[.145,.049],[.124,.112],[.082,.139],[.040,.131],[.019,.104]],.0028);
+  const hood=put(new THREE.Mesh(new THREE.TorusGeometry(.067,.020,8,40,Math.PI*.90),aqua));hood.rotation.y=Math.PI/2;hood.position.set(x+.010,y+.070,z-.076);
+  line([[-.085,-.159],[-.099,-.183],[-.085,-.203],[-.062,-.194],[-.036,-.207],[-.005,-.194],[.020,-.201],[.048,-.181]],.0025);
+  const g=new THREE.Group();g.name='Bathroom GO BATH decorative plaque';g.userData={decorative:true,electrical:false,label:'GO BATH',reference:'IMG_9965',outsideLockedShowerView:true};
+  for(const o of scene.children.slice(start)){scene.remove(o);g.add(o);}scene.add(g);named.bathPlaque=g;
  }
 
  // Bedroom's fixed feature wall, AC-support mass, closed wardrobe and side-wall furniture.
@@ -169,13 +212,13 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
  tilesZ(4.451,5.025,6.225,.02,2.75,tileLight);tilesX(5.043,5.28,6.96,.02,2.75,tileLight);tilesZ(6.957,5.025,6.225,.02,2.75,tileLight);
  // Split tile fields exactly at opening edges, avoiding missing / overlapping tiles.
  tilesX(6.213,4.52,5.28,.02,2.75,tileDark);tilesX(6.213,6.02,6.96,.02,2.75,tileDark);tilesX(6.213,5.28,6.02,.02,1.03,tileDark);tilesX(6.213,5.28,6.02,2.48,2.75,tileDark);
- for(let x=4.95;x<6.3-.001;x+=.30)for(let z=4.43;z<7.05-.001;z+=.30){const w=Math.min(.30,6.3-x),d=Math.min(.30,7.05-z);box(x+w/2,.009,z+d/2,w-.003,.012,d-.003,tileFloor,.001).castShadow=false;}
+ for(let x=4.95;x<6.3-.001;x+=.30)for(let z=4.43;z<7.05-.001;z+=.30){const w=Math.min(.30,6.3-x),d=Math.min(.30,7.05-z);box(x+w/2,.009,z+d/2,w-.003,.012,d-.003,tileFloor,.0005).castShadow=false;}
  const frosted=new THREE.MeshPhysicalMaterial({color:'#d8e4e5',roughness:.72,metalness:0,emissive:'#bfd4dd',emissiveIntensity:.20,envMapIntensity:.2});
  box(6.28,1.755,5.65,.016,1.37,.66,frosted,.001,'Bathroom frosted window');
  for(const z of [5.28,6.02])box(6.245,1.755,z,.11,1.50,.045,black,.004);
  for(const y of [1.03,2.48])box(6.245,y,5.65,.11,.045,.78,black,.004);
  box(6.145,1.04,5.65,.18,.028,.80,tileDark,.001);bar([6.18,1.08,5.57],[6.18,1.08,5.72],.009,metal);
- basin();toilet();shower();cylinder(5.55,2.744,5.66,.095,.020,white);cylinder(5.55,2.73,5.66,.077,.010,lightFace);
+ basin();toilet();shower();bathPlaque();cylinder(5.55,2.761,5.66,.077,.014,white);cylinder(5.55,2.744,5.66,.095,.020,white);cylinder(5.55,2.73,5.66,.077,.010,lightFace);
  const windowFill=new THREE.PointLight('#edf3ef',1.6,2.6,2);windowFill.position.set(6.08,1.85,5.65);scene.add(windowFill);
  box(4.95,.020,4.88,.075,.006,.80,metal,.001,'Bathroom threshold');
  // Real transition soffit remains outside the living-window alcove.
@@ -183,6 +226,6 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   const underside=new THREE.Mesh(new THREE.PlaneGeometry(3.15,1.18),soffitMat);underside.rotation.x=Math.PI/2;underside.position.set(4.72,2.598,4.96);underside.receiveShadow=true;scene.add(underside);
  cylinder(4.35,2.586,4.98,.09,.020,white);cylinder(4.35,2.573,4.98,.067,.008,lightFace);
  function key(x,z,power,target,shadow,name){const l=new THREE.SpotLight('#ffe6cf',power,4.5,1.2,1,2);l.position.set(x,2.60,z);l.target.position.set(...target);scene.add(l,l.target);l.castShadow=shadow;if(shadow){l.shadow.mapSize.set(512,512);l.shadow.bias=-.0002;l.shadow.normalBias=.018;l.shadow.radius=4;l.shadow.blurSamples=8;shadowLights.push(l);}lights.push(l);l.name=name;return l;}
- key(4.36,1.55,13,[5.10,.45,2.40],true,'Bedroom ceiling key');key(5.0,3.66,3,[5.2,.3,3.0],false,'Bedroom south ceiling fill');key(5.55,5.66,7,[5.9,.3,5.8],true,'Bathroom ceiling key');key(4.35,4.98,3,[4.3,.4,4.9],false,'Hallway soffit fill');
- return {named,mirrors,lights,charcoal,porcelain,updateNight(n){frosted.emissiveIntensity=n?.20:.45;windowFill.intensity=n?1.0:2.5;}};
+ key(4.36,1.55,13,[5.10,.45,2.40],true,'Bedroom ceiling key');key(5.0,3.66,3,[5.2,.3,3.0],false,'Bedroom south ceiling fill');const bathKey=key(5.55,5.66,7,[5.9,.3,5.8],true,'Bathroom ceiling key');bathKey.shadow.mapSize.set(1024,1024);bathKey.shadow.normalBias=.005;key(4.35,4.98,3,[4.3,.4,4.9],false,'Hallway soffit fill');
+ return {named,mirrors,lights,charcoal,porcelain,updateNight(n){frosted.emissiveIntensity=n?.15:.25;windowFill.intensity=n?1.0:1.8;}};
 }

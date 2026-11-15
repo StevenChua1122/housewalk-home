@@ -12,6 +12,9 @@ for(const p of ['v4/assets/models/bedroom-soft.glb','v4/assets/models/sofa-tailo
 (async()=>{const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 try{const page=await browser.newPage({viewport:{width:640,height:480}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.goto(process.env.HOUSEWALK_URL||'http://127.0.0.1:8000/v4/');await page.waitForFunction(()=>window.__HW4_ASSETS&&window.__HW4_MATERIALS,{},{timeout:90000});
+// Optional software-GPU interaction buffer reduction; geometry and CSS input
+// coordinates stay complete. Visual acceptance uses the unmodified capture tool.
+if(process.env.HW_PROOF_RENDER_SCALE)await page.evaluate(scale=>{const s=Math.max(.25,Math.min(1,scale));HWScene.renderer.setPixelRatio(1);HWScene.renderer.setSize(Math.round(innerWidth*s),Math.round(innerHeight*s),false);for(const m of HWScene.rooms.mirrors)m.getRenderTarget().setSize(128,128);},Number(process.env.HW_PROOF_RENDER_SCALE));
 const proof=await page.evaluate(async()=>{
  const T=await import('/v4/vendor/three.module.min.js'),S=HWScene;S.scene.updateMatrixWorld(true);
  const root=n=>S.scene.getObjectByName(T.PropertyBinding.sanitizeNodeName(n)),bounds=o=>new T.Box3().setFromObject(o);
@@ -28,9 +31,9 @@ const proof=await page.evaluate(async()=>{
  });
  const bands=[];for(const r of intervals.sort((a,b)=>a[0]-b[0])){const last=bands.at(-1);if(last&&r[0]<=last[1]+.001)last[1]=Math.max(last[1],r[1]);else bands.push(r);}
  const art=[];root('Kitchen simplified countertop').traverse(o=>{if(o.isMesh&&o.material.name==='IMG_9974 isolated mug artwork'){const b=bounds(o);art.push({width:b.max.x-b.min.x,texture:[o.material.map.image.width,o.material.map.image.height]});}});
- return {binClearance:6.31-bin.max.z,binBounds:[bin.min.x,bin.max.x,bin.min.z,bin.max.z],nicheDepth:niche-front,trays,outside,cabinetDoorBands:bands,mugArtwork:art,hasMop:!!S.doorGroups[1].getObjectByName('Bathroom_inside-door_mop')};
+ return {binClearance:6.31-bin.max.z,binBounds:[bin.min.x,bin.max.x,bin.min.z,bin.max.z],nicheDepth:niche-front,trays,outside,cabinetDoorBands:bands,mugArtwork:art,hasMop:!!S.doorGroups[1].getObjectByName('Bathroom_inside-door_mop'),decorativePlaque:S.rooms.named.bathPlaque?.userData};
 });
-assert(proof.binClearance>.59&&proof.binClearance<.62);assert(proof.nicheDepth>.075);assert.equal(proof.trays.length,3);assert.equal(proof.outside,0);assert.equal(proof.cabinetDoorBands.length,5);assert.equal(proof.mugArtwork.length,1);assert(proof.mugArtwork[0].width>.22);assert(proof.hasMop);
+assert(proof.binClearance>.59&&proof.binClearance<.62);assert(proof.nicheDepth>.075);assert.equal(proof.trays.length,3);assert.equal(proof.outside,0);assert.equal(proof.cabinetDoorBands.length,5);assert.equal(proof.mugArtwork.length,1);assert(proof.mugArtwork[0].width>.22);assert(proof.hasMop);assert.equal(proof.decorativePlaque?.label,'GO BATH');assert.equal(proof.decorativePlaque.electrical,false);
 const occlusion=[];
 for(const open of [true,false]){
  await page.evaluate(open=>HousewalkBridge.doors[1].open=open,open);const f=await page.evaluate(()=>__HW4_FRAME);await page.waitForFunction(f=>__HW4_FRAME>f+1,f,{timeout:90000});
@@ -55,5 +58,5 @@ for(const target of route){const start=await page.evaluate(()=>({x:HousewalkBrid
  await page.waitForFunction(({s,dx,dz,len})=>{const p=HousewalkBridge.player;return ((p.x-s.x)*dx+(p.z-s.z)*dz)/len>=len-.025},{s:start,dx,dz,len},{timeout:90000});await page.mouse.up();
  const p=await page.evaluate(()=>({x:HousewalkBridge.player.x,z:HousewalkBridge.player.z}));assert(Math.hypot(p.x-target.x,p.z-target.z)<.14);assert.equal(await page.evaluate(p=>HousewalkBridge.isBlocked(p.x,p.z),p),false);walk.push(p);console.log(JSON.stringify({walkTarget:target,position:p}));
 }
-assert.deepEqual(errors,[]);const result={frozenBedroomEntrance:'PASS',frozenArchitectureDoorAndMop:'PASS',geometry:proof,doorOcclusion:occlusion,continuousWalk:walk,errors};fs.mkdirSync('v4/qa/owner-final',{recursive:true});fs.writeFileSync('v4/qa/owner-final/proofs.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+assert.deepEqual(errors,[]);const result={frozenBedroomEntrance:'PASS',frozenArchitectureDoorAndMop:'PASS',geometry:proof,doorOcclusion:occlusion,continuousWalk:walk,errors};const output=process.env.HW_PROOF_DIR||'v4/qa/owner-final';fs.mkdirSync(output,{recursive:true});fs.writeFileSync(output+'/proofs.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});

@@ -227,13 +227,8 @@ def visible_console_details():
  box('Trolley pink organiser',(2.81,.73,3.43),(.25,.11,.18),pink,.015)
  bottle('Trolley small pump',2.83,.68,3.20,white,.13,.022,True)
 
-group('Kitchen washer appliances',appliances);group('Kitchen simplified countertop',countertop);group('Kitchen separated mesh bin',bin_mesh)
-group('Bathroom approved accessories',bathroom);group('Hallway broom and red dustpan',broom);group('Hallway visible sofa plush',plush);group('Hallway visible console and trolley details',visible_console_details)
-bpy.ops.object.select_all(action='SELECT');bpy.ops.export_scene.gltf(filepath=str(out/'final-room-props.glb'),export_format='GLB',export_apply=True,export_yup=True)
-
 # Local door coordinates: inside is NEGATIVE local Z. Parenting to the existing
 # hinge naturally hides the mop behind the open leaf, without visibility toggles.
-bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 def mop():
  box('High middle door hook',(.39,1.82,-.045),(.04,.035,.025),steel)
  cord('Door hook return',[(.39,1.82,-.05),(.39,1.80,-.095),(.39,1.83,-.105)],.006,steel)
@@ -243,5 +238,10 @@ def mop():
  for i in range(48):
   a=i*2.4;r=.015+.035*(i%7)/6;xx=.39+r*math.cos(a);zz=-.10+r*math.sin(a)
   cord('Long lime mop strands',[(.39+.012*math.cos(a),.365,-.09+.012*math.sin(a)),(xx,.22,zz),(xx+.004*math.sin(i),.12+(i%4)*.008,zz)],.0028,lime)
-group('Bathroom inside-door mop',mop)
-bpy.ops.object.select_all(action='SELECT');bpy.ops.export_scene.gltf(filepath=str(out/'bathroom-door-mop.glb'),export_format='GLB',export_apply=True,export_yup=True)
+if __name__=='__main__':
+ group('Kitchen washer appliances',appliances);group('Kitchen simplified countertop',countertop);group('Kitchen separated mesh bin',bin_mesh)
+ group('Bathroom approved accessories',bathroom);group('Hallway broom and red dustpan',broom);group('Hallway visible sofa plush',plush);group('Hallway visible console and trolley details',visible_console_details)
+ bpy.ops.object.select_all(action='SELECT');bpy.ops.export_scene.gltf(filepath=str(out/'final-room-props.glb'),export_format='GLB',export_apply=True,export_yup=True)
+ bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
+ group('Bathroom inside-door mop',mop)
+ bpy.ops.object.select_all(action='SELECT');bpy.ops.export_scene.gltf(filepath=str(out/'bathroom-door-mop.glb'),export_format='GLB',export_apply=True,export_yup=True)

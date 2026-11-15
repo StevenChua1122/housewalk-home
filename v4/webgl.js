@@ -5,8 +5,9 @@ import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {RoomEnvironment} from './vendor/RoomEnvironment.js';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 import {interiorDetails} from './mesh-library.js';
-import {connectedRoomDetails} from './room-details.js?v=owner-final-20261115';
+import {connectedRoomDetails} from './room-details.js?v=visual-refinement-20261115';
 import {windowAlcove} from './window-alcove.js';
+import {refinedMaterials} from './refined-materials.js';
 const bridge=window.HousewalkBridge,L=window.HWLayout;
 const old=document.getElementById('view');
 let renderer;
@@ -21,6 +22,7 @@ if(renderer&&bridge&&L){
  THREE.DefaultLoadingManager.onLoad=()=>{window.__HW4_MATERIALS=true;renderer.shadowMap.needsUpdate=true;};
  const loader=new THREE.TextureLoader(),aniso=Math.min(8,renderer.capabilities.getMaxAnisotropy());
  function tex(name,color=false){const t=loader.load('./assets/materials/'+name);t.wrapS=t.wrapT=THREE.MirroredRepeatWrapping;t.anisotropy=aniso;if(color)t.colorSpace=THREE.SRGBColorSpace;return t;}
+ const refined=refinedMaterials(tex);
  const oak=tex('oak-albedo.jpg',true),oakN=tex('oak-normal.webp'),oakR=tex('oak-roughness.jpg');
  const fabric=tex('fabric-color.jpg',true),fabricN=tex('fabric-normal.webp'),cabinetMap=tex('cabinet-weave.jpg',true);
  const standard=(color,roughness=.7,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness,envMapIntensity:.55});
@@ -54,11 +56,18 @@ if(renderer&&bridge&&L){
  // One inexpensive contact-occlusion field anchors the furniture to the same floor.
  // Authored from collision footprints; no photographic shadows or scene background.
  const aoSize=512,aoBytes=new Uint8Array(aoSize*aoSize*4);
- const contactBounds=L.colliders.filter(b=>(b.x1-b.x0)>.17&&(b.z1-b.z0)>.17);
- for(const x of [.15,1.65])for(const z of [3.85,4.55])contactBounds.push({x0:x-.035,x1:x+.035,z0:z-.035,z1:z+.035});
+ // Use actual floor contacts: open table/shelf frames must not paint a solid
+ // collider-sized rectangle onto the oak. Bedroom contacts remain inherited.
+ const contactBounds=L.colliders.filter(b=>b.x0>=3.15&&b.z1<=4.37).map(b=>({...b,weight:.29,falloff:.09}));
+ for(const [x0,x1,z0,z1,weight,falloff]of [[.06,.985,1.20,3.34,.30,.075],[2.59,3.04,1.10,3.12,.27,.06],[2.59,4.24,6.42,7.0,.28,.055],[4.245,4.855,6.35,6.97,.26,.055],[1.75,2.55,6.31,6.99,.28,.06],[4.44,4.68,5.42,5.70,.25,.045],[5.69,6.15,5.55,5.85,.26,.055],[5.86,6.02,4.67,4.83,.20,.04],[5.80,5.96,4.94,5.10,.20,.04]])contactBounds.push({x0,x1,z0,z1,weight,falloff});
+ const foot=(x,z,r=.026)=>contactBounds.push({x0:x-r,x1:x+r,z0:z-r,z1:z+r,weight:.37,falloff:.045});
+ for(const x of [.15,1.65])for(const z of [3.85,4.55])foot(x,z);
+ for(const x of [.459375,1.25625])for(const [z,side]of [[3.57,-1],[4.83,1]])for(const xx of [x-.178125,x+.178125])for(const zz of [z+side*.205,z-side*.19])foot(xx,zz,.020);
+ for(const x of [2.615,3.065])for(const z of [.55,1.09])foot(x,z,.018);
+ for(const x of [2.63,2.99])for(const z of [3.16,3.70])foot(x,z,.025);
  for(let j=0;j<aoSize;j++)for(let i=0;i<aoSize;i++){
   const x=i/(aoSize-1)*6.3,z=(1-j/(aoSize-1))*7.05;let shade=0;
-  for(const b of contactBounds){const dx=Math.max(b.x0-x,0,x-b.x1),dz=Math.max(b.z0-z,0,z-b.z1),dist=Math.hypot(dx,dz);shade=Math.max(shade,.29*Math.exp(-dist/.09));}
+  for(const b of contactBounds){const dx=Math.max(b.x0-x,0,x-b.x1),dz=Math.max(b.z0-z,0,z-b.z1),dist=Math.hypot(dx,dz);shade=Math.max(shade,b.weight*Math.exp(-dist/b.falloff));}
   const k=(j*aoSize+i)*4;aoBytes[k+3]=Math.round(shade*255);
  }
  const contactMap=new THREE.DataTexture(aoBytes,aoSize,aoSize);contactMap.minFilter=contactMap.magFilter=THREE.LinearFilter;contactMap.needsUpdate=true;
@@ -94,7 +103,7 @@ if(renderer&&bridge&&L){
  for(const [x,z0,z1] of [[.083,1.0,7.0],[3.065,.05,4.27],[4.865,5.32,7],[6.215,.08,7]])box(x,.055,(z0+z1)/2,.018,.10,z1-z0,white);
  for(const [z,x0,x1] of [[6.965,1.35,4.86],[4.285,3.2,3.39],[4.285,4.31,6.2]])box((x0+x1)/2,.055,z,x1-x0,.10,.018,white);
  // Detail mesh from the established models, with corrected geometry winding and independent PBR maps.
- const {vertices}=interiorDetails();const buckets=new Map();
+ const {vertices}=interiorDetails({refinedRooms:true});const buckets=new Map();
  for(let i=0;i<vertices.length;i+=36){const ids=[i,i+12,i+24],p=ids.map(k=>new THREE.Vector3(vertices[k],vertices[k+1],vertices[k+2]));
   const face=new THREE.Vector3().subVectors(p[1],p[0]).cross(new THREE.Vector3().subVectors(p[2],p[0]));const normal=new THREE.Vector3(vertices[i+3],vertices[i+4],vertices[i+5]);if(face.dot(normal)<0)[ids[1],ids[2]]=[ids[2],ids[1]];
   const sourceMaterial=Math.round(vertices[i+11]);const m=sourceMaterial===7&&p.every(v=>v.z>6.2&&v.x<4.9)?16:sourceMaterial;if(!buckets.has(m))buckets.set(m,{p:[],n:[],uv:[],c:[]});const b=buckets.get(m);
@@ -102,7 +111,7 @@ if(renderer&&bridge&&L){
  }
  for(const [id,b]of buckets){const geo=new THREE.BufferGeometry();for(const [n,ar,sz]of [['position',b.p,3],['normal',b.n,3],['uv',b.uv,2],['color',b.c,3]])geo.setAttribute(n,new THREE.Float32BufferAttribute(ar,sz));geo.normalizeNormals();const m=materials[id].clone();m.vertexColors=true;add(new THREE.Mesh(geo,m),id!==14);}
  // Grey textured refrigerator surround reaches the ceiling; two narrow mesh racks sit alongside it.
- box(1.752,1.385,6.66,.032,2.77,.76,materials[9]);box(2.553,1.385,6.66,.032,2.77,.76,materials[9]);
+ // The same refrigerator surround is part of kitchen-refined.glb.
  const rackMaterial=standard('#252728',.43,.35);const racks=[];
  for(const x of [1.44,1.65]){const group=new THREE.Group();group.name='Shoe rack '+(racks.length+1);group.userData={shelves:6,width:.18,depth:.50,height:1.22,orientation:'perpendicular to entrance door'};
   const start=scene.children.length;
@@ -134,16 +143,23 @@ if(renderer&&bridge&&L){
  bar([1.35,2.67,.32],[3.10,2.67,.32],.010,metal);
  const glass=alcove.glass;
  // Kitchen glazing is a single operable pane, not a room photograph.
- const kitchenGlass=glass.clone();kitchenGlass.color.set('#afcede');kitchenGlass.roughness=.25;kitchenGlass.opacity=.65;kitchenGlass.emissive.set('#7bacc7');kitchenGlass.emissiveIntensity=.18;box(3.92,1.385,7.015,.85,.59,.006,kitchenGlass,false);
+ const kitchenGlass=glass.clone();kitchenGlass.color.set('#b9d7e5');kitchenGlass.roughness=.68;kitchenGlass.opacity=.93;kitchenGlass.emissive.set('#7bacc7');kitchenGlass.emissiveIntensity=.25;box(3.92,1.385,7.015,.85,.59,.006,kitchenGlass,false);
  // Shared exterior geometry gives both north windows a consistent sunlit city view.
  const outside=standard('#cad0c9',.88),blueGlass=standard('#94b9c8',.20,.35),windowGlow=new THREE.MeshStandardMaterial({color:'#94b0b7',emissive:'#c5c6a6',emissiveIntensity:0,roughness:.3});
  for(const bx of [-3.3,1.3,6.1,10.8]){
   const bz=-32-(bx>5?5:0);box(bx,1.3,bz,3.6,19,.8,outside);
   for(let xx=bx-1.45;xx<bx+1.5;xx+=.72)for(let y=-7;y<10;y+=.86){box(xx,y,bz+.425,.49,.61,.025,blueGlass);box(xx,y-.34,bz+.52,.64,.055,.24,outside);if(rand()>.8)box(xx,y,bz+.442,.44,.55,.008,windowGlow);}
  }
- const foliage=new THREE.MeshStandardMaterial({color:'#81915b',roughness:1});
- const trees=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,2),foliage,54),tm=new THREE.Object3D();
- for(let i=0;i<54;i++){tm.position.set(-6+rand()*19,-4.2+rand()*1.2,-14.0-rand()*4.5);tm.scale.set(.38+rand()*.7,.38+rand()*.5,.38+rand()*.7);tm.updateMatrix();trees.setMatrixAt(i,tm.matrix);trees.setColorAt(i,new THREE.Color().setHSL(.20+rand()*.08,.20+rand()*.18,.30+rand()*.15));}scene.add(trees);
+ const foliage=new THREE.MeshStandardMaterial({color:'#718e42',roughness:1});
+ const trees=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),foliage,54*12),tm=new THREE.Object3D();
+ for(let i=0;i<54;i++){
+  const cx=-6+rand()*19,cy=-2.3+rand()*1.2,cz=-14.0-rand()*4.5,r=.70+rand()*1.1;
+  for(let j=0;j<12;j++){
+   const a=rand()*Math.PI*2,t=rand()*2-1,s=Math.sqrt(1-t*t),leaf=.22+rand()*.27;
+   tm.position.set(cx+r*s*Math.cos(a)*.70,cy+r*t*.75,cz+r*s*Math.sin(a)*.70);tm.scale.set(leaf,leaf*.80,leaf);tm.updateMatrix();trees.setMatrixAt(i*12+j,tm.matrix);
+   trees.setColorAt(i*12+j,new THREE.Color().setHSL(.20+rand()*.08,.35+rand()*.18,.36+rand()*.15,THREE.SRGBColorSpace));
+  }
+ }scene.add(trees);
  nightWindows.push(windowGlow);box(3.9,2,9.2,4.6,5,.20,wall);
  // Door transforms and navigation share the same source-plan coordinates.
  const doorGroups=[];
@@ -174,42 +190,45 @@ scene.add(g);doorGroups.push(g);
   for(const o of batch){scene.remove(o);o.geometry.dispose();}for(const g of geos)g.dispose();
  }
  // Retained living/kitchen keys; room-details adds two smaller cached bedroom/bath keys.
- const hemi=new THREE.HemisphereLight('#fff0dd','#fff0dd',.72);scene.add(hemi);
+ const hemi=new THREE.HemisphereLight('#edf3f8','#bfa98a',.72);scene.add(hemi);
  function spot(x,z,intensity,shadow=false,tx=x,tz=z){const l=new THREE.SpotLight('#ffe5cf',intensity,12,1.32,1.0,2);l.position.set(x,2.60,z);l.target.position.set(tx,.2,tz);scene.add(l,l.target);l.castShadow=shadow;if(shadow){l.shadow.mapSize.set(1024,1024);l.shadow.bias=-.00015;l.shadow.normalBias=.025;l.shadow.radius=5;l.shadow.blurSamples=8;l.shadow.camera.near=.12;l.shadow.camera.far=10;}fixtureLights.push(l);return l;}
  spot(1.70,3.49,12,true);spot(1.70,1.39,5).angle=.80;spot(2.22,.48,3.2).angle=.85;
  spot(.45,4.24,7,false,.7,4.2);spot(1.30,4.24,7,false,1.2,4.2);spot(1.78,4.72,7,false,.95,4.2);
  spot(3.65,5.70,15,true,3.85,6.50);spot(.85,6.24,6);
- const task=new THREE.PointLight('#ffebd4',3,2,2);task.position.set(3.7,1.70,6.64);scene.add(task);
+ const task=new THREE.PointLight('#ffebd4',1.6,1.7,2);task.position.set(2.95,1.70,6.64);scene.add(task);
  // Bounded counter bounce faces south into the kitchen, keeping the frozen
  // bedroom out of its cone. The existing keys/sun still provide real shadows.
  const kitchenFill=new THREE.SpotLight('#fff1df',5,3,.85,1,2);kitchenFill.name='Kitchen counter bounce';kitchenFill.position.set(3.70,1.90,5.40);kitchenFill.target.position.set(3.60,.80,6.70);scene.add(kitchenFill,kitchenFill.target);
+ const livingBounce=new THREE.PointLight('#ffe7ca',3.5,4.2,2);livingBounce.position.set(1.45,1.65,2.35);scene.add(livingBounce);
+ const kitchenWindowFill=new THREE.PointLight('#e4eff4',2.0,2.0,2);kitchenWindowFill.position.set(3.92,1.54,6.80);scene.add(kitchenWindowFill);
  // Actual sunlight is shadowed by the shell, frames, curtains and furniture.
- const daylight=new THREE.DirectionalLight('#ffe3bc',3.8);daylight.position.set(1.4,7,-12);daylight.target.position.set(3.2,0,4.0);scene.add(daylight,daylight.target);
+ const daylight=new THREE.DirectionalLight('#ffe3bc',3.8);daylight.position.set(5.0,6.5,-12);daylight.target.position.set(1.5,0,4.0);scene.add(daylight,daylight.target);
  daylight.castShadow=true;daylight.shadow.mapSize.set(2048,2048);Object.assign(daylight.shadow.camera,{left:-5.2,right:5.2,top:6.3,bottom:-6.3,near:.2,far:35});daylight.shadow.camera.updateProjectionMatrix();daylight.shadow.bias=-.00010;daylight.shadow.normalBias=.012;daylight.shadow.radius=2;daylight.shadow.blurSamples=8;
  const windowBounces=[];for(const x of [2.22,4.10]){const l=new THREE.PointLight('#fff2db',4,4.6,2);l.position.set(x,1.65,.70);scene.add(l);windowBounces.push(l);}
  const fixturePower=fixtureLights.map(l=>l.intensity),roomPower=rooms.lights.map(l=>l.intensity);
  const heroLoader=new GLTFLoader();
- async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file);const g=gltf.scene;
+ async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file+'?v=visual-refinement-20261115');const g=gltf.scene;
   if(kind==='sofa'){g.scale.set(.94,1,.90);g.position.z=.12;}
   else if(kind==='curtain'){g.scale.x=.944;g.position.x=.115;g.position.z=-.66;}
   g.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;const name=o.material?.name||'';
-   if(kind==='curtain'||name.includes('taupe'))o.material=taupe;
+   if(kind!=='bedroom'){o.material=refined.material(o.material);return;}
+   if(name.includes('taupe'))o.material=taupe;
    else if(!name.includes('timber')){const m=o.material.clone();if(name.includes('Grey'))m.color.set('#77736e');if(name.includes('Bedroom grey'))m.color.set('#76716b');if(name.includes('Bedroom cream'))m.color.set('#e5ddce');if(name.includes('Cream'))m.color.set('#e3d9c8');if(name.includes('orange'))m.color.set('#b85c1d');if(name.includes('piping'))m.color.set('#65615b');m.map=fabric;m.sheen=.25;m.sheenColor?.copy(m.color);m.sheenRoughness=.9;m.normalMap=fabricN;m.normalScale=new THREE.Vector2(.065,.065);m.roughness=.90;m.envMapIntensity=.20;o.material=m;}
   });scene.add(g);window.HWScene.heroGroups[kind]=g;return g;
  }
  async function props(file,parent){
-  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file);
-  g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
+  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file+'?v=visual-refinement-20261115');
+  refined.apply(g);
   parent.add(g);return g;
  }
- Promise.all([hero('sofa-tailored.glb','sofa'),hero('curtains-draped.glb','curtain'),hero('bedroom-soft.glb','bedroom'),props('final-room-props.glb',scene),props('bathroom-door-mop.glb',doorGroups[1])]).then(()=>{window.__HW4_ASSETS=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
+ Promise.all([hero('sofa-refined.glb','sofa'),hero('curtains-refined.glb','curtain'),hero('bedroom-soft.glb','bedroom'),props('final-room-props.glb',scene),props('kitchen-refined.glb',scene),props('hallway-refined.glb',scene),props('bathroom-door-mop.glb',doorGroups[1])]).then(()=>{window.__HW4_ASSETS=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
  window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms,alcove,daylight,doorGroups,heroGroups:{}};
  let previousNight=null,doorState='',lastW=0,lastH=0,first=true;
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';});
  canvas.addEventListener('webglcontextrestored',()=>location.reload());
  function render(){requestAnimationFrame(render);if(document.hidden||renderer.getContext().isContextLost())return;
   const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5);if(w!==lastW||h!==lastH){renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();lastW=w;lastH=h;}
-  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;kitchenFill.intensity=n?1:5;rooms.updateNight(n);daylight.intensity=n?.025:3.8;daylight.castShadow=!n;hemi.intensity=n?.72:.48;scene.environmentIntensity=n?.20:.28;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach(l=>l.intensity=n?0:2.8);scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
+  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;refined.updateNight(n);livingBounce.intensity=n?.55:1.5;kitchenWindowFill.intensity=n?.15:1.2;kitchenFill.intensity=n?1:3;rooms.updateNight(n);daylight.intensity=n?.025:5.2;daylight.castShadow=!n;hemi.intensity=n?.72:.40;scene.environmentIntensity=n?.25:.34;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach((l,i)=>l.intensity=n?0:(i===0?3.5:2.8));scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
   const state=bridge.doors.map(d=>d.open).join();if(state!==doorState){doorState=state;doorGroups.forEach((g,i)=>g.rotation.y=i?(bridge.doors[i].open?(bridge.doors[i].openAngle||0):-Math.PI/2):(bridge.doors[i].open?Math.PI/2:0));renderer.shadowMap.needsUpdate=true;}
   const p=bridge.player,c=bridge.camera||{};camera.position.set(p.x,c.eyeHeight||1.55,p.z);camera.rotation.set(p.pitch,-p.yaw,0,'YXZ');camera.fov=c.verticalFov||(w<h?72:75);camera.updateProjectionMatrix();renderer.info.reset();renderer.render(scene,camera);window.__HW4_FRAME=(window.__HW4_FRAME||0)+1;
   if(first){first=false;window.__HW3D_READY=true;old.style.opacity='0';canvas.style.opacity='1';document.documentElement.dataset.renderer='pbr-final';renderer.shadowMap.needsUpdate=true;}

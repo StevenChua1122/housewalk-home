@@ -1,3 +1,5 @@
+> Historical first PR #8 pass at `563ad42`. For the subsequent full visual refinement, see [VISUAL_REFINEMENT_QA.md](VISUAL_REFINEMENT_QA.md).
+
 # Bathroom, kitchen/laundry and hallway implementation review
 
 Development base: PR #7, `131ec19b2cb1bfadffb3ef3dcebaa5bbae5c49a5`.

@@ -1,5 +1,5 @@
 // Retained detailed furniture geometry from PR4, adapted to PBR buffers.
-export function interiorDetails(){
+export function interiorDetails({refinedRooms=false}={}){
  const M={floor:0,plaster:1,black:2,cream:3,sofa:4,white:5,slate:6,steel:7,curtain:8,cabinet:9,leaf:3,walnut:10,ivory:11,sky:12,dark:13,bulb:14,wood:15};
  const verts=[];let id=0;
  function color(hex){if(Array.isArray(hex))return hex;if(!hex)return [1,1,1];const v=hex.replace('#','');return [parseInt(v.slice(0,2),16)/255,parseInt(v.slice(2,4),16)/255,parseInt(v.slice(4,6),16)/255];}
@@ -281,5 +281,7 @@ export function interiorDetails(){
  for(let i=kitchenStart;i<verts.length;i+=12)verts[i]+=.40;
  }
 
- living();dining();kitchen();return {vertices:new Float32Array(verts),M};
+ // The refined room assets replace these same furniture/fixture footprints.
+ // Keep the original authoring path available for historical scene inspection.
+ if(!refinedRooms){living();dining();kitchen();}return {vertices:new Float32Array(verts),M};
 }
