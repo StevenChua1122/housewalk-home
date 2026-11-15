@@ -1,5 +1,7 @@
 # PR #8 — full visual refinement review
 
+Historical Round 2 evidence. Current niche correction and new captures: [Round 3 review](NICHE_ROUND3_QA.md).
+
 Review result: **PARTIAL visual match**, not owner approval or pixel-perfect
 matching. This pass continues `563ad42dfe3fc78a98f1926ebf743f706bc5d26d` on the
 same `codex/final-approved-bathroom-kitchen-hallway` branch. PR #8 remains draft,

@@ -19,15 +19,16 @@ export function refinedMaterials(tex){
   m.vertexColors=old.vertexColors;
   m.emissive.copy(old.emissive);m.emissiveIntensity=old.emissiveIntensity||1;
   if(n.includes('textile')){m.map=weave.map;m.normalMap=weave.normal;m.normalScale.set(.09,.09);m.roughnessMap=weave.rough;m.roughness=1;m.sheen=.42;m.sheenColor.copy(m.color);m.sheenRoughness=.92;m.envMapIntensity=.28;}
-  else if(n.includes('cabinet laminate')){m.map=cabinet.map;m.normalMap=cabinet.normal;m.normalScale.set(.035,.035);m.roughnessMap=cabinet.rough;m.roughness=.95;m.envMapIntensity=.55;}
+  else if(n.includes('cabinet laminate')){m.map=cabinet.map;m.normalMap=cabinet.normal;m.normalScale.set(.065,.065);m.roughnessMap=cabinet.rough;m.roughness=.72;m.envMapIntensity=.80;}
   else if(n.includes('timber')){m.map=oak;m.normalMap=oakN;m.normalScale.set(.10,.10);m.roughness=.48;m.envMapIntensity=.65;}
   else if(n.includes('stone countertop')){m.map=stone.map;m.normalMap=stone.normal;m.normalScale.set(.055,.055);m.roughnessMap=stone.rough;m.roughness=.50;m.clearcoat=.12;m.clearcoatRoughness=.30;}
   else if(n.includes('brushed')||n.includes('stainless')||n.includes('chrome')){m.envMapIntensity=1.85;if(!n.includes('polished')){m.normalMap=steel.normal;m.normalScale.set(.012,.045);m.roughnessMap=steel.rough;m.roughness=.42;}}
   else if(n.includes('clear acrylic')){m.roughness=.15;m.clearcoat=1;m.clearcoatRoughness=.12;m.envMapIntensity=1.0;}
-  else if(n.includes('smoked glass')){m.roughness=.12;m.metalness=.28;m.clearcoat=1;m.clearcoatRoughness=.08;m.envMapIntensity=1.5;}
+  else if(n.includes('smoked glass')){m.color.set('#263236');m.roughness=.10;m.metalness=.08;m.clearcoat=1;m.clearcoatRoughness=.08;m.envMapIntensity=1.5;}
   else if(n.includes('porcelain')){m.roughness=.20;m.clearcoat=.18;m.clearcoatRoughness=.18;m.envMapIntensity=.85;}
   else if(n.includes('polymer')||n.includes('plastic')||n.includes('enamel')||n.includes('lacquer')){m.clearcoat=.08;m.clearcoatRoughness=.34;m.envMapIntensity=.65;}
   else if(n.includes('straw')){m.normalMap=steel.normal;m.normalScale.set(.035,.12);m.roughness=.96;m.envMapIntensity=.25;}
+  if(n.includes('refrigerator brushed')){m.color.set('#a7aaa8');m.roughness=.32;m.metalness=.82;m.envMapIntensity=2.25;}
   if(n.includes('fixture lens')){m.emissive.set('#ffe5c5');m.emissiveIntensity=nightState?1.15:.75;emissives.push(m);}
   cache.set(old.uuid,m);return m;
  }

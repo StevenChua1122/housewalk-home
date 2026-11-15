@@ -1,0 +1,50 @@
+{
+  "result": "PARTIAL visual alignment; geometric conflict documented",
+  "reference": "04_FINAL_BATHROOM_TWO_VIEWS_LOCKED.png RIGHT half",
+  "referencePixelCenterApproximate": [
+    372,
+    489
+  ],
+  "referencePixelEstimateTolerance": 5,
+  "camera": {
+    "name": "bathroom-shower",
+    "x": 5.3,
+    "z": 5.1,
+    "yaw": 2.7,
+    "pitch": -0.14,
+    "eye": 1.5,
+    "fov": 82,
+    "w": 768,
+    "h": 1024
+  },
+  "measuredOpeningPixels": [
+    [
+      273.1154022011382,
+      488.2284217696086
+    ],
+    [
+      202.0565429334087,
+      484.5601803992159
+    ],
+    [
+      208.16837966061638,
+      625.8808469466929
+    ],
+    [
+      277.0773638035088,
+      638.4148080424302
+    ]
+  ],
+  "existingReturnXMetres": [
+    5.999999994039536,
+    6.208
+  ],
+  "existingReturnFrontZMetres": 6.0879998207092285,
+  "referenceCenterRayOnThatPlaneMetres": [
+    5.792031406472948,
+    1.388198836970916,
+    6.0879998207092285
+  ],
+  "outsideExistingPartitionReturn": true,
+  "note": "Under the unchanged reviewed camera, the mockup opening center maps outside the locked return. Moving the opening there would leave the existing partition. This is a constraint demonstration, not a proposal to change architecture or a survey of the photograph."
+}

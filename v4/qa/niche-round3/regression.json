@@ -1,0 +1,271 @@
+{
+  "reviewedBase": "6cf8d6b5aacb20bc405279db24931bd060bd0120",
+  "branch": "codex/final-approved-bathroom-kitchen-hallway",
+  "recordedUTC": "2026-11-15T21:07:31.713280+00:00",
+  "technicalResult": "PASS",
+  "visualFidelity": {
+    "nicheWallFaceAndPhysicalRecess": "PASS implementation; visual scale/alignment PARTIAL",
+    "hallway": "PARTIAL",
+    "kitchenLaundry": "PARTIAL",
+    "bathroom": "PARTIAL",
+    "ownerApproved": false
+  },
+  "interactionMatrix": [
+    {
+      "renderer": "PBR",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "PBR",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "errors": []
+    }
+  ],
+  "contextRecovery": {
+    "result": "PASS",
+    "viewport": [
+      900,
+      650
+    ],
+    "fullResolution": true,
+    "observation": "PBR context loss: Canvas visible; restoration reloaded PBR assets successfully."
+  },
+  "continuousWalk": "PASS five input-driven waypoints",
+  "softwareRenderingMethod": {
+    "interactionBufferScale": 0.5,
+    "reflectionTargetPixels": 128,
+    "fullGeometry": true,
+    "unchangedCSSAndInputCoordinates": true,
+    "acceptanceCapturesFullResolution": true
+  },
+  "frozenSHA256": {
+    "v4/layout.js": "43fb791b6c91003bb050b6058be700b890cde3fb0c961f86bc62b93b3609bad7",
+    "v4/window-alcove.js": "c4f82f14e225ded68b074a3d6c8216bd2f5fb9ca8abbf64ffb4caf69e5c32367",
+    "v4/bedroom-rug.js": "9a54d82ec427ef858f68d44a2bf7e12b063223c89ae677453aa45aabb385dab6",
+    "v4/assets/models/bedroom-soft.glb": "bd75071e752fc1d92e683ca74079e4564b89ac0b61bb473bd3dbf0795e32c58f",
+    "v4/assets/models/bathroom-door-mop.glb": "2622acbc2ee0b8213591ff92ae798ea01ab4e75c33a9fdbc336159f79af60abc",
+    "v4/assets/models/hallway-refined.glb": "e4620f3f6e5612a3cb4ddb5d6ba11a20aa54d11aca20519ab8963db50fedc137",
+    "v4/toilet-model.js": "d571b339bbae4b6145cb9b02a83befa9973d223925c4f150631dca71832a4fc8",
+    "v4/tests/capture-owner-final.cjs": "df8c1b286b5d636e98d4cf26b51d2cadc2114be9d43856ee2c7c3e6c2f322ab3",
+    "v4/tests/smoke.cjs": "e489ecfa2c48776703f8b308d387d27e0d73284e35285f80903afed69853a08f",
+    "v4/tests/context.cjs": "5fe2ca0499480b609c63ce2d9e7ce55596274e191bff13dfc664ef2d30414a85"
+  },
+  "unchangedHTMLControlsAndCanvas": "PASS; only module cache query changed",
+  "syntaxAndWhitespace": "PASS",
+  "sourceSHA256": {
+    "v4/index.html": "5eb2b047dd29c4cae464194f1dc04306ade12df50cf24e690880f21909111e1e",
+    "v4/webgl.js": "02c8e417b459e0cb2ff85fa02e9ce8eb2ab4b14f980f00c326652fecb6d9259d",
+    "v4/room-details.js": "520eb451df020fc4837289aab71a236d7e07fe72dca773ed1184fbe82c20c147",
+    "v4/refined-materials.js": "541ed173a8cb2176f1fbef09c4ce79da582b2f39c5fcb13b4985c52c1ccf2772",
+    "v4/tools/refined_props.py": "47b08e1b31e3a435876d94d9ec3a44850f9f0f1d468d3826237361614e53fe3b",
+    "v4/tools/refined_furnishings.py": "1ebd179c779340d8a957393fa0d5ffe65def93d38b368746bda2314e7786db09",
+    "v4/tools/refined_soft_furnishings.py": "07d2740ee48eb9089326fc8a72ae2c7fefef81d499e201a142badc8752489d16",
+    "v4/tools/bake_refined_contacts.py": "04ada7c8de053a77d936b83bfaea8a3904fc4934ba3f20ac18dcd7ede532bc50"
+  },
+  "captures": [
+    {
+      "file": "desktop-bathroom-closed.png",
+      "pixels": [
+        1086,
+        1448
+      ],
+      "sha256": "d9ac8300b3326d1ecb320e659eb57ba8884c37d8dcb00561804888f83e5b7d1d"
+    },
+    {
+      "file": "desktop-bathroom-first.png",
+      "pixels": [
+        768,
+        1024
+      ],
+      "sha256": "69a842807f03fb13944b65b02e57640b271251ffc1998944a960a54b4103164b"
+    },
+    {
+      "file": "desktop-bathroom-shower.png",
+      "pixels": [
+        768,
+        1024
+      ],
+      "sha256": "f75f7f274f302260c211da25e32ad990ca78e09e986b397b42a1ba05ec2d0b89"
+    },
+    {
+      "file": "desktop-hallway.png",
+      "pixels": [
+        1448,
+        1086
+      ],
+      "sha256": "0026f89bde6b01016635adcc7ab777b599da3f8411180b44e7d0a717dde0ef1e"
+    },
+    {
+      "file": "desktop-kitchen.png",
+      "pixels": [
+        1448,
+        1086
+      ],
+      "sha256": "9092067becfae5a6e51711077c0f95e95a6e7884bce4e3dcea93b0fb7a211804"
+    },
+    {
+      "file": "desktop-niche-close-up.png",
+      "pixels": [
+        1200,
+        1400
+      ],
+      "sha256": "afa4f4528d58f835ef31eed46df80a1c9b105efb92b2849f8ba2474631d40431"
+    },
+    {
+      "file": "desktop-niche-oblique.png",
+      "pixels": [
+        1200,
+        1200
+      ],
+      "sha256": "1f8b17441c435999d3c56d205d8d05384555bd6f3ab23dba2f3e0098990d68fd"
+    },
+    {
+      "file": "mobile-bathroom-closed.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "c0b9511fa52438db2de7cf7b7f7abc9e1f10e7f53e16aa126a0f83dbb0d52c3e"
+    },
+    {
+      "file": "mobile-bathroom-first.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "d7c7f095bb1641a1984ca2e4674fb59a74253bf265407da9c22b66c1c97bc916"
+    },
+    {
+      "file": "mobile-bathroom-shower.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "c04e6a629d542a147d40aa09721c3232d2b0b3537bb8d2e02a02155941a70520"
+    },
+    {
+      "file": "mobile-hallway.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "1a4548a1da5c8e854b01590441073cb369b7e8166cfa1ee82b163c43cfa5e9b5"
+    },
+    {
+      "file": "mobile-kitchen.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "db33a98b22ce6ced7f004d02ca18eca64b9a0701259d4bbd5c3b27dea432288e"
+    }
+  ],
+  "comparisonReview": {
+    "desktopPrimaryViews": 5,
+    "mobilePrimaryViews": 5,
+    "additionalNicheInspectionViews": 2,
+    "privateExactReferenceSheets": 10,
+    "supportingZoneAB": true,
+    "repeatedAfterCorrections": true,
+    "sceneMaskingOrPerspectiveRegistration": false,
+    "roomReferencePixelsInRuntime": false
+  },
+  "limits": [
+    "Physical iPhone Safari and physical-device frame rate are unverified.",
+    "Model dimensions do not establish surveyed real niche dimensions.",
+    "Technical PASS is not visual approval. Fixed model/camera/fixture composition prevents exact mockup alignment; see NICHE_ROUND3_QA.md."
+  ]
+}

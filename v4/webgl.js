@@ -5,9 +5,9 @@ import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {RoomEnvironment} from './vendor/RoomEnvironment.js';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 import {interiorDetails} from './mesh-library.js';
-import {connectedRoomDetails} from './room-details.js?v=visual-refinement-20261115';
+import {connectedRoomDetails} from './room-details.js?v=niche-round3-20261115';
 import {windowAlcove} from './window-alcove.js';
-import {refinedMaterials} from './refined-materials.js';
+import {refinedMaterials} from './refined-materials.js?v=niche-round3-20261115';
 const bridge=window.HousewalkBridge,L=window.HWLayout;
 const old=document.getElementById('view');
 let renderer;
@@ -207,7 +207,7 @@ scene.add(g);doorGroups.push(g);
  const windowBounces=[];for(const x of [2.22,4.10]){const l=new THREE.PointLight('#fff2db',4,4.6,2);l.position.set(x,1.65,.70);scene.add(l);windowBounces.push(l);}
  const fixturePower=fixtureLights.map(l=>l.intensity),roomPower=rooms.lights.map(l=>l.intensity);
  const heroLoader=new GLTFLoader();
- async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file+'?v=visual-refinement-20261115');const g=gltf.scene;
+ async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file+'?v=niche-round3-20261115');const g=gltf.scene;
   if(kind==='sofa'){g.scale.set(.94,1,.90);g.position.z=.12;}
   else if(kind==='curtain'){g.scale.x=.944;g.position.x=.115;g.position.z=-.66;}
   g.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;const name=o.material?.name||'';
@@ -217,7 +217,7 @@ scene.add(g);doorGroups.push(g);
   });scene.add(g);window.HWScene.heroGroups[kind]=g;return g;
  }
  async function props(file,parent){
-  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file+'?v=visual-refinement-20261115');
+  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file+'?v=niche-round3-20261115');
   refined.apply(g);
   parent.add(g);return g;
  }
@@ -228,7 +228,7 @@ scene.add(g);doorGroups.push(g);
  canvas.addEventListener('webglcontextrestored',()=>location.reload());
  function render(){requestAnimationFrame(render);if(document.hidden||renderer.getContext().isContextLost())return;
   const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5);if(w!==lastW||h!==lastH){renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();lastW=w;lastH=h;}
-  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;refined.updateNight(n);livingBounce.intensity=n?.55:1.5;kitchenWindowFill.intensity=n?.15:1.2;kitchenFill.intensity=n?1:3;rooms.updateNight(n);daylight.intensity=n?.025:5.2;daylight.castShadow=!n;hemi.intensity=n?.72:.40;scene.environmentIntensity=n?.25:.34;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach((l,i)=>l.intensity=n?0:(i===0?3.5:2.8));scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
+  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;refined.updateNight(n);livingBounce.intensity=n?.55:2.4;kitchenWindowFill.intensity=n?.15:1.2;kitchenFill.intensity=n?1:3;rooms.updateNight(n);daylight.intensity=n?.025:5.7;daylight.castShadow=!n;hemi.intensity=n?.72:.40;scene.environmentIntensity=n?.25:.34;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach((l,i)=>l.intensity=n?0:(i===0?3.5:2.8));scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
   const state=bridge.doors.map(d=>d.open).join();if(state!==doorState){doorState=state;doorGroups.forEach((g,i)=>g.rotation.y=i?(bridge.doors[i].open?(bridge.doors[i].openAngle||0):-Math.PI/2):(bridge.doors[i].open?Math.PI/2:0));renderer.shadowMap.needsUpdate=true;}
   const p=bridge.player,c=bridge.camera||{};camera.position.set(p.x,c.eyeHeight||1.55,p.z);camera.rotation.set(p.pitch,-p.yaw,0,'YXZ');camera.fov=c.verticalFov||(w<h?72:75);camera.updateProjectionMatrix();renderer.info.reset();renderer.render(scene,camera);window.__HW4_FRAME=(window.__HW4_FRAME||0)+1;
   if(first){first=false;window.__HW3D_READY=true;old.style.opacity='0';canvas.style.opacity='1';document.documentElement.dataset.renderer='pbr-final';renderer.shadowMap.needsUpdate=true;}

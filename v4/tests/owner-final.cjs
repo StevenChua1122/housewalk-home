@@ -20,8 +20,10 @@ const proof=await page.evaluate(async()=>{
  const root=n=>S.scene.getObjectByName(T.PropertyBinding.sanitizeNodeName(n)),bounds=o=>new T.Box3().setFromObject(o);
  const bin=bounds(root('Kitchen separated mesh bin'));
  const rays=(o,p,d)=>new T.Raycaster(new T.Vector3(...p),new T.Vector3(...d),.001,8).intersectObject(o,true);
- const niche=rays(S.scene,[5.75,1.28,6.24],[1,0,0])[0].point.x;
- const front=rays(S.scene,[5.75,1.43,6.24],[1,0,0])[0].point.x;
+ // Round 3: aperture is on the window-facing -Z return, perpendicular to
+ // the unchanged heater/rail face. A -X ray would validate the former defect.
+ const niche=rays(S.scene,[6.112,1.30,5.90],[0,0,1])[0].point.z;
+ const front=rays(S.scene,[6.112,1.43,5.90],[0,0,1])[0].point.z;
  const trays=rays(root('Bathroom approved accessories'),[5.08,1,6.69],[0,-1,0]).map(h=>h.point.y).filter(y=>y>.06&&y<.85).sort((a,b)=>b-a).filter((y,i,a)=>i===0||Math.abs(y-a[i-1])>.02);
  const outside=rays(root('Bathroom approved accessories'),[5.30,1,6.69],[0,-1,0]).filter(h=>h.point.y>.06&&h.point.y<.85).length;
  // Count physically separate upper door front surfaces from the exported model.
@@ -33,7 +35,7 @@ const proof=await page.evaluate(async()=>{
  const art=[];root('Kitchen simplified countertop').traverse(o=>{if(o.isMesh&&o.material.name==='IMG_9974 isolated mug artwork'){const b=bounds(o);art.push({width:b.max.x-b.min.x,texture:[o.material.map.image.width,o.material.map.image.height]});}});
  return {binClearance:6.31-bin.max.z,binBounds:[bin.min.x,bin.max.x,bin.min.z,bin.max.z],nicheDepth:niche-front,trays,outside,cabinetDoorBands:bands,mugArtwork:art,hasMop:!!S.doorGroups[1].getObjectByName('Bathroom_inside-door_mop'),decorativePlaque:S.rooms.named.bathPlaque?.userData};
 });
-assert(proof.binClearance>.59&&proof.binClearance<.62);assert(proof.nicheDepth>.075);assert.equal(proof.trays.length,3);assert.equal(proof.outside,0);assert.equal(proof.cabinetDoorBands.length,5);assert.equal(proof.mugArtwork.length,1);assert(proof.mugArtwork[0].width>.22);assert(proof.hasMop);assert.equal(proof.decorativePlaque?.label,'GO BATH');assert.equal(proof.decorativePlaque.electrical,false);
+assert(proof.binClearance>.59&&proof.binClearance<.62);assert(proof.nicheDepth>.14&&proof.nicheDepth<.16);assert.equal(proof.trays.length,3);assert.equal(proof.outside,0);assert.equal(proof.cabinetDoorBands.length,5);assert.equal(proof.mugArtwork.length,1);assert(proof.mugArtwork[0].width>.22);assert(proof.hasMop);assert.equal(proof.decorativePlaque?.label,'GO BATH');assert.equal(proof.decorativePlaque.electrical,false);
 const occlusion=[];
 for(const open of [true,false]){
  await page.evaluate(open=>HousewalkBridge.doors[1].open=open,open);const f=await page.evaluate(()=>__HW4_FRAME);await page.waitForFunction(f=>__HW4_FRAME>f+1,f,{timeout:90000});

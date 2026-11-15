@@ -1,5 +1,5 @@
 """Tailored sofa and drapes within the existing source asset transforms."""
-import bpy,sys,math
+import bpy,sys,math,os
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from refinement_common import *
@@ -26,15 +26,19 @@ def sofa_model():
  for i,z in enumerate([1.69,2.37,3.05]):
   # Mildly crowned seat, depressions at the rear and front eased edge.
   seat=soft('Tailored seat cushion '+str(i+1),(.60,.405,z),(.75,.15,.65),sofa,.040,2)
+  tex=bpy.data.textures.new('Fine compressed seat cloth '+str(i+1),type='CLOUDS');tex.noise_scale=.14;tex.noise_depth=1
+  dis=seat.modifiers.new('Subtle irregular fabric compression','DISPLACE');dis.texture=tex;dis.strength=.003;dis.mid_level=.5;dis.texture_coords='GLOBAL'
   contour('Seat attached piping',(.60,.466,z),.715,.615,.045,piping)
   back=soft('Soft backrest cushion '+str(i+1),(.285,.68,z),(.245,.54,.65),sofa,.065,2)
+  dis=back.modifiers.new('Softly settled backrest cloth','DISPLACE');dis.texture=tex;dis.strength=.004;dis.mid_level=.5;dis.texture_coords='GLOBAL'
   # Keep seams in the same coordinate frame as the cushion; no detached rods.
   contour('Backrest attached perimeter piping',(.408,.68,z),.605,.490,.060,piping,True)
  for x in [.15,.90]:
   for z in [1.38,3.39]:softbox('Dark timber contacting sofa foot',(x,.0815,z),(.070,.133,.070),feet,.007)
  # The current locked plush/daisy arrangement replaces the superseded orange
  # scatter cushions. No furniture anchor or sofa orientation is changed.
-group('Reference tailored three-seat sofa',sofa_model);export('sofa-refined.glb');clear()
+if os.environ.get('HW_SOFT_ONLY')!='curtains':
+ group('Reference tailored three-seat sofa',sofa_model);export('sofa-refined.glb');clear()
 
 def curtains():
  # Same anchoring and tied width envelope; soft asymmetric folds carry thickness.
@@ -43,14 +47,16 @@ def curtains():
   for j in range(V+1):
    t=j/V;y=.025+2.61*t
    gather=math.exp(-((t-.31)/.18)**2)
-   width=.35+.40*t**1.7-.15*gather
+   # Locked 01: top parting is about 27% of the anchored drape span.
+   # The former 16% gap blocked too much of the real window light.
+   width=.35+.30*t**1.7-.15*gather
    for i in range(U+1):
     u=i/U;warp=u+.14*u*(1-u)*math.sin(u*9+.65*side)
     phase=warp*math.tau*5.25+.28*math.sin(t*2.1+u*5+side)+.12*math.sin(t*6+u*11)
-    amp=(.025+.012*t)*(1+.20*math.sin(u*13+side))*(1-.55*gather)
+    amp=(.034+.016*t)*(1+.20*math.sin(u*13+side))*(1-.70*gather)
     # Smooth deep folds, not saw-tooth/cardboard ridges. A slight under-fold
     # gives the tieback volume without inflating the entire drape.
-    fold=amp*(math.sin(phase)+.06*math.sin(2*phase))
+    fold=amp*(math.sin(phase)+.14*math.sin(2*phase))
     x=outer+(-side)*width*u
     z=.965+fold+.040*math.sin(t*math.pi)*(1-t)+.008*math.sin(u*9+t*4)
     yy=y-.045*math.sin(u*math.pi)*math.sin(t*math.pi)*(1-.7*gather)
@@ -63,10 +69,11 @@ def curtains():
   for row in [0,V]:cord('Curtain folded sewn hem',[v[row*(U+1)+i] for i in range(U+1)],.0025,taupe)
   for column in [0,U]:cord('Curtain vertical sewn hem',[v[j*(U+1)+column] for j in range(V+1)],.0015,taupe)
   # Wide fabric tieback is a small ribbon with a modeled rear return.
-  t=(.80-.025)/2.61;w=.35+.40*t**1.7-.15*math.exp(-((t-.31)/.18)**2);vv=[];ff=[]
+  t=(.80-.025)/2.61;w=.35+.30*t**1.7-.15*math.exp(-((t-.31)/.18)**2);vv=[];ff=[]
   for j in range(2):
    for i in range(33):
     u=i/32;vv.append((outer+(-side)*w*u,.783+j*.032-.018*math.sin(u*math.pi),1.018+.023*math.sin(u*math.pi)))
   for i in range(32):ff.append((i,i+1,i+34,i+33))
   tie=mesh('Soft curtain tieback ribbon',vv,ff,taupe);s=tie.modifiers.new('Tieback ribbon thickness','SOLIDIFY');s.thickness=.002
-group('Refined living taupe drapes',curtains);export('curtains-refined.glb')
+if os.environ.get('HW_SOFT_ONLY')!='sofa':
+ group('Refined living taupe drapes',curtains);export('curtains-refined.glb')

@@ -24,8 +24,8 @@ def eye(name,p,r=.009):
 def bear(name,x,z,scale=1,color=fur,shirt=False,heart=False):
  before=set(bpy.context.scene.objects);y=.92;s=scale
  def P(a,b,c):return(x+a*s,y+b*s,z+c*s)
- soft(name+' weighted body',P(0,.145,0),(.088*s,.14*s,.100*s),navyCloth if shirt else color,.78)
- soft(name+' stuffed head',P(0,.335,0),(.102*s,.103*s,.105*s),color,.80)
+ soft(name+' weighted body',P(0,.145,0),(.088*s,.14*s,.100*s),navyCloth if shirt else color,.90)
+ soft(name+' stuffed head',P(0,.335,0),(.102*s,.103*s,.105*s),color,.92)
  for side in [-1,1]:
   soft(name+' folded round ear',P(-.005,.412,side*.081),(.039*s,.047*s,.040*s),color,.85)
   soft(name+' ear inset',P(.030,.411,side*.081),(.007*s,.027*s,.024*s),furLight if color==fur else rose)
@@ -51,7 +51,7 @@ def bear(name,x,z,scale=1,color=fur,shirt=False,heart=False):
     vv.append(P(.087+.013*layer,.17+yy/s,zz/s))
   for i in range(64):ff.append((i,i+1,i+66,i+65))
   ff.extend([tuple(range(64,-1,-1)),tuple(range(65,130))]);o=mesh(name+' sewn red heart',vv,ff,dollRed);be=o.modifiers.new('Soft appliqué edge','BEVEL');be.width=.003;be.segments=3
- reorient_new(before,x,z,-.40)
+ reorient_new(before,x,z,-.95)
 def daisy(name,x,y,z,r):
  before=set(bpy.context.scene.objects)
  for i in range(9):
@@ -59,7 +59,7 @@ def daisy(name,x,y,z,r):
  soft(name+' yellow face',(x+r*.24,y,z),(r*.105,r*.36,r*.36),yellow,.80)
  for side in [-1,1]:eye(name+' smiling eye',(x+r*.346,y+r*.08,z+side*r*.13),r*.026)
  curve_face(name+' embroidered smile',(x+r*.35,y,z),[(0,-r*.07,-r*.17),(.001,-r*.16,0),(0,-r*.07,r*.17)],r*.014)
- reorient_new(before,x,z,-.65)
+ reorient_new(before,x,z,-1.00)
 def seated_doll():
  before=set(bpy.context.scene.objects)
  x,y,z=.56,.49,1.70
@@ -81,7 +81,7 @@ def seated_doll():
  for yy in [.255,.188]:soft('Red festive doll ivory button',(x+.104,y+yy,z),(.010,.014,.014),ivoryFur)
  tube('Red festive doll gold placket',[(x+.096,y+.285,z),(x+.112,y+.205,z),(x+.103,y+.12,z)],.003,yellow)
  for side in [-1,1]:tube('Red festive collar trim',[(x+.071,y+.294,z+side*.074),(x+.103,y+.273,z+side*.036),(x+.104,y+.275,z)],.004,yellow)
- reorient_new(before,x,z,-.50)
+ reorient_new(before,x,z,-1.05)
 def plush():
  # Correct near-to-far identities; each toy has individual seams, pads and face.
  bear('Plain golden teddy',.23,2.37,1.0,fur)
@@ -110,9 +110,10 @@ def stitch(name,x,y,z,s=1,face=-1,pink_version=False):
   soft(name+' splayed foot',P(.033,.019,side*.044),(.044*s,.020*s,.030*s),body,.70)
  soft(name+' broad blue nose',P(.076,.176,0),(.014*s,.017*s,.023*s),navy)
  tube(name+' embroidered mouth',[P(.064,.157,-.033),P(.075,.149,0),P(.064,.157,.033)],.0015*s,embroider)
- reorient_new(before,x,z,.40)
+ reorient_new(before,x,z,1.15)
 def console_details():
  stitch('Blue large-eared character',2.73,.59,2.15,1.0)
+ duckStart=set(bpy.context.scene.objects)
  # Orange duck riding the yellow duck, grey cap and yellow ear appliqué.
  duck=material('Refined yellow duck polymer','#f2c832',.42);orange=material('Refined orange duck polymer','#ec7424',.44)
  soft('Large seated yellow duck',(2.75,.656,2.60),(.073,.066,.085),duck,.76)
@@ -127,6 +128,7 @@ def console_details():
   soft('Duck wing',(2.72,.692,2.60+side*.077),(.036,.027,.020),duck)
   eye('Orange duck eye',(2.692,.838,2.60+side*.025),.006)
  soft('Duck broad beak',(2.679,.810,2.60),(.024,.016,.029),duck,.48)
+ reorient_new(duckStart,2.75,2.60,1.05)
  stitch('Pink long-eared plush',2.73,.59,2.93,.78,pink_version=True)
  # Framed non-personal inserts preserve the approved frame silhouettes. Private
  # family-collage pixels are never copied to the public model.
@@ -196,8 +198,31 @@ def console_details():
  for i in range(6):cord('Console warm reed',[(2.90,.604,2.99),(2.89+(i%2)*.018,.83+i*.007,2.95+i*.014)],.0015,yellow)
  for i in range(3):cord('Console black handled tool',[(2.90,.604,2.99),(2.88+i*.018,.86+i*.012,2.98+i*.014)],.002,black)
  softbox('Console tall orange handled tool',(2.90,.750,2.98),(.008,.30,.022),material('Refined orange console tool polymer','#da8e35',.55),.003)
+def niche_products():
+ # Locked mockup: three products in one row on the WINDOW-FACING sill.
+ # Fronts face -Z, not the shower rail on the perpendicular -X wall.
+ ink=material('Refined niche deep navy polymer','#182c48',.31)
+ gold=material('Refined niche pump collar brushed brass','#ae8d58',.34,.66)
+ for i,x in enumerate([6.173,6.116]):
+  y,z=1.061,6.132;h=.194 if i==0 else .184;r=.022
+  surface('Niche navy pump bottle '+str(i+1),x,z,[(0,y),(.018,y),(.022,y+.008),(.023,y+.035),(.022,y+h-.05),(.018,y+h-.026),(.011,y+h-.018),(.011,y+h),(0,y+h)],ink,64)
+  cyl('Niche gold pump collar',(x,y+h,z),.0125,.018,gold)
+  cyl('Niche pump stem',(x,y+h+.016,z),.004,.018,black)
+  softbox('Niche dark pump head',(x,y+h+.027,z-.006),(.025,.008,.013),black,.003)
+  softbox('Niche pump forward spout',(x,y+h+.025,z-.018),(.009,.006,.020),black,.002)
+  for j in range(4):softbox('Niche bottle fine gold print',(x,y+.073+j*.017,z-.023),(.017 if j%2 else .024,.0018,.0005),gold,.0002)
+ x,z=6.059,6.120
+ Y=lambda y:1.061+(y-.901)*.82
+ surface('Niche white blue squeeze tube',x,z,[(r,Y(y)) for r,y in [(0,.901),((.018,.013),.901),((.023,.014),.917),((.025,.010),1.142),((.025,.004),1.160),(0,1.160)]],ivory,64,.46)
+ softbox('Niche tube closed blue cap',(x,Y(.917),z),(.037,.030*.82,.029),blue,.004)
+ # Printed band follows the tube surface, rather than a thick raised plaque.
+ surface('Niche tube blue band',x,z,[((.0237,.0132),Y(.974)),((.0243,.0121),Y(1.034))],blue,64,.46)
+ for j in range(3):softbox('Niche tube fine navy print',(x,Y(1.079+j*.012),z-.012),(.029-j*.004,.002,.001),ink,.0003)
+ softbox('Niche tube red brand line',(x,Y(1.129),z-.011),(.022,.003,.001),red,.0003)
+ softbox('Niche tube top crimp',(x,Y(1.157),z),(.050,.006,.007),ivory,.001)
+
 def refined_bathroom():
- for z,m in [(4.98,green),(5.075,blue)]:bottle('Only sink bottle',6.11,.867,z,m,.16,.025,True)
+ for z,m in [(4.98,green),(5.075,blue)]:bottle('Only sink bottle',6.11,.867,z,m,.16,.025,True,square=.25)
  # Diffuser and orange soap retain their fixed sill positions.
  surface('Amber reed diffuser',6.14,5.33,[(0,1.058),(.022,1.058),(.024,1.14),(.016,1.16),(0,1.16)],material('Refined amber glass','#63402c',.24),48)
  cyl('Diffuser black cap',(6.14,1.159,5.33),.016,.013,black)
@@ -219,10 +244,7 @@ def refined_bathroom():
  soft('Lower shelf natural bath brush',(5.22,.134,6.87),(.038,.013,.025),cream,.45)
  for i in range(7):
   for j in range(4):cord('Bath brush bristle',[(5.19+i*.009,.143,6.85+j*.012),(5.19+i*.009,.166,6.85+j*.012)],.0015,straw)
- for x,z in [(6.05,6.17),(6.03,6.23)]:bottle('Niche blue shampoo',x,1.015,z,navy,.19,.020,False)
- surface('Niche white squeeze tube',6.015,6.30,[(0,1.015),((.011,.018),1.015),((.014,.021),1.19),((.013,.020),1.21),(0,1.21)],ivory,48,.5)
- softbox('Squeeze tube blue lower label',(6.000,1.067,6.30),(.002,.055,.032),blue,.001)
- cyl('Squeeze tube foot cap',(6.015,1.026,6.30),.014,.020,ivory)
+ niche_products()
  # Closed bottoms, rolled rims and hanging pivoted handles; nested teal liner.
  for x,z,m,r,h,base in [(5.94,4.75,pink,.11,.25,.016),(5.88,5.02,purple,.115,.25,.016),(5.88,5.02,teal,.10,.28,.050)]:
   surface('Moulded open bucket',x,z,[(0,base),(r*.78,base),(r*.82,base+.008),(r,h-.010),(r*1.025,h),((r*1.025)-.006,h+.003),(r-.006,h-.009),(r*.80-.006,base+.025),(0,base+.025)],m,64)
@@ -295,12 +317,14 @@ def kitchen_props():
  surface('Rice cooker rounded ceramic body',4.68,6.66,[(0,.883),(.075,.883),(.093,.897),(.102,.935),(.102,1.047),(.093,1.065),(0,1.065)],ivory,64)
  ring('Rice cooker lid seam',(4.68,0,6.66),.099,.099,1.056,.003,maroon)
  surface('Rice cooker domed lid',4.68,6.66,[(0,1.089),(.055,1.087),(.091,1.076),(.102,1.066)],white,64)
- softbox('Rice cooker front control panel',(4.68,.984,6.557),(.063,.072,.006),maroon,.009)
- softbox('Rice cooker small orange selector',(4.646,.984,6.552),(.016,.060,.003),material('Refined rice cooker amber selector','#cf7e38',.4),.003)
+ softbox('Rice cooker front control panel',(4.68,.984,6.557),(.063,.090,.006),maroon,.009)
+ softbox('Rice cooker small orange selector',(4.646,.984,6.552),(.016,.075,.003),material('Refined rice cooker amber selector','#cf7e38',.4),.003)
  for yy in [.963,1.001]:soft('Rice cooker control indicator',(4.682,yy,6.551),(.010,.005,.0015),ivory)
  for x in [4.66,4.70]:softbox('Rice cooker push button',(x,.982,6.552),(.016,.025,.003),ivory,.003)
  softbox('Rice cooker latch',(4.68,1.061,6.557),(.043,.009,.012),ivory,.004)
- for zz in [6.555,6.765]:softbox('Rice cooker side grip',(4.68,.975,zz),(.070,.030,.023),white,.009)
+ # The actual cooker grips are lateral. The former front grip covered its
+ # maroon/orange control panel in the locked kitchen view.
+ for xx in [4.575,4.785]:softbox('Rice cooker side grip',(xx,.975,6.66),(.023,.030,.070),white,.009)
  surface('Electric kettle tapered body',4.43,6.65,[(0,.885),(.063,.885),(.071,.901),(.068,1.035),(.059,1.077),(.045,1.085),(0,1.085)],white,64)
  ring('Kettle lower seam',(4.43,0,6.65),.068,.068,.906,.002,ivory)
  softbox('Kettle lid opening',(4.43,1.088,6.65),(.065,.010,.068),ivory,.006)

@@ -1,0 +1,93 @@
+{
+  "base": "563ad42dfe3fc78a98f1926ebf743f706bc5d26d",
+  "frozen": "PASS",
+  "frozenFiles": [
+    "v4/layout.js",
+    "v4/window-alcove.js",
+    "v4/bedroom-rug.js",
+    "v4/assets/models/bedroom-soft.glb",
+    "v4/assets/models/bathroom-door-mop.glb",
+    "v4/tests/capture-owner-final.cjs"
+  ],
+  "architecture": "PASS",
+  "accessoryBounds": {
+    "broom": {
+      "min": [
+        2.806999921798706,
+        0.012298882007598877,
+        3.809999942779541
+      ],
+      "max": [
+        3.0749034881591797,
+        1.3913865089416504,
+        4.135376930236816
+      ]
+    },
+    "plush": {
+      "min": [
+        0.10562204497424099,
+        0.479710864488077,
+        1.048634075648466
+      ],
+      "max": [
+        0.7417424745546919,
+        1.3790000155568123,
+        2.771975749555142
+      ]
+    },
+    "console": {
+      "min": [
+        2.5617000290806105,
+        0.17299998535784736,
+        0.5799999703123411
+      ],
+      "max": [
+        2.9800000190734863,
+        2.3400001525878906,
+        3.6700001060962677
+      ]
+    }
+  },
+  "assets": [
+    {
+      "file": "sofa-refined.glb",
+      "bytes": 769688,
+      "vertices": 15093,
+      "triangles": 26960,
+      "contacts": 15093,
+      "sha256": "fa3481b22469829716af23cd2e432b40061f0d89e7f46650ba77ab442c2c9c44"
+    },
+    {
+      "file": "curtains-refined.glb",
+      "bytes": 1761064,
+      "vertices": 29460,
+      "triangles": 57544,
+      "contacts": 29460,
+      "sha256": "8113db7e42981f8ad7025c6857b8c214855f153f2be4a69e37d73b59a3ffea09"
+    },
+    {
+      "file": "kitchen-refined.glb",
+      "bytes": 3167716,
+      "vertices": 65073,
+      "triangles": 81844,
+      "contacts": 65073,
+      "sha256": "41b203d2afbc0d7da378ca1b517584ffc961d302eac55796044983faf242bc5b"
+    },
+    {
+      "file": "hallway-refined.glb",
+      "bytes": 1864324,
+      "vertices": 38058,
+      "triangles": 44848,
+      "contacts": 38058,
+      "sha256": "e4620f3f6e5612a3cb4ddb5d6ba11a20aa54d11aca20519ab8963db50fedc137"
+    },
+    {
+      "file": "final-room-props.glb",
+      "bytes": 11499820,
+      "vertices": 202213,
+      "triangles": 345070,
+      "contacts": 202213,
+      "sha256": "cce5a8fa5e090e079bac40d03e605b17fd8007501957ca2a4df3976f59461623"
+    }
+  ]
+}

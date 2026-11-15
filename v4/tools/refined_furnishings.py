@@ -132,11 +132,12 @@ def kitchen():
   for i in range(N):a=j*(N+1)+i;f.append((a,a+1,a+N+2,a+N+1))
  mesh('Washer convex smoked glass',v,f,smokedGlass,uv)
  softbox('Washer upper control fascia',(4.55,.77,6.332),(.566,.145,.020),ivory,.006)
- softbox('Washer detergent drawer',(4.42,.78,6.317),(.18,.062,.010),white,.004)
- softbox('Washer drawer finger recess',(4.42,.750,6.309),(.14,.007,.009),grey,.002)
- disk_front('Washer flat program selector',(4.69,.77,6.307),.024,.012,steel)
- softbox('Washer display',(4.56,.77,6.316),(.073,.028,.008),black,.002)
- for x in [4.54,4.58]:softbox('Washer small control button',(x,.738,6.310),(.017,.009,.005),white,.002)
+ # Camera-left drawer, central selector and camera-right display as in locked 03.
+ softbox('Washer detergent drawer',(4.70,.78,6.317),(.18,.062,.010),white,.004)
+ softbox('Washer drawer finger recess',(4.70,.750,6.309),(.14,.007,.009),grey,.002)
+ disk_front('Washer flat program selector',(4.55,.77,6.307),.024,.012,steel)
+ softbox('Washer display',(4.41,.77,6.316),(.073,.028,.008),black,.002)
+ for x in [4.39,4.43]:softbox('Washer small control button',(x,.738,6.310),(.017,.009,.005),white,.002)
  softbox('Washer door recessed pull',(4.739,.40,6.296),(.027,.094,.016),rubber,.009)
  softbox('Washer lower service hatch',(4.36,.106,6.344),(.087,.096,.007),ivory,.008)
  for x in [4.29,4.81]:

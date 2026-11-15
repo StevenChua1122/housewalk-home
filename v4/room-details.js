@@ -4,7 +4,7 @@
 import * as THREE from './vendor/three.module.min.js';
 import {RoundedBoxGeometry} from './vendor/RoundedBoxGeometry.js';
 import {Reflector} from './vendor/Reflector.js';
-import {toiletModel} from './toilet-model.js?v=visual-refinement-20261115';
+import {toiletModel} from './toilet-model.js?v=niche-round3-20261115';
 import {bedroomRug} from './bedroom-rug.js';
 
 export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,taupe,cloth,shadowLights,glass}){
@@ -13,7 +13,7 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
  const standard=(color,roughness=.75,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness,envMapIntensity:.7});
  const plaster=tex('plaster-color.jpg',true),plasterN=tex('plaster-normal.webp');
  const charcoal=standard('#686867',.88);charcoal.map=plaster;charcoal.normalMap=plasterN;charcoal.normalScale=new THREE.Vector2(.08,.08);
- const tileDark=standard('#595851',.82),tileLight=standard('#d6d0c7',.95),tileFloor=standard('#aaa296',1.0),grout=standard('#918b81',.95),lightGrout=standard('#bab5ac',.95);
+ const tileDark=standard('#68645d',.72),tileLight=standard('#ded8cf',.80),tileFloor=standard('#aaa296',.90),grout=standard('#918b81',.95),lightGrout=standard('#bab5ac',.95);
  const tileMap=tex('refined-tile-color.jpg',true),tileN=tex('refined-tile-normal.webp'),tileR=tex('refined-tile-roughness.jpg');
  for(const m of [tileDark,tileLight,tileFloor]){m.map=tileMap;m.normalMap=tileN;m.normalScale=new THREE.Vector2(.07,.07);m.roughnessMap=tileR;}
  const porcelain=new THREE.MeshPhysicalMaterial({color:'#f6f4ef',roughness:.19,metalness:0,clearcoat:.20,clearcoatRoughness:.18,envMapIntensity:.90});
@@ -88,16 +88,33 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
 
  }
  function shower(){
-  // Real recessed niche directly below the heater. Four masonry pieces leave
-  // an opening; the back is about 90 mm behind the partition face, not a dark decal.
-  box(6.15,.50,6.24,.30,1.00,.28,tileDark,.002,'Bathroom partition below niche');
-  box(6.15,2.075,6.24,.30,1.39,.28,tileDark,.002,'Bathroom partition above niche');
-  for(const z of [6.116,6.364])box(6.15,1.19,z,.30,.38,.032,tileDark,.001);
-  box(6.19,1.19,6.24,.22,.38,.216,tileDark,.001,'Bathroom niche recessed back');
-  box(6.033,1.005,6.24,.085,.014,.216,tileDark,.001,'Bathroom niche sill');
-  tilesX(5.992,6.10,6.38,.02,1.00,tileDark);
-  tilesX(5.992,6.10,6.38,1.38,2.75,tileDark);
-  tilesZ(6.093,6.0,6.225,.02,2.75,tileDark);
+  // Locked 04 RIGHT view: opening on the WINDOW-FACING return (normal -Z),
+  // perpendicular to the heater/rail face. Round 2 incorrectly cut normal -X.
+  // Preserve the masonry envelope x=6..6.30, z=6.10..6.38, y=0..2.77.
+  // Only the cavity/its tiled returns change; every fixture below stays fixed.
+  const n={x0:6.016,x1:6.208,y0:1.06,y1:1.38,front:6.088,back:6.238};
+  box(6.15,.53,6.24,.30,1.06,.28,tileDark,.001,'Bathroom partition below niche');
+  box(6.15,2.075,6.24,.30,1.39,.28,tileDark,.001,'Bathroom partition above niche');
+  box(6.008,1.22,6.24,.016,.32,.28,tileDark,0,'Bathroom niche left masonry pier');
+  box(6.254,1.22,6.24,.092,.32,.28,tileDark,0,'Bathroom niche right masonry pier');
+  box(6.112,1.22,6.309,.192,.32,.142,tileDark,0,'Bathroom niche recessed back');
+  tilesX(5.992,6.10,6.38,.02,2.75,tileDark);
+  // Clip individual front tiles at the exact aperture; no full tile/decal
+  // bridges the hole. All exterior grout courses share the same .02 m origin.
+  for(let y=.02;y<2.75-.001;y+=.30){
+   const hi=Math.min(y+.30,2.75),parts=hi<=n.y0||y>=n.y1?[[6.0,6.225,y,hi]]:
+    [[6.0,n.x0,Math.max(y,n.y0),Math.min(hi,n.y1)],[n.x1,6.225,Math.max(y,n.y0),Math.min(hi,n.y1)],
+     ...(y<n.y0?[[6.0,6.225,y,n.y0]]:[]),...(hi>n.y1?[[6.0,6.225,n.y1,hi]]:[])];
+   for(const [a,b,c,d]of parts)if(b-a>.001&&d-c>.001)box((a+b)/2,(c+d)/2,6.093,b-a-.001,d-c-.0025,.010,tileDark,.00025).castShadow=false;
+  }
+  const recessTile=tileDark.clone();recessTile.color.set('#64615a');
+  box(6.112,1.22,6.242,.190,.318,.008,recessTile,.0003,'Bathroom niche tiled back face');
+  for(const x of [6.017,6.207])box(x,1.22,6.163,.002,.320,.150,tileDark,.0002,'Bathroom niche tiled side return');
+  box(6.112,1.055,6.163,.192,.010,.150,tileDark,.0004,'Bathroom niche sill');
+  box(6.112,1.385,6.163,.192,.010,.150,tileDark,.0004,'Bathroom niche tiled soffit');
+  // Fine grout continues inside the return; it is not an emissive dark patch.
+  box(6.112,1.22,6.2375,.188,.0015,.0005,grout,0).castShadow=false;
+  named.showerNiche={userData:{...n,normal:[0,0,-1],width:n.x1-n.x0,height:n.y1-n.y0,depth:n.back-n.front,partitionEnvelope:[6,6.30,0,2.77,6.10,6.38]}};
   box(5.95,1.68,6.24,.075,.40,.20,black,.025,'Bathroom black water heater');
   box(5.990,1.68,6.24,.014,.33,.14,black,.005,'Heater contacting mounting pad');
   box(5.909,1.70,6.24,.006,.29,.145,standard('#1b1e20',.44),.018,'Heater inset front fascia');
