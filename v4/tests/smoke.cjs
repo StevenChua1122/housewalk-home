@@ -7,6 +7,9 @@ for(const fallback of [false,true]){
   const page=await browser.newPage({viewport:mobile?{width:390,height:844}:{width:800,height:600},hasTouch:mobile,isMobile:mobile});const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(process.env.HOUSEWALK_URL||'http://127.0.0.1:8000/v4/');await page.waitForFunction(()=>window.HousewalkBridge);
   if(!fallback)await page.waitForFunction(()=>window.__HW4_ASSETS&&window.__HW4_MATERIALS,{},{timeout:90000});
+  // Optional software-GPU interaction checks retain the complete scene and CSS
+  // viewport. Full-resolution visual evidence uses the separate capture script.
+  if(!fallback&&process.env.HW_SMOKE_RENDER_SCALE)await page.evaluate(scale=>{const s=Math.max(.25,Math.min(1,scale));HWScene.renderer.setPixelRatio(1);HWScene.renderer.setSize(Math.round(innerWidth*s),Math.round(innerHeight*s),false);for(const m of HWScene.rooms.mirrors)m.getRenderTarget().setSize(128,128);},Number(process.env.HW_SMOKE_RENDER_SCALE));
   await page.click('#planBtn');await page.locator('#planModal.open').waitFor();await page.click('#closePlan');
   const night=await page.evaluate(()=>HousewalkBridge.getNight());await page.click('#lightBtn');assert.equal(await page.evaluate(()=>HousewalkBridge.getNight()),!night);await page.click('#lightBtn');
   const stops=[];for(let i=0;i<7;i++){await page.click('#tourBtn');stops.push(await page.evaluate(()=>({x:HousewalkBridge.player.x,z:HousewalkBridge.player.z})));}assert.equal(new Set(stops.map(JSON.stringify)).size,7);

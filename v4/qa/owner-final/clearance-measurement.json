@@ -1,0 +1,15 @@
+{
+  "units": "metres",
+  "basis": "Nominal existing-model coordinates; internal dimensions remain photo-fit estimates, not a surveyed real apartment.",
+  "baseline": "131ec19b2cb1bfadffb3ef3dcebaa5bbae5c49a5",
+  "ownerDirection": "Preserve all finalized door openings, jambs and walls. Approximately 1 m is an estimated real-world reference; document the current discrepancy for review.",
+  "windowWallAxisZ": 7.05,
+  "windowWallInteriorFaceZ": 6.975,
+  "bathroomHingeZ": 4.49,
+  "bathroomSouthJambZ": 5.27,
+  "counterFrontZ": 6.31,
+  "wallAxisToJamb": 1.78,
+  "interiorWallFaceToJamb": 1.705,
+  "counterFrontToJamb": 1.04,
+  "architecturalGeometryMoved": false
+}

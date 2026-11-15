@@ -13,12 +13,13 @@ for(const [x,z,w,d,c]of [[.055,1.2,.93,2.14,'#8a8681'],[.06,3.76,1.68,.89,'#3837
 for(const [b,c]of [[L.bedroom.bed,'#8e8981'],[L.bedroom.wardrobe,'#f2eee5'],[L.bedroom.vanity,'#f2eee5'],[L.bedroom.mirror,'#acc0bf'],[L.bedroom.cabinet,'#c49d68']])rect(b.x0,b.z0,b.x1-b.x0,b.z1-b.z0,c,'#837d73');
 rect(5.265,1.005,.83,.24,'#d6e7e7','#659aa5');rect(4.35,1.075,1.34,.47,'#eee7d7','#78786d');line(3.24,.425,4.99,.425,'#998573',6);
 rect(5.82,4.64,.405,.50,'#f7f4ec','#837d73');rect(5.55,5.48,.675,.46,'#f7f4ec','#837d73');rect(6.0,6.10,.30,.28,'#74716b');
+rect(4.44,5.42,.24,.28,'#353737','#151717');
 line(5.99,1.31,5.42,1.31,'#9b592d',2);line(5.42,1.31,5.54,1.23,'#9b592d',2);line(5.42,1.31,5.54,1.39,'#9b592d',2);
 for(const x of [.46,1.25])for(const z of [3.57,4.83])rect(x-.20,z-.20,.4,.4,'#d9cfbd','#333');
 for(const x of [1.44,1.65])rect(x-.09,6.5,.18,.49,'#30383b');
 for(const [x,z,a,b] of [[0,0,6.3,0],[0,0,0,7.05],[6.3,0,6.3,7.05],[0,7.05,.3,7.05],[1.32,7.05,6.3,7.05],[3.15,0,3.15,4.37],[3.15,4.37,3.43,4.37],[4.27,4.37,6.3,4.37],[4.95,5.27,4.95,7.05]])line(x,z,a,b);
 line(1.35,0,1.35,.98);line(0,.98,1.35,.98);line(5,0,5,.98);line(5,.98,6.3,.98);line(1.38,0,3.06,0,'#709ca5',7);line(3.25,0,4.95,0,'#709ca5',7);line(3.47,7.05,4.37,7.05,'#709ca5',7);line(.3,7.05,1.32,7.05,'#b0916f',6);line(6.3,5.28,6.3,6.02,'#709ca5',7);
-for(const d of L.doors){if(d.axis==='x'){line(d.x,d.z,d.x,d.z-d.len,'#967451',3);out.push(`<path d="M${X(d.x+d.len)},${Z(d.z)} A${d.len*S},${d.len*S} 0 0 0 ${X(d.x)},${Z(d.z-d.len)}" fill="none" stroke="#967451" stroke-dasharray="4 3"/>`);}else{line(d.x,d.z,d.x+d.len,d.z,'#967451',3);out.push(`<path d="M${X(d.x)},${Z(d.z+d.len)} A${d.len*S},${d.len*S} 0 0 0 ${X(d.x+d.len)},${Z(d.z)}" fill="none" stroke="#967451" stroke-dasharray="4 3"/>`);}}
+for(const d of L.doors){if(d.axis==='x'){line(d.x,d.z,d.x,d.z-d.len,'#967451',3);out.push(`<path d="M${X(d.x+d.len)},${Z(d.z)} A${d.len*S},${d.len*S} 0 0 0 ${X(d.x)},${Z(d.z-d.len)}" fill="none" stroke="#967451" stroke-dasharray="4 3"/>`);}else{line(d.x,d.z,d.x+d.len*Math.cos(d.openAngle||0),d.z-d.len*Math.sin(d.openAngle||0),'#967451',3);out.push(`<path d="M${X(d.x)},${Z(d.z+d.len)} A${d.len*S},${d.len*S} 0 0 0 ${X(d.x+d.len)},${Z(d.z)}" fill="none" stroke="#967451" stroke-dasharray="4 3"/>`);}}
 label('AC support',.12,.52);label('Niche',1.7,.57);label('LIVING',1.35,2.25);label('SOFA',.2,2.4);label('TV',2.65,2.15);label('DINING',1.72,4.15);label('BEDROOM',4.0,.92);label('KITCHEN',3.05,5.62);label('BATH',5.15,5.8);label('Entrance',.26,6.65);
 line(0,-.30,6.30,-.30,'#366d62',1.5);line(-.3,0,-.3,7.05,'#366d62',1.5);text('6.30 m',X(2.85),Z(-.4),16);text('7.05 m',10,Z(3.5),14);
 for(const x of [0,6.3])line(x,-.4,x,-.2,'#366d62',1.5);for(const z of [0,7.05])line(-.4,z,-.2,z,'#366d62',1.5);

@@ -13,7 +13,7 @@ window.HWLayout={width:6.30,length:7.05,height:2.77,partition:3.15,bedSouth:4.37
  bathroom:{window:{x:6.30,z0:5.28,z1:6.02,sill:1.03,head:2.48},sink:{x:6.02,z:4.89},toilet:{x:5.90,z:5.70},column:{x0:6.0,x1:6.3,z0:6.10,z1:6.38}},
  // Heights are photo-fit estimates from V5 real photos 10/22; no measured sill was supplied.
  bay:{left:1.35,right:3.15,back:0,front:.98,sill:.62,divider:1.02,head:2.45,ceiling:2.77},
- doors:[{name:'Bedroom',open:false,axis:'x',x:3.43,z:4.37,len:.84},{name:'Bathroom',open:true,axis:'z',x:4.95,z:4.49,len:.78}],
+ doors:[{name:'Bedroom',open:false,axis:'x',x:3.43,z:4.37,len:.84},{name:'Bathroom',open:true,axis:'z',x:4.95,z:4.49,len:.78,openAngle:-.34}],
  colliders:[
  {x0:3.075,x1:3.225,z0:0,z1:4.37},{x0:3.15,x1:3.43,z0:4.295,z1:4.445},{x0:4.27,x1:6.3,z0:4.295,z1:4.445},
  {x0:4.875,x1:5.025,z0:5.27,z1:7.05},{x0:4.875,x1:5.025,z0:4.37,z1:4.49},
@@ -31,5 +31,7 @@ window.HWLayout={width:6.30,length:7.05,height:2.77,partition:3.15,bedSouth:4.37
  {x0:3.245,x1:3.645,z0:.74,z1:1.54},{x0:3.30,x1:3.57,z0:1.76,z1:2.24},
  {x0:3.65,x1:4.03,z0:.745,z1:1.135},{x0:5.83,x1:6.17,z0:3.32,z1:3.65},
  {x0:5.82,x1:6.225,z0:4.64,z1:5.14},{x0:5.55,x1:6.225,z0:5.48,z1:5.94},
- {x0:6.0,x1:6.3,z0:6.10,z1:6.38},{x0:5.03,x1:5.37,z0:6.59,z1:6.98}
+ {x0:6.0,x1:6.3,z0:6.10,z1:6.38},{x0:5.03,x1:5.37,z0:6.59,z1:6.98},
+ // Kitchen-only bin: 0.61 m clear of the washer front, outside hallway framing.
+ {x0:4.44,x1:4.68,z0:5.42,z1:5.70}
  ]};

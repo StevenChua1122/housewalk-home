@@ -46,7 +46,7 @@
 <div class="modal" id="planModal"><div class="panel"><div class="panelheader"><div><h2>Your mirrored floor plan</h2><p>6.30 × 7.05 m · Tap a room to jump there</p></div><button class="close" id="closePlan" title="Close">×</button></div><canvas id="bigmap" width="630" height="705"></canvas><div class="planfoot">Dining is middle-left, between the entrance and living room. Connected entrance, living, kitchen, bedroom and bathroom.</div></div></div>
 <div id="error"><h3>Preview couldn't start</h3><p>The viewer may have blocked interactive graphics. Open the website in Safari or Chrome instead.</p></div>
 <noscript><div style="padding:50px;background:#fff">This interactive house needs JavaScript. Please open the webpage in Safari or Chrome.</div></noscript>
-<script src="./layout.js"></script>
+<script src="./layout.js?v=owner-final-20261115"></script>
 <script>
 (function(){
 'use strict';
@@ -105,6 +105,7 @@ function createHome(){
  for(const x of [.46,1.25])for(const z of [3.57,4.83]){block(x,.42,z,.43,.09,.43,'#e1d6c2');block(x,.51,z+(z<4.2?-.20:.20),.43,.43,.035,'#242424');}
  block(3.42,0,6.68,1.65,.87,.61,'#96918a');block(3.42,.87,6.65,1.65,.05,.68,'#242424');block(3.735,1.77,6.8,2.28,.78,.33,'#f2eee4');
  block(2.15,0,6.66,.76,2.14,.68,'#51595c');block(2.15,2.17,6.66,.80,.60,.70,'#96918a');block(4.55,0,6.66,.61,.86,.62,'#f5f2ea');
+ block(4.56,.025,5.56,.24,.345,.28,'#353737');
  block(.81,0,7.005,.98,2.25,.055,'#cfb89a');
  for(const x of [1.44,1.65]){for(const xx of [x-.09,x+.09])for(const z of [6.50,6.99])block(xx,.015,z,.018,1.20,.018,'#242424');for(let i=0;i<6;i++)block(x,.018+i*.208,6.745,.18,.012,.50,'#242424');}
  // Compatibility furniture follows the same final bedroom / bath coordinates.
@@ -117,6 +118,18 @@ function createHome(){
  block(6.21,1.03,5.65,.03,1.45,.74,'#c7d4d5');block(6.15,0,6.24,.30,2.77,.28,'#66625d');
  for(const [i,d]of doors.entries()){
   if(i){block(d.x,0,d.z+d.len/2,.065,2.15,d.len,'#f0ece2','bathClosed');block(d.x+d.len/2,0,d.z,d.len,2.15,.065,'#f0ece2','bathOpen');}else{block(d.x+d.len/2,0,d.z,d.len,2.15,.065,'#f0ece2','bedClosed');block(d.x,0,d.z-d.len/2,.065,2.15,d.len,'#f0ece2','bedOpen');}
+ }
+ // Same inside-face attachment as the detailed GLB, in the compatibility view.
+ block(5.04,.39,4.88,.018,1.39,.018,'#b8a888','bathClosed');
+ block(5.04,.12,4.88,.07,.27,.07,'#a2bb18','bathClosed');
+ block(5.34,.39,4.40,.018,1.39,.018,'#b8a888','bathOpen');
+ block(5.34,.12,4.40,.07,.27,.07,'#a2bb18','bathOpen');
+ // Apply the owner's approximately 70-degree open stop to the same leaf and
+ // attached mop in Canvas. Hinge, jamb and all architectural positions stay fixed.
+ const bath=doors[1],angle=bath.openAngle||0,co=Math.cos(angle),si=Math.sin(angle);
+ for(const face of panels)if(face.tag==='bathOpen'){
+  for(const p of [...face.v,face.center]){const x=p[0]-bath.x,z=p[2]-bath.z;p[0]=bath.x+co*x+si*z;p[2]=bath.z-si*x+co*z;}
+  const [x,y,z]=face.normal;face.normal=[co*x+si*z,y,-si*x+co*z];
  }
 }
 
@@ -153,7 +166,9 @@ function collisionCircle(x,z,b,r){let nx=Math.max(b.x0,Math.min(x,b.x1)),nz=Math
 function blocked(x,z){if(x<.17||x>6.13||z<.17||z>6.88)return true;
  for(const b of window.HWLayout.colliders)if(collisionCircle(x,z,b,.19))return true;
  for(const [i,d]of doors.entries()){
-  const leaf=i?(d.open?{x0:d.x,x1:d.x+d.len,z0:d.z-.04,z1:d.z+.04}:{x0:d.x-.04,x1:d.x+.04,z0:d.z,z1:d.z+d.len}):(d.open?{x0:d.x-.04,x1:d.x+.04,z0:d.z-d.len,z1:d.z}:{x0:d.x,x1:d.x+d.len,z0:d.z-.04,z1:d.z+.04});
+  if(i){const angle=d.open?(d.openAngle||0):-PI/2,co=Math.cos(angle),si=Math.sin(angle),dx=x-d.x,dz=z-d.z;
+   if(collisionCircle(co*dx-si*dz,si*dx+co*dz,{x0:0,x1:d.len,z0:-.04,z1:.04},.19))return true;continue;}
+  const leaf=d.open?{x0:d.x-.04,x1:d.x+.04,z0:d.z-d.len,z1:d.z}:{x0:d.x,x1:d.x+d.len,z0:d.z-.04,z1:d.z+.04};
   if(collisionCircle(x,z,leaf,.19))return true;
  }
 
@@ -174,6 +189,7 @@ function mapDraw(canvas){const c=canvas.getContext('2d');if(!c)return;let W=canv
  const B=window.HWLayout.bedroom;
  for(const [b,col]of [[B.bed,'#8b8580'],[B.wardrobe,'#f4f1e7'],[B.cabinet,'#b79873'],[B.vanity,'#f4f1e7'],[B.mirror,'#92acaf']])fill(b.x0,b.z0,b.x1-b.x0,b.z1-b.z0,col);
  fill(5.82,4.64,.405,.50,'#f4f2eb');fill(5.55,5.48,.675,.46,'#f4f2eb');fill(6.0,6.10,.30,.28,'#737069');
+ fill(4.44,5.42,.24,.28,'#353737');
  for(const x of [.46,1.25])for(const z of [3.57,4.83])fill(x-.20,z-.20,.40,.40,'#b3a58c');
  for(const x of [1.44,1.65])fill(x-.09,6.5,.18,.49,'#30383b');
  c.strokeStyle='#596b62';c.lineCap='square';c.lineWidth=canvas===largeMap?6:2.7;
@@ -232,5 +248,5 @@ updateSize();updateRoom();mapDraw(smallMap);render();requestAnimationFrame(frame
 setTimeout(()=>toast('Walk from the entrance to dining, then living room'),700);
 })();
 </script>
-<script type="module" src="./webgl.js?v=integrated-v3"></script>
+<script type="module" src="./webgl.js?v=owner-final-20261115"></script>
 </body></html>

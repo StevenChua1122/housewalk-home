@@ -5,7 +5,7 @@ import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {RoomEnvironment} from './vendor/RoomEnvironment.js';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 import {interiorDetails} from './mesh-library.js';
-import {connectedRoomDetails} from './room-details.js';
+import {connectedRoomDetails} from './room-details.js?v=owner-final-20261115';
 import {windowAlcove} from './window-alcove.js';
 const bridge=window.HousewalkBridge,L=window.HWLayout;
 const old=document.getElementById('view');
@@ -30,6 +30,9 @@ if(renderer&&bridge&&L){
  const floorMat=new THREE.MeshStandardMaterial({map:oak,normalMap:oakN,normalScale:new THREE.Vector2(.085,.085),roughnessMap:oakR,roughness:1,color:'#d9c2a3',metalness:0,envMapIntensity:.38,vertexColors:true});
  const materials=[floorMat,wall,black,cream,upholstery,white,greyTop,metal,taupe,new THREE.MeshStandardMaterial({color:'#d0cbc2',map:cabinetMap,normalMap:fabricN,normalScale:new THREE.Vector2(.09,.09),roughness:.78}),standard('#63503c'),standard('#ded9cd',.55),standard('#a8bcc6',.14,.15),standard('#161a1d',.25),new THREE.MeshStandardMaterial({color:'#fff2d6',emissive:'#ffdfaa',emissiveIntensity:1.5,roughness:.4}),standard('#bba181')];
  metal.envMapIntensity=1.4;
+ // Kitchen stainless needs a brighter, brushed response than small room hardware.
+ // Use a separate material so frozen bedroom/entrance metal stays unchanged.
+ const kitchenSteel=standard('#deded9',.34,.82);kitchenSteel.envMapIntensity=2.1;materials.push(kitchenSteel);
  const fixtureLights=[],nightWindows=[];
  function add(o,cast=true){o.castShadow=cast;o.receiveShadow=true;scene.add(o);return o;}
  function box(x,y,z,w,h,d,m=wall,r=0){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);return add(o,!m.transparent);}
@@ -94,7 +97,7 @@ if(renderer&&bridge&&L){
  const {vertices}=interiorDetails();const buckets=new Map();
  for(let i=0;i<vertices.length;i+=36){const ids=[i,i+12,i+24],p=ids.map(k=>new THREE.Vector3(vertices[k],vertices[k+1],vertices[k+2]));
   const face=new THREE.Vector3().subVectors(p[1],p[0]).cross(new THREE.Vector3().subVectors(p[2],p[0]));const normal=new THREE.Vector3(vertices[i+3],vertices[i+4],vertices[i+5]);if(face.dot(normal)<0)[ids[1],ids[2]]=[ids[2],ids[1]];
-  const m=Math.round(vertices[i+11]);if(!buckets.has(m))buckets.set(m,{p:[],n:[],uv:[],c:[]});const b=buckets.get(m);
+  const sourceMaterial=Math.round(vertices[i+11]);const m=sourceMaterial===7&&p.every(v=>v.z>6.2&&v.x<4.9)?16:sourceMaterial;if(!buckets.has(m))buckets.set(m,{p:[],n:[],uv:[],c:[]});const b=buckets.get(m);
   for(const k of ids){b.p.push(...vertices.slice(k,k+3));b.n.push(...vertices.slice(k+3,k+6));b.uv.push(...vertices.slice(k+6,k+8));const col=new THREE.Color(vertices[k+8],vertices[k+9],vertices[k+10]);col.convertSRGBToLinear();b.c.push(col.r,col.g,col.b);}
  }
  for(const [id,b]of buckets){const geo=new THREE.BufferGeometry();for(const [n,ar,sz]of [['position',b.p,3],['normal',b.n,3],['uv',b.uv,2],['color',b.c,3]])geo.setAttribute(n,new THREE.Float32BufferAttribute(ar,sz));geo.normalizeNormals();const m=materials[id].clone();m.vertexColors=true;add(new THREE.Mesh(geo,m),id!==14);}
@@ -177,6 +180,9 @@ scene.add(g);doorGroups.push(g);
  spot(.45,4.24,7,false,.7,4.2);spot(1.30,4.24,7,false,1.2,4.2);spot(1.78,4.72,7,false,.95,4.2);
  spot(3.65,5.70,15,true,3.85,6.50);spot(.85,6.24,6);
  const task=new THREE.PointLight('#ffebd4',3,2,2);task.position.set(3.7,1.70,6.64);scene.add(task);
+ // Bounded counter bounce faces south into the kitchen, keeping the frozen
+ // bedroom out of its cone. The existing keys/sun still provide real shadows.
+ const kitchenFill=new THREE.SpotLight('#fff1df',5,3,.85,1,2);kitchenFill.name='Kitchen counter bounce';kitchenFill.position.set(3.70,1.90,5.40);kitchenFill.target.position.set(3.60,.80,6.70);scene.add(kitchenFill,kitchenFill.target);
  // Actual sunlight is shadowed by the shell, frames, curtains and furniture.
  const daylight=new THREE.DirectionalLight('#ffe3bc',3.8);daylight.position.set(1.4,7,-12);daylight.target.position.set(3.2,0,4.0);scene.add(daylight,daylight.target);
  daylight.castShadow=true;daylight.shadow.mapSize.set(2048,2048);Object.assign(daylight.shadow.camera,{left:-5.2,right:5.2,top:6.3,bottom:-6.3,near:.2,far:35});daylight.shadow.camera.updateProjectionMatrix();daylight.shadow.bias=-.00010;daylight.shadow.normalBias=.012;daylight.shadow.radius=2;daylight.shadow.blurSamples=8;
@@ -191,15 +197,20 @@ scene.add(g);doorGroups.push(g);
    else if(!name.includes('timber')){const m=o.material.clone();if(name.includes('Grey'))m.color.set('#77736e');if(name.includes('Bedroom grey'))m.color.set('#76716b');if(name.includes('Bedroom cream'))m.color.set('#e5ddce');if(name.includes('Cream'))m.color.set('#e3d9c8');if(name.includes('orange'))m.color.set('#b85c1d');if(name.includes('piping'))m.color.set('#65615b');m.map=fabric;m.sheen=.25;m.sheenColor?.copy(m.color);m.sheenRoughness=.9;m.normalMap=fabricN;m.normalScale=new THREE.Vector2(.065,.065);m.roughness=.90;m.envMapIntensity=.20;o.material=m;}
   });scene.add(g);window.HWScene.heroGroups[kind]=g;return g;
  }
- Promise.all([hero('sofa-tailored.glb','sofa'),hero('curtains-draped.glb','curtain'),hero('bedroom-soft.glb','bedroom')]).then(()=>{window.__HW4_ASSETS=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
- window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms,alcove,daylight,heroGroups:{}};
+ async function props(file,parent){
+  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file);
+  g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
+  parent.add(g);return g;
+ }
+ Promise.all([hero('sofa-tailored.glb','sofa'),hero('curtains-draped.glb','curtain'),hero('bedroom-soft.glb','bedroom'),props('final-room-props.glb',scene),props('bathroom-door-mop.glb',doorGroups[1])]).then(()=>{window.__HW4_ASSETS=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
+ window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms,alcove,daylight,doorGroups,heroGroups:{}};
  let previousNight=null,doorState='',lastW=0,lastH=0,first=true;
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';});
  canvas.addEventListener('webglcontextrestored',()=>location.reload());
  function render(){requestAnimationFrame(render);if(document.hidden||renderer.getContext().isContextLost())return;
   const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5);if(w!==lastW||h!==lastH){renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();lastW=w;lastH=h;}
-  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;rooms.updateNight(n);daylight.intensity=n?.025:3.8;daylight.castShadow=!n;hemi.intensity=n?.72:.48;scene.environmentIntensity=n?.20:.28;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach(l=>l.intensity=n?0:2.8);scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
-  const state=bridge.doors.map(d=>d.open).join();if(state!==doorState){doorState=state;doorGroups.forEach((g,i)=>g.rotation.y=i?(bridge.doors[i].open?0:-Math.PI/2):(bridge.doors[i].open?Math.PI/2:0));renderer.shadowMap.needsUpdate=true;}
+  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;kitchenFill.intensity=n?1:5;rooms.updateNight(n);daylight.intensity=n?.025:3.8;daylight.castShadow=!n;hemi.intensity=n?.72:.48;scene.environmentIntensity=n?.20:.28;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach(l=>l.intensity=n?0:2.8);scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
+  const state=bridge.doors.map(d=>d.open).join();if(state!==doorState){doorState=state;doorGroups.forEach((g,i)=>g.rotation.y=i?(bridge.doors[i].open?(bridge.doors[i].openAngle||0):-Math.PI/2):(bridge.doors[i].open?Math.PI/2:0));renderer.shadowMap.needsUpdate=true;}
   const p=bridge.player,c=bridge.camera||{};camera.position.set(p.x,c.eyeHeight||1.55,p.z);camera.rotation.set(p.pitch,-p.yaw,0,'YXZ');camera.fov=c.verticalFov||(w<h?72:75);camera.updateProjectionMatrix();renderer.info.reset();renderer.render(scene,camera);window.__HW4_FRAME=(window.__HW4_FRAME||0)+1;
   if(first){first=false;window.__HW3D_READY=true;old.style.opacity='0';canvas.style.opacity='1';document.documentElement.dataset.renderer='pbr-final';renderer.shadowMap.needsUpdate=true;}
   window.HW4Stats={triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,shadowMap:true,ceilingShadows:true,pbr:true,mirrors:rooms.mirrors.length,frame:window.__HW4_FRAME};

@@ -55,17 +55,6 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   const frame=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.025,bevelEnabled:true,bevelSize:.003,bevelThickness:.003,bevelSegments:2,steps:1,curveSegments:24}),white);frame.position.set(x,y,z);frame.rotation.y=angle;put(frame,'Bedroom arched mirror frame');
   mirror(new THREE.ShapeGeometry(archShape(w-.037,h-.038),32),x+.029,y+.018,z,angle,'Bedroom full-length mirror');
  }
- function whiteShelf(){
-  const x0=5.035,x1=5.365,z0=6.595,z1=6.97;
-  for(const x of [x0,x1])for(const z of [z0,z1])bar([x,.026,z],[x,.93,z],.010,white);
-  for(const y of [.12,.46,.80]){
-   for(const x of [x0,x1])box(x,y+.035,(z0+z1)/2,.013,.07,z1-z0,white,.004);
-   for(const z of [z0,z1])box((x0+x1)/2,y+.035,z,x1-x0,.07,.013,white,.004);
-   for(let x=x0+.018;x<x1-.01;x+=.025)bar([x,y,z0+.01],[x,y,z1-.01],.0018,white,4);
-   for(let z=z0+.018;z<z1-.01;z+=.025)bar([x0+.01,y,z],[x1-.01,y,z],.0018,white,4);
-  }
-  named.bathShelf={userData:{tiers:3,empty:true}};
- }
  function tilesX(x,z0,z1,y0,y1,mat,gap){
   for(let z=z0;z<z1-.001;z+=.60)for(let y=y0;y<y1-.001;y+=.30){const w=Math.min(.60,z1-z),h=Math.min(.30,y1-y);if(gap&&z+w>gap.z0&&z<gap.z1&&y+h>gap.y0&&y<gap.y1)continue;box(x,y+h/2,z+w/2,.010,h-.0025,w-.0025,mat,.001).castShadow=false;}
  }
@@ -90,8 +79,16 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   const paper=cylinder(6.04,.70,6.02,.060,.145,standard('#eee9de',.95));paper.rotation.x=Math.PI/2;
  }
  function shower(){
-  box(6.15,1.385,6.24,.30,2.77,.28,tileDark,.002,'Bathroom existing solid partition');
-  tilesX(5.992,6.10,6.38,.02,2.75,tileDark);tilesZ(6.093,6.0,6.225,.02,2.75,tileDark);
+  // Real recessed niche directly below the heater. Four masonry pieces leave
+  // an opening; the back is about 90 mm behind the partition face, not a dark decal.
+  box(6.15,.50,6.24,.30,1.00,.28,tileDark,.002,'Bathroom partition below niche');
+  box(6.15,2.075,6.24,.30,1.39,.28,tileDark,.002,'Bathroom partition above niche');
+  for(const z of [6.116,6.364])box(6.15,1.19,z,.30,.38,.032,tileDark,.001);
+  box(6.19,1.19,6.24,.22,.38,.216,tileDark,.001,'Bathroom niche recessed back');
+  box(6.033,1.005,6.24,.085,.014,.216,tileDark,.001,'Bathroom niche sill');
+  tilesX(5.992,6.10,6.38,.02,1.00,tileDark);
+  tilesX(5.992,6.10,6.38,1.38,2.75,tileDark);
+  tilesZ(6.093,6.0,6.225,.02,2.75,tileDark);
   box(5.95,1.68,6.24,.075,.40,.20,black,.025,'Bathroom black water heater');
   cylinder(5.905,1.66,6.24,.019,.025,metal).rotation.z=Math.PI/2;
   for(const z of [6.18,6.31])bar([6.0,.97,z],[5.92,.97,z],.013);
@@ -101,7 +98,9 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   tube([[5.91,1.47,6.23],[5.82,.63,6.25],[5.88,.68,6.36],[5.91,1.22,6.30]],.006);
   bar([5.91,1.20,6.30],[5.865,1.40,6.30],.013);sphere(5.86,1.43,6.30,.015,.043,.026,metal);
   box(5.90,.018,6.73,.12,.005,.12,metal,.002,'Bathroom floor drain');for(let i=0;i<5;i++)box(5.858+i*.021,.021,6.73,.007,.001,.082,black,0);
-  whiteShelf();
+  // The three triangular trays and simplified contents are Blender-authored
+  // in final-room-props.glb; do not duplicate the old rectangular empty rack.
+  named.bathShelf={userData:{tiers:3,triangular:true,empty:false}};
  }
 
  // Bedroom's fixed feature wall, AC-support mass, closed wardrobe and side-wall furniture.

@@ -1,0 +1,111 @@
+{
+  "frozenBedroomEntrance": "PASS",
+  "frozenArchitectureDoorAndMop": "PASS",
+  "geometry": {
+    "binClearance": 0.6064644432067867,
+    "binBounds": [
+      4.434999942779541,
+      4.683535575866699,
+      5.414999961853027,
+      5.703535556793213
+    ],
+    "nicheDepth": 0.09299993515014648,
+    "trays": [
+      0.800000011920929,
+      0.46000003814697266,
+      0.12000000476837169
+    ],
+    "outside": 0,
+    "cabinetDoorBands": [
+      [
+        2.598226547241211,
+        3.041773557662964
+      ],
+      [
+        3.0582265853881836,
+        3.5017735958099365
+      ],
+      [
+        3.518226385116577,
+        3.96177339553833
+      ],
+      [
+        3.97822642326355,
+        4.421773433685303
+      ],
+      [
+        4.438226699829102,
+        4.881773471832275
+      ]
+    ],
+    "mugArtwork": [
+      {
+        "width": 0.22547149658203125,
+        "texture": [
+          512,
+          512
+        ]
+      }
+    ],
+    "hasMop": true
+  },
+  "doorOcclusion": [
+    {
+      "open": true,
+      "firstMop": false,
+      "firstName": "",
+      "firstLeaf": true,
+      "handleWorld": [
+        5.3476881578487285,
+        1.55,
+        4.535212046037366
+      ],
+      "mopVisible": true,
+      "openDegrees": 70.51943496555201,
+      "mopWallClearance": 0.01799598719855844,
+      "hallwayHidden": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "open": false,
+      "firstMop": true,
+      "firstName": "Bathroom_inside-door_mop__Pale_beige_shelf",
+      "firstLeaf": false,
+      "handleWorld": [
+        5.04,
+        1.55,
+        4.88
+      ],
+      "mopVisible": true,
+      "openDegrees": 0,
+      "mopWallClearance": null,
+      "hallwayHidden": []
+    }
+  ],
+  "continuousWalk": [
+    {
+      "x": 2.05,
+      "z": 5.543729039786409
+    },
+    {
+      "x": 3.3912527324258286,
+      "z": 5.549959367580021
+    },
+    {
+      "x": 3.4000685583245636,
+      "z": 4.874749069766029
+    },
+    {
+      "x": 5.314809157253564,
+      "z": 4.88012582801348
+    },
+    {
+      "x": 5.268200654589429,
+      "z": 6.294606770140344
+    }
+  ],
+  "errors": []
+}
