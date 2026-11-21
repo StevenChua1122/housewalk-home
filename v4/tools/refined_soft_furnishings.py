@@ -15,7 +15,7 @@ def contour(name,p,w,h,r,m,vertical=False):
   for k in range(12):
    t=math.radians(a+k*90/11);u=cx+r*math.cos(t);v=cy+r*math.sin(t)
    pts.append((p[0],p[1]+v,p[2]+u) if vertical else (p[0]+u,p[1],p[2]+v))
- pts.append(pts[0]);cord(name,pts,.0018,m)
+ pts.append(pts[0]);cord(name,pts,.0014,m)
 def sofa_model():
  # Same untransformed bounds; runtime retains the .94 × .90 placement transform.
  soft('Continuous tailored sofa base',(.535,.205,2.39),(.93,.25,2.19),sofa,.035,1)
@@ -28,9 +28,28 @@ def sofa_model():
   seat=soft('Tailored seat cushion '+str(i+1),(.60,.405,z),(.75,.15,.65),sofa,.040,2)
   tex=bpy.data.textures.new('Fine compressed seat cloth '+str(i+1),type='CLOUDS');tex.noise_scale=.14;tex.noise_depth=1
   dis=seat.modifiers.new('Subtle irregular fabric compression','DISPLACE');dis.texture=tex;dis.strength=.003;dis.mid_level=.5;dis.texture_coords='GLOBAL'
+  # Sculpt contact and small tension folds in the existing cushion surface.
+  bpy.context.view_layer.objects.active=seat
+  for md in list(seat.modifiers):bpy.ops.object.modifier_apply(modifier=md.name)
+  inv=seat.matrix_world.inverted()
+  for vertex in seat.data.vertices:
+   p=seat.matrix_world@vertex.co;weight=max(0,min(1,(p.z-.415)/.050))
+   # The red doll's lower legs contact this raised, compressed patch; the
+   # unloaded ring settles around it instead of letting the toy float.
+   contact=math.exp(-((p.x-.60)/.12)**2-(((-p.y)-1.76)/.14)**2)
+   edge=math.exp(-((p.x-.90)/.07)**2)
+   p.z+=weight*(.0035*contact+.0012*edge*math.sin((-p.y)*56+p.x*13))
+   vertex.co=inv@p
   contour('Seat attached piping',(.60,.466,z),.715,.615,.045,piping)
   back=soft('Soft backrest cushion '+str(i+1),(.285,.68,z),(.245,.54,.65),sofa,.065,2)
   dis=back.modifiers.new('Softly settled backrest cloth','DISPLACE');dis.texture=tex;dis.strength=.004;dis.mid_level=.5;dis.texture_coords='GLOBAL'
+  bpy.context.view_layer.objects.active=back
+  for md in list(back.modifiers):bpy.ops.object.modifier_apply(modifier=md.name)
+  inv=back.matrix_world.inverted()
+  for vertex in back.data.vertices:
+   p=back.matrix_world@vertex.co;weight=max(0,min(1,(p.z-.855)/.095));zz=-p.y
+   pressure=max(math.exp(-((p.x-.245)/.085)**2-((zz-(toy-.12)/.90)/.11)**2) for toy in [1.45,1.70,1.88,2.09,2.37])
+   p.z-=.030*weight*pressure;vertex.co=inv@p
   # Keep seams in the same coordinate frame as the cushion; no detached rods.
   contour('Backrest attached perimeter piping',(.408,.68,z),.605,.490,.060,piping,True)
  for x in [.15,.90]:
@@ -43,7 +62,7 @@ if os.environ.get('HW_SOFT_ONLY')!='curtains':
 def curtains():
  # Same anchoring and tied width envelope; soft asymmetric folds carry thickness.
  for side in [-1,1]:
-  U,V=72,80;v=[];uv=[];f=[];outer=1.34 if side==-1 else 3.12
+  U,V=96,80;v=[];uv=[];f=[];outer=1.34 if side==-1 else 3.12
   for j in range(V+1):
    t=j/V;y=.025+2.61*t
    gather=math.exp(-((t-.31)/.18)**2)
@@ -52,7 +71,7 @@ def curtains():
    width=.35+.30*t**1.7-.15*gather
    for i in range(U+1):
     u=i/U;warp=u+.14*u*(1-u)*math.sin(u*9+.65*side)
-    phase=warp*math.tau*5.25+.28*math.sin(t*2.1+u*5+side)+.12*math.sin(t*6+u*11)
+    phase=warp*math.tau*7.5+.28*math.sin(t*2.1+u*5+side)+.12*math.sin(t*6+u*11)
     amp=(.034+.016*t)*(1+.20*math.sin(u*13+side))*(1-.70*gather)
     # Smooth deep folds, not saw-tooth/cardboard ridges. A slight under-fold
     # gives the tieback volume without inflating the entire drape.
@@ -65,7 +84,7 @@ def curtains():
   for j in range(V):
    for i in range(U):a=j*(U+1)+i;f.append((a,a+U+1,a+U+2,a+1) if side==1 else (a,a+1,a+U+2,a+U+1))
   o=mesh('Left volumetric tied drape' if side==-1 else 'Right volumetric tied drape',v,f,taupe,uv)
-  s=o.modifiers.new('Blackout lining thickness','SOLIDIFY');s.thickness=.0035;s.offset=0
+  s=o.modifiers.new('Blackout lining thickness','SOLIDIFY');s.thickness=.0024;s.offset=0
   for row in [0,V]:cord('Curtain folded sewn hem',[v[row*(U+1)+i] for i in range(U+1)],.0025,taupe)
   for column in [0,U]:cord('Curtain vertical sewn hem',[v[j*(U+1)+column] for j in range(V+1)],.0015,taupe)
   # Wide fabric tieback is a small ribbon with a modeled rear return.

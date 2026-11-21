@@ -1,0 +1,105 @@
+{
+  "sourceGLBSha256": "9937ee37bfab7e8c5f71e7df2159ef9871fda3fd7c03d34bff6d46ea4801bf21",
+  "sourceRevision": "180",
+  "geometryTriangles": 1098608,
+  "lightDirectionsVerified": [
+    {
+      "name": "HW_LIGHT_2",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_4",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_5",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_6",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_7",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_9",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_10",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_11",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_12",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_13",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_14",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_15",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_16",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_18",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_21",
+      "radianError": 0.0
+    }
+  ],
+  "objectsVerified": 951,
+  "maxMatrixError": 4.76837158203125e-07,
+  "geometry": "Same runtime meshes, materials, object transformations and camera poses. No restaging, mockup background, wall/fixture/furniture movement.",
+  "translation": {
+    "renderer": "Cycles CPU, real multi-bounce indirect illumination",
+    "lights": "glTF COMPAT: sun intensity retained; point/spot candela \u00d7 4\u03c0 watts",
+    "world": "Uniform blue daylight radiance 0.60, no HDR photograph",
+    "toneMap": "AgX Medium Low Contrast, +0.7 EV; WebGL uses ACES at 0.95",
+    "contactAO": "AO-only vertex multipliers neutralized, real path-traced contact; base/color-art retained",
+    "AOAttributesNeutralized": 149,
+    "mirror": "Reflector translated to physical mirror on same plane"
+  },
+  "denoising": "Official Intel OIDN 2.3.3 CPU, using actual render albedo/normal passes",
+  "maxSamples": 64,
+  "adaptiveThreshold": 0.03999999910593033,
+  "adaptiveMinimum": 16,
+  "renders": [
+    {
+      "view": {
+        "name": "bathroom-shower",
+        "x": 5.3,
+        "z": 5.1,
+        "yaw": 2.7,
+        "pitch": -0.14,
+        "eye": 1.5,
+        "fov": 82.0,
+        "w": 768.0,
+        "h": 1024.0,
+        "closed": false
+      },
+      "width": 768,
+      "height": 1024,
+      "threads": 4,
+      "seconds": 541.3,
+      "file": "cycles-runtime-fill-bathroom-shower.png"
+    }
+  ],
+  "classification": "Historical direct runtime-fill translation before the physical-daylight comparison."
+}

@@ -4,7 +4,7 @@
 import * as THREE from './vendor/three.module.min.js';
 import {RoundedBoxGeometry} from './vendor/RoundedBoxGeometry.js';
 import {Reflector} from './vendor/Reflector.js';
-import {toiletModel} from './toilet-model.js?v=niche-round3-20261115';
+import {toiletModel} from './toilet-model.js?v=mockup-round4-20261116';
 import {bedroomRug} from './bedroom-rug.js';
 
 export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,taupe,cloth,shadowLights,glass}){
@@ -20,7 +20,8 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
  const bathChrome=new THREE.MeshPhysicalMaterial({color:'#d8dcdb',roughness:.20,metalness:.95,envMapIntensity:1.65});
  const wood=standard('#b8946d',.58);wood.map=tex('door-ash.jpg',true);
  const lightFace=new THREE.MeshStandardMaterial({color:'#fff7e6',emissive:'#ffe4bb',emissiveIntensity:.8,roughness:.6});
- function box(x,y,z,w,h,d,m=white,r=.006,name){const geo=r?new RoundedBoxGeometry(w,h,d,2,Math.min(r,w/3,h/3,d/3)):new THREE.BoxGeometry(w,h,d);const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);return put(o,name);}
+ function box(x,y,z,w,h,d,m=white,r=.006,name){const geo=r?new RoundedBoxGeometry(w,h,d,2,Math.min(r,w/3,h/3,d/3)):new THREE.BoxGeometry(w,h,d);if(m.map===tileMap){const shade=.985+.025*Math.sin(x*41.1+y*27.7+z*63.4),colors=new Float32Array(geo.attributes.position.count*3).fill(shade),uv=geo.attributes.uv;geo.setAttribute('color',new THREE.BufferAttribute(colors,3));m.vertexColors=true;for(let i=0;i<uv.count;i++){uv.setXY(i,uv.getX(i)+x*.371+y*.113,uv.getY(i)+z*.539+y*.217);}}
+ const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);return put(o,name);}
  function bar(a,b,r=.009,m=metal,segments=12){const v=new THREE.Vector3(...b).sub(new THREE.Vector3(...a));const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,v.length(),segments),m);o.position.copy(new THREE.Vector3(...a).add(new THREE.Vector3(...b)).multiplyScalar(.5));o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),v.normalize());return put(o);}
  function cylinder(x,y,z,r,h,m=metal){const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,32),m);o.position.set(x,y,z);return put(o);}
  function sphere(x,y,z,sx,sy,sz,m){const o=new THREE.Mesh(new THREE.SphereGeometry(1,28,18),m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);return put(o);}
@@ -91,13 +92,14 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
   // Locked 04 RIGHT view: opening on the WINDOW-FACING return (normal -Z),
   // perpendicular to the heater/rail face. Round 2 incorrectly cut normal -X.
   // Preserve the masonry envelope x=6..6.30, z=6.10..6.38, y=0..2.77.
-  // Only the cavity/its tiled returns change; every fixture below stays fixed.
-  const n={x0:6.016,x1:6.208,y0:1.06,y1:1.38,front:6.088,back:6.238};
-  box(6.15,.53,6.24,.30,1.06,.28,tileDark,.001,'Bathroom partition below niche');
-  box(6.15,2.075,6.24,.30,1.39,.28,tileDark,.001,'Bathroom partition above niche');
-  box(6.008,1.22,6.24,.016,.32,.28,tileDark,0,'Bathroom niche left masonry pier');
-  box(6.254,1.22,6.24,.092,.32,.28,tileDark,0,'Bathroom niche right masonry pier');
-  box(6.112,1.22,6.309,.192,.32,.142,tileDark,0,'Bathroom niche recessed back');
+  // Owner authorized only the 202 × 320 × 150 mm cavity, raised 40 mm.
+  // Every fixture below stays fixed; this is not final bathroom visual approval.
+  const n={x0:6.002,x1:6.208,y0:1.10,y1:1.42,front:6.088,back:6.238};
+  box(6.15,.55,6.24,.30,1.10,.28,tileDark,.001,'Bathroom partition below niche');
+  box(6.15,2.095,6.24,.30,1.35,.28,tileDark,.001,'Bathroom partition above niche');
+  box(6.001,1.26,6.24,.002,.32,.28,tileDark,0,'Bathroom niche left masonry pier');
+  box(6.254,1.26,6.24,.092,.32,.28,tileDark,0,'Bathroom niche right masonry pier');
+  box(6.105,1.26,6.309,.206,.32,.142,tileDark,0,'Bathroom niche recessed back');
   tilesX(5.992,6.10,6.38,.02,2.75,tileDark);
   // Clip individual front tiles at the exact aperture; no full tile/decal
   // bridges the hole. All exterior grout courses share the same .02 m origin.
@@ -108,13 +110,13 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
    for(const [a,b,c,d]of parts)if(b-a>.001&&d-c>.001)box((a+b)/2,(c+d)/2,6.093,b-a-.001,d-c-.0025,.010,tileDark,.00025).castShadow=false;
   }
   const recessTile=tileDark.clone();recessTile.color.set('#64615a');
-  box(6.112,1.22,6.242,.190,.318,.008,recessTile,.0003,'Bathroom niche tiled back face');
-  for(const x of [6.017,6.207])box(x,1.22,6.163,.002,.320,.150,tileDark,.0002,'Bathroom niche tiled side return');
-  box(6.112,1.055,6.163,.192,.010,.150,tileDark,.0004,'Bathroom niche sill');
-  box(6.112,1.385,6.163,.192,.010,.150,tileDark,.0004,'Bathroom niche tiled soffit');
+  box(6.105,1.26,6.242,.200,.318,.008,recessTile,.0003,'Bathroom niche tiled back face');
+  for(const x of [6.001,6.209])box(x,1.26,6.163,.006,.320,.150,tileDark,.0002,'Bathroom niche tiled side return');
+  box(6.105,1.095,6.163,.206,.010,.150,tileDark,.0004,'Bathroom niche sill');
+  box(6.105,1.425,6.163,.206,.010,.150,tileDark,.0004,'Bathroom niche tiled soffit');
   // Fine grout continues inside the return; it is not an emissive dark patch.
-  box(6.112,1.22,6.2375,.188,.0015,.0005,grout,0).castShadow=false;
-  named.showerNiche={userData:{...n,normal:[0,0,-1],width:n.x1-n.x0,height:n.y1-n.y0,depth:n.back-n.front,partitionEnvelope:[6,6.30,0,2.77,6.10,6.38]}};
+  box(6.105,1.22,6.2375,.200,.0015,.0005,grout,0).castShadow=false;
+  named.showerNiche={userData:{...n,normal:[0,0,-1],width:.202,cutoutWidth:n.x1-n.x0,clearBounds:[6.004,6.206,1.10,1.42],height:n.y1-n.y0,depth:n.back-n.front,partitionEnvelope:[6,6.30,0,2.77,6.10,6.38]}};
   box(5.95,1.68,6.24,.075,.40,.20,black,.025,'Bathroom black water heater');
   box(5.990,1.68,6.24,.014,.33,.14,black,.005,'Heater contacting mounting pad');
   box(5.909,1.70,6.24,.006,.29,.145,standard('#1b1e20',.44),.018,'Heater inset front fascia');
@@ -244,5 +246,9 @@ export function connectedRoomDetails({scene,L,bridge,tex,wall,white,metal,black,
  cylinder(4.35,2.586,4.98,.09,.020,white);cylinder(4.35,2.573,4.98,.067,.008,lightFace);
  function key(x,z,power,target,shadow,name){const l=new THREE.SpotLight('#ffe6cf',power,4.5,1.2,1,2);l.position.set(x,2.60,z);l.target.position.set(...target);scene.add(l,l.target);l.castShadow=shadow;if(shadow){l.shadow.mapSize.set(512,512);l.shadow.bias=-.0002;l.shadow.normalBias=.018;l.shadow.radius=4;l.shadow.blurSamples=8;shadowLights.push(l);}lights.push(l);l.name=name;return l;}
  key(4.36,1.55,13,[5.10,.45,2.40],true,'Bedroom ceiling key');key(5.0,3.66,3,[5.2,.3,3.0],false,'Bedroom south ceiling fill');const bathKey=key(5.55,5.66,7,[5.9,.3,5.8],true,'Bathroom ceiling key');bathKey.shadow.mapSize.set(1024,1024);bathKey.shadow.normalBias=.005;key(4.35,4.98,3,[4.3,.4,4.9],false,'Hallway soffit fill');
- return {named,mirrors,lights,charcoal,porcelain,updateNight(n){frosted.emissiveIntensity=n?.15:.25;windowFill.intensity=n?1.0:1.8;}};
+ // Retained shower/small bathroom hardware uses local chrome response; do not
+ // alter the shared metal used by the frozen rooms or the original door group.
+ for(const o of scene.children)if(o.isMesh&&o.material===metal&&o.position.x>4.99&&o.position.z>4.44)o.material=bathChrome;
+ const reflectionMaterials=new Set([tileDark,tileLight,tileFloor,porcelain,bathChrome,named['Bathroom niche tiled back face'].material,named['Bathroom wall-mounted sink'].material]);named.toilet.traverse(o=>{if(o.isMesh)reflectionMaterials.add(o.material)});
+ return {named,mirrors,lights,charcoal,porcelain,reflectionMaterials,updateNight(n){frosted.emissiveIntensity=n?.15:.25;windowFill.intensity=n?1.0:3.2;}};
 }

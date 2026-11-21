@@ -1,4 +1,4 @@
-"""Refine furniture/fixtures at PR #8's locked anchors and footprints, in Blender."""
+"""Retain furniture footprints; refine fixtures against the locked references."""
 import bpy,sys,math,os
 from pathlib import Path
 from mathutils import Vector
@@ -29,39 +29,40 @@ def ring_z(name,x,y,z,outer,inner,depth,m,N=96):
  o=mesh(name,v,f,m);be=o.modifiers.new('Rolled ring bevel','BEVEL');be.width=.0025;be.segments=3;return o
 def countertop_slab():
  o=box('Black stone slab with genuine basin cutout',(3.4175,.885,6.65),(1.655,.045,.68),counter,0)
- cut=box('Temporary sink cutter',(3.92,.885,6.67),(.53,.30,.41),counter,.018)
+ cut=box('Temporary sink cutter',(3.92,.885,6.565),(.53,.30,.41),counter,.018)
  bpy.context.view_layer.objects.active=cut
  for md in list(cut.modifiers):bpy.ops.object.modifier_apply(modifier=md.name)
  bpy.context.view_layer.objects.active=o;mod=o.modifiers.new('Open sink cavity','BOOLEAN');mod.operation='DIFFERENCE';mod.solver='EXACT';mod.object=cut;bpy.ops.object.modifier_apply(modifier=mod.name);bpy.data.objects.remove(cut,do_unlink=True)
  be=o.modifiers.new('Stone eased edges','BEVEL');be.width=.004;be.segments=3;norm=o.modifiers.new('Stone weighted normals','WEIGHTED_NORMAL');norm.keep_sharp=True
 def kitchen():
- # Existing run, appliance anchors, upper-door centers, frame opening and floor
- # positions are unchanged. Only surface/edge/appliance geometry is refined.
+ # Cabinet run, fridge/washer, upper doors, window and floor anchors stay fixed.
+ # Fit the sink 105 mm forward and mixer 55 mm forward inside that envelope,
+ # restoring the real-photo 40 mm front ledge / 115 mm rear ledge.
  softbox('Kitchen floor-standing plinth',(3.415,.095,6.69),(1.65,.16,.53),ivory,.007)
  carcass=box('Kitchen base cabinet carcass',(3.415,.47625,6.69),(1.65,.7725,.58),cabinet,0)
- cut=box('Temporary carcass sink clearance',(3.92,.83,6.67),(.56,.50,.44),cabinet,.015)
+ cut=box('Temporary carcass sink clearance',(3.92,.83,6.565),(.56,.50,.44),cabinet,.015)
  bpy.context.view_layer.objects.active=cut
  for md in list(cut.modifiers):bpy.ops.object.modifier_apply(modifier=md.name)
  bpy.context.view_layer.objects.active=carcass;md=carcass.modifiers.new('Real drop-in sink clearance','BOOLEAN');md.operation='DIFFERENCE';md.solver='EXACT';md.object=cut;bpy.ops.object.modifier_apply(modifier=md.name);bpy.data.objects.remove(cut,do_unlink=True)
  be=carcass.modifiers.new('Carcass manufactured edges','BEVEL');be.width=.005;be.segments=3;carcass.modifiers.new('Carcass weighted normals','WEIGHTED_NORMAL')
 
  for x in [2.7555,3.0865,3.4175,3.7485,4.0795]:
-  softbox('Grey linen lower cabinet door',(x,.49,6.35),(.323,.68,.027),cabinet,.003)
+  softbox('Grey linen lower cabinet door',(x,.49,6.35),(.327,.68,.027),cabinet,.002)
   softbox('Lower cabinet recessed finger pull',(x,.836,6.353),(.300,.012,.024),black,.002)
  countertop_slab()
- surface('Open brushed stainless sink basin',3.92,6.67,[((.215,.150),.74),((.245,.18),.795),((.263,.203),.909),((.275,.215),.913),((.260,.200),.917),((.244,.184),.903),((.227,.168),.778),((.202,.142),.754),((.05,.05),.745),(0,.745)],steel,96,.31)
- cyl('Sink drain strainer',(3.92,.748,6.67),.029,.005,chrome)
+ surface('Open brushed stainless sink basin',3.92,6.565,[((.215,.150),.74),((.245,.18),.795),((.263,.203),.909),((.275,.215),.913),((.260,.200),.917),((.244,.184),.903),((.227,.168),.778),((.202,.142),.754),((.05,.05),.745),(0,.745)],steel,96,.31)
+ cyl('Sink drain strainer',(3.92,.748,6.565),.029,.005,chrome)
  for i in range(9):
-  a=i*math.tau/9;cyl('Sink drain holes',(3.92+.018*math.cos(a),.752,6.67+.018*math.sin(a)),.002,.001,black)
- cyl('Gooseneck mixer base',(3.95,.94,6.90),.025,.055,chrome)
- tube('Continuous curved gooseneck faucet',[(3.95,.96,6.90),(3.95,1.16,6.90),(3.95,1.285,6.81),(3.95,1.17,6.65)],.013,chrome)
- cyl('Faucet aerator',(3.95,1.158,6.65),.016,.025,chrome)
- between('Mixer side valve connection',(3.970,.945,6.90),(4.015,.945,6.90),.013,chrome,32)
- tube('Mixer side lever',[(4.015,.94,6.90),(4.025,1.015,6.90),(4.025,1.025,6.87)],.006,chrome)
+  a=i*math.tau/9;cyl('Sink drain holes',(3.92+.018*math.cos(a),.752,6.565+.018*math.sin(a)),.002,.001,black)
+ surface('Gooseneck mixer contacting escutcheon',3.95,6.845,[(0,.9075),(.024,.9075),(.027,.910),(.027,.917),(.023,.921),(.023,.955),(.016,.969),(0,.969)],chrome,64)
+ tube('Continuous curved gooseneck faucet',[(3.95,.96,6.845),(3.95,1.16,6.845),(3.95,1.285,6.755),(3.95,1.17,6.595)],.013,chrome)
+ cyl('Faucet aerator',(3.95,1.158,6.595),.016,.025,chrome)
+ between('Mixer side valve connection',(3.970,.945,6.845),(4.015,.945,6.845),.013,chrome,32)
+ tube('Mixer side lever',[(4.015,.94,6.845),(4.025,1.015,6.845),(4.025,1.025,6.815)],.006,chrome)
  # Five white doors; no extra white door is created above the refrigerator.
  softbox('Continuous white upper carcass',(3.735,2.16,6.83),(2.28,.78,.32),enamel,.003)
  for i,x in enumerate([2.82,3.28,3.74,4.20,4.66]):
-  softbox('White upper cabinet door '+str(i+1),(x,2.16,6.653),(.448,.775,.025),enamel,.003)
+  softbox('White upper cabinet door '+str(i+1),(x,2.16,6.653),(.458,.775,.025),enamel,.0015)
  softbox('Upper underside shadow reveal',(3.735,1.765,6.67),(2.23,.009,.018),ivory,.002)
  # Backsplash tiles remain interrupted by the fixed window aperture.
  backsplash=material('Refined pale backsplash tile','#d7d4ca',.48)
@@ -132,10 +133,12 @@ def kitchen():
   for i in range(N):a=j*(N+1)+i;f.append((a,a+1,a+N+2,a+N+1))
  mesh('Washer convex smoked glass',v,f,smokedGlass,uv)
  softbox('Washer upper control fascia',(4.55,.77,6.332),(.566,.145,.020),ivory,.006)
- # Camera-left drawer, central selector and camera-right display as in locked 03.
+ # IMG_9973: drawer, rectangular display and small push controls (no rotary dial).
  softbox('Washer detergent drawer',(4.70,.78,6.317),(.18,.062,.010),white,.004)
  softbox('Washer drawer finger recess',(4.70,.750,6.309),(.14,.007,.009),grey,.002)
- disk_front('Washer flat program selector',(4.55,.77,6.307),.024,.012,steel)
+ softbox('Washer central rectangular control display',(4.55,.785,6.307),(.090,.034,.010),black,.003)
+ for x in [4.51,4.55,4.59]:disk_front('Washer small round programme push button',(x,.743,6.307),.007,.006,ivory)
+ for y in [.785,.775]:softbox('Washer subtle display segment',(4.54,y,6.301),(.025,.002,.001),grey,.0003)
  softbox('Washer display',(4.41,.77,6.316),(.073,.028,.008),black,.002)
  for x in [4.39,4.43]:softbox('Washer small control button',(x,.738,6.310),(.017,.009,.005),white,.002)
  softbox('Washer door recessed pull',(4.739,.40,6.296),(.027,.094,.016),rubber,.009)

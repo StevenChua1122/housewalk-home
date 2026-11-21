@@ -1,0 +1,127 @@
+{
+  "status": "PASS sampled vertex test",
+  "note": "Actual exported slipper mesh at refined resting positions versus fixed original leaf during its full approved swing. Door, hinge, jamb, mop and walls are unchanged. Positive inside vertices prove a placement conflict; a zero count alone is not an exhaustive triangle collision proof.",
+  "slipperVertices": 1488,
+  "slipperCenters": [
+    [
+      5.64,
+      4.52
+    ],
+    [
+      5.63,
+      4.62
+    ]
+  ],
+  "previousCenters": [
+    [
+      5.47,
+      4.72
+    ],
+    [
+      5.57,
+      4.76
+    ]
+  ],
+  "states": [
+    {
+      "leafRotationRadians": -1.5707963267948966,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.519513146511776,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.468229966228655,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.4169467859455345,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.3656636056624138,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.314380425379293,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.2630972450961724,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.2118140648130518,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.1605308845299311,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.1092477042468103,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.0579645239636897,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -1.0066813436805688,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.9553981633974483,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.9041149831143276,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.852831802831207,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.8015486225480862,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.7502654422649656,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.698982261981845,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.6476990816987241,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.5964159014156035,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.5451327211324828,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.49384954084936217,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.4425663605662413,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.3912831802831207,
+      "soleOrStrapVerticesInsideLeaf": 0
+    },
+    {
+      "leafRotationRadians": -0.3400000000000001,
+      "soleOrStrapVerticesInsideLeaf": 0
+    }
+  ]
+}

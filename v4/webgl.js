@@ -5,9 +5,10 @@ import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {RoomEnvironment} from './vendor/RoomEnvironment.js';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 import {interiorDetails} from './mesh-library.js';
-import {connectedRoomDetails} from './room-details.js?v=niche-round3-20261115';
+import {connectedRoomDetails} from './room-details.js?v=mockup-round4-20261116';
 import {windowAlcove} from './window-alcove.js';
-import {refinedMaterials} from './refined-materials.js?v=niche-round3-20261115';
+import {refinedMaterials} from './refined-materials.js?v=mockup-round4-20261116';
+import {localReflections} from './local-reflections.js?v=round4';
 const bridge=window.HousewalkBridge,L=window.HWLayout;
 const old=document.getElementById('view');
 let renderer;
@@ -30,6 +31,7 @@ if(renderer&&bridge&&L){
  const cloth=(color)=>new THREE.MeshPhysicalMaterial({color,map:fabric,normalMap:fabricN,normalScale:new THREE.Vector2(.065,.065),roughness:.90,sheen:.45,sheenColor:new THREE.Color(color),sheenRoughness:.82,envMapIntensity:.18});
  const upholstery=cloth('#77746f'),cream=cloth('#e7dfcf'),taupe=cloth('#a48d74');taupe.normalScale.set(.05,.05);taupe.sheen=.28;taupe.sheenRoughness=.95;
  const floorMat=new THREE.MeshStandardMaterial({map:oak,normalMap:oakN,normalScale:new THREE.Vector2(.085,.085),roughnessMap:oakR,roughness:1,color:'#d9c2a3',metalness:0,envMapIntensity:.38,vertexColors:true});
+ const livingFloor=new THREE.MeshPhysicalMaterial({map:oak,normalMap:oakN,normalScale:new THREE.Vector2(.075,.075),roughnessMap:oakR,roughness:.78,color:'#d9c2a3',clearcoat:.13,clearcoatRoughness:.42,envMapIntensity:.50,vertexColors:true});refined.registerMaterial(livingFloor,'living');
  const materials=[floorMat,wall,black,cream,upholstery,white,greyTop,metal,taupe,new THREE.MeshStandardMaterial({color:'#d0cbc2',map:cabinetMap,normalMap:fabricN,normalScale:new THREE.Vector2(.09,.09),roughness:.78}),standard('#63503c'),standard('#ded9cd',.55),standard('#a8bcc6',.14,.15),standard('#161a1d',.25),new THREE.MeshStandardMaterial({color:'#fff2d6',emissive:'#ffdfaa',emissiveIntensity:1.5,roughness:.4}),standard('#bba181')];
  metal.envMapIntensity=1.4;
  // Kitchen stainless needs a brighter, brushed response than small room hardware.
@@ -43,16 +45,30 @@ if(renderer&&bridge&&L){
  function wallX(x,a,b){box(x,L.height/2,(a+b)/2,.15,L.height,b-a);}
  function wallZ(z,a,b){box((a+b)/2,L.height/2,z,b-a,L.height,.15);}
  // Floor: 180 mm boards, lengthwise grain, staggered joints and per-board UV variation.
- const fp=[],fn=[],fu=[],fc=[];let seed=13246;const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+ const fp=[],fn=[],fu=[],fc=[],floorGroups=[];let seed=13246;const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  for(let x=.0,row=0;x<6.3;x+=.18,row++){
   const w=Math.min(.178,6.3-x),start=-((row%4)*.411);
   for(let z=start;z<7.05;z+=1.66){const a=Math.max(0,z),b=Math.min(7.05,z+1.658);if(b-a<.02)continue;
    const u0=rand()*5,v0=rand()*4,flip=rand()>.5?1:-1,shade=.956+rand()*.075;
    const strips=x<4.95&&x+w>4.95?[[x,4.95,a,b],[4.95,x+w,a,Math.min(b,4.43)]]:[[x,x+w,a,x>=4.95?Math.min(b,4.43):b]];
-   for(const [xa,xb,za,zb]of strips){if(zb-za<.005)continue;for(const [xx,zz] of [[xa,za],[xa,zb],[xb,zb],[xa,za],[xb,zb],[xb,za]]){fp.push(xx,.015,zz);fn.push(0,1,0);fu.push(u0+(xx-x)*1.65,v0+flip*(zz-a)*.70);fc.push(shade,shade,shade);}}
+   for(const [xa,xb,za,zb]of strips){if(zb-za<.005)continue;
+    // Split material ownership on the same plane; bedroom/entrance retain the
+    // original floor shader, UVs and colors. No board or room boundary moves.
+    const xs=[xa,...[1.4,3.15].filter(v=>v>xa&&v<xb),xb],zs=[za,...[4.43,5.95].filter(v=>v>za&&v<zb),zb];
+    for(let i=0;i<xs.length-1;i++)for(let j=0;j<zs.length-1;j++){const l=xs[i],r=xs[i+1],t=zs[j],b=zs[j+1],cx=(l+r)/2,cz=(t+b)/2,locked=(cx>=3.15&&cz<=4.43)||(cx<1.4&&cz>5.95);floorGroups.push([fp.length/3,6,locked?0:1]);
+     for(const [xx,zz]of [[l,t],[l,b],[r,b],[l,t],[r,b],[r,t]]){fp.push(xx,.015,zz);fn.push(0,1,0);fu.push(u0+(xx-x)*1.65,v0+flip*(zz-a)*.70);fc.push(shade,shade,shade);}
+    }
+   }
   }
  }
- const fg=new THREE.BufferGeometry();fg.setAttribute('position',new THREE.Float32BufferAttribute(fp,3));fg.setAttribute('normal',new THREE.Float32BufferAttribute(fn,3));fg.setAttribute('uv',new THREE.Float32BufferAttribute(fu,2));fg.setAttribute('color',new THREE.Float32BufferAttribute(fc,3));add(new THREE.Mesh(fg,floorMat),false);
+ const fg=new THREE.BufferGeometry();fg.setAttribute('position',new THREE.Float32BufferAttribute(fp,3));fg.setAttribute('normal',new THREE.Float32BufferAttribute(fn,3));fg.setAttribute('uv',new THREE.Float32BufferAttribute(fu,2));fg.setAttribute('color',new THREE.Float32BufferAttribute(fc,3));const floorIndices=[[],[]];for(const [start,count,material]of floorGroups)for(let i=0;i<count;i++)floorIndices[material].push(start+i);fg.setIndex([...floorIndices[0],...floorIndices[1]]);fg.addGroup(0,floorIndices[0].length,0);fg.addGroup(floorIndices[0].length,floorIndices[1].length,1);const floorMesh=add(new THREE.Mesh(fg,[floorMat,livingFloor]),false);floorMesh.name='Original floor plane with frozen room material regions';
+ // Physical backing closes the existing 2 mm plank joints, which otherwise
+ // expose the pale, untextured subfloor. Finish detail only: board plane/UVs remain fixed;
+ // the frozen bedroom and entrance regions receive no new backing geometry.
+ const jointBacking=standard('#74583e',.90);
+ for(const [x0,x1,z0,z1]of [[0,1.4,0,5.95],[1.4,3.15,0,7.05],[3.15,4.95,4.43,7.05]]){
+  const backing=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),jointBacking);backing.rotation.x=-Math.PI/2;backing.position.set((x0+x1)/2,.013,(z0+z1)/2);backing.name='In-scope floor joint substrate';add(backing,false);
+ }
  // One inexpensive contact-occlusion field anchors the furniture to the same floor.
  // Authored from collision footprints; no photographic shadows or scene background.
  const aoSize=512,aoBytes=new Uint8Array(aoSize*aoSize*4);
@@ -151,7 +167,15 @@ if(renderer&&bridge&&L){
   for(let xx=bx-1.45;xx<bx+1.5;xx+=.72)for(let y=-7;y<10;y+=.86){box(xx,y,bz+.425,.49,.61,.025,blueGlass);box(xx,y-.34,bz+.52,.64,.055,.24,outside);if(rand()>.8)box(xx,y,bz+.442,.44,.55,.008,windowGlow);}
  }
  const foliage=new THREE.MeshStandardMaterial({color:'#718e42',roughness:1});
- const trees=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),foliage,54*12),tm=new THREE.Object3D();
+ // Actual curved leaf blades replace the old 80-face green polyhedra.
+ // The original cluster transforms, colors and procedural sequence stay fixed.
+ const leafCount=matchMedia('(pointer:coarse)').matches?8:16;const lp=[],li=[],lu=[];for(let k=0;k<leafCount;k++){const a=k*2.399963,t=-.85+1.7*(k+.5)/leafCount,r=Math.sqrt(1-t*t),center=new THREE.Vector3(Math.cos(a)*r*.63,t*.63,Math.sin(a)*r*.63),axis=new THREE.Vector3(Math.cos(a)*r,t,Math.sin(a)*r).normalize(),side=new THREE.Vector3(-Math.sin(a),0,Math.cos(a)).applyAxisAngle(new THREE.Vector3(Math.cos(a)*r,t,Math.sin(a)*r).normalize(),Math.sin(k*1.71)*.8),base=lp.length/3;
+  for(let j=0;j<=4;j++)for(const u of [-1,0,1]){const q=j/4,w=Math.sin(q*Math.PI)*.19,p=center.clone().addScaledVector(axis,(q-.5)*.72).addScaledVector(side,u*w);p.y+=.06*Math.sin(q*Math.PI)*(1-u*u);lp.push(...p.toArray());lu.push((u+1)/2,q);}
+  for(let j=0;j<4;j++)for(let i=0;i<2;i++){const n=base+j*3+i;li.push(n,n+3,n+4,n,n+4,n+1);}
+ }
+ const leafGeometry=new THREE.BufferGeometry();leafGeometry.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));leafGeometry.setAttribute('uv',new THREE.Float32BufferAttribute(lu,2));leafGeometry.setIndex(li);leafGeometry.computeVertexNormals();foliage.side=THREE.DoubleSide;foliage.roughness=.86;
+ const core=new THREE.SphereGeometry(.67,8,6);for(const [geometry,shade]of [[leafGeometry,.95],[core,.71]])geometry.setAttribute('color',new THREE.Float32BufferAttribute(new Array(geometry.attributes.position.count*3).fill(shade),3));const treeGeometry=mergeGeometries([leafGeometry,core]);leafGeometry.dispose();core.dispose();foliage.vertexColors=true;
+ const trees=new THREE.InstancedMesh(treeGeometry,foliage,54*12),tm=new THREE.Object3D();
  for(let i=0;i<54;i++){
   const cx=-6+rand()*19,cy=-2.3+rand()*1.2,cz=-14.0-rand()*4.5,r=.70+rand()*1.1;
   for(let j=0;j<12;j++){
@@ -179,7 +203,7 @@ scene.add(g);doorGroups.push(g);
  // Batch immutable opaque shell/exterior geometry by material. Door/hero/rack groups
  // and sorted glass stay independent. This removes hundreds of tiny exterior draws.
  const staticBatches=new Map();
- for(const o of scene.children){if(!o.isMesh||o.material.transparent||o===ceiling||o.material===floorMat)continue;
+ for(const o of scene.children){if(!o.isMesh||o.material.transparent||o===ceiling||o===floorMesh)continue;
   const key=o.material.uuid+':'+Number(o.castShadow);if(!staticBatches.has(key))staticBatches.set(key,[]);staticBatches.get(key).push(o);
  }
  for(const batch of staticBatches.values()){
@@ -203,11 +227,11 @@ scene.add(g);doorGroups.push(g);
  const kitchenWindowFill=new THREE.PointLight('#e4eff4',2.0,2.0,2);kitchenWindowFill.position.set(3.92,1.54,6.80);scene.add(kitchenWindowFill);
  // Actual sunlight is shadowed by the shell, frames, curtains and furniture.
  const daylight=new THREE.DirectionalLight('#ffe3bc',3.8);daylight.position.set(5.0,6.5,-12);daylight.target.position.set(1.5,0,4.0);scene.add(daylight,daylight.target);
- daylight.castShadow=true;daylight.shadow.mapSize.set(2048,2048);Object.assign(daylight.shadow.camera,{left:-5.2,right:5.2,top:6.3,bottom:-6.3,near:.2,far:35});daylight.shadow.camera.updateProjectionMatrix();daylight.shadow.bias=-.00010;daylight.shadow.normalBias=.012;daylight.shadow.radius=2;daylight.shadow.blurSamples=8;
+ daylight.castShadow=true;daylight.shadow.mapSize.set(matchMedia('(pointer:coarse)').matches?2048:3072,matchMedia('(pointer:coarse)').matches?2048:3072);Object.assign(daylight.shadow.camera,{left:-5.2,right:5.2,top:6.3,bottom:-6.3,near:.2,far:35});daylight.shadow.camera.updateProjectionMatrix();daylight.shadow.bias=-.00010;daylight.shadow.normalBias=.004;daylight.shadow.radius=2;daylight.shadow.blurSamples=8;
  const windowBounces=[];for(const x of [2.22,4.10]){const l=new THREE.PointLight('#fff2db',4,4.6,2);l.position.set(x,1.65,.70);scene.add(l);windowBounces.push(l);}
  const fixturePower=fixtureLights.map(l=>l.intensity),roomPower=rooms.lights.map(l=>l.intensity);
  const heroLoader=new GLTFLoader();
- async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file+'?v=niche-round3-20261115');const g=gltf.scene;
+ async function hero(file,kind){const gltf=await heroLoader.loadAsync('./assets/models/'+file+'?v=mockup-round4-20261116');const g=gltf.scene;
   if(kind==='sofa'){g.scale.set(.94,1,.90);g.position.z=.12;}
   else if(kind==='curtain'){g.scale.x=.944;g.position.x=.115;g.position.z=-.66;}
   g.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;const name=o.material?.name||'';
@@ -217,22 +241,24 @@ scene.add(g);doorGroups.push(g);
   });scene.add(g);window.HWScene.heroGroups[kind]=g;return g;
  }
  async function props(file,parent){
-  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file+'?v=niche-round3-20261115');
+  const {scene:g}=await heroLoader.loadAsync('./assets/models/'+file+'?v=mockup-round4-20261116');
   refined.apply(g);
   parent.add(g);return g;
  }
- Promise.all([hero('sofa-refined.glb','sofa'),hero('curtains-refined.glb','curtain'),hero('bedroom-soft.glb','bedroom'),props('final-room-props.glb',scene),props('kitchen-refined.glb',scene),props('hallway-refined.glb',scene),props('bathroom-door-mop.glb',doorGroups[1])]).then(()=>{window.__HW4_ASSETS=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
- window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms,alcove,daylight,doorGroups,heroGroups:{}};
+ Promise.all([hero('sofa-refined.glb','sofa'),hero('curtains-refined.glb','curtain'),hero('bedroom-soft.glb','bedroom'),props('final-room-props.glb',scene),props('kitchen-refined.glb',scene),props('hallway-refined.glb',scene),props('bathroom-door-mop.glb',doorGroups[1])]).then(()=>{assetsLoaded=true;renderer.shadowMap.needsUpdate=true;}).catch(e=>console.error('Housewalk asset error',e));
+ let assetsLoaded=false;const reflections=localReflections(renderer,scene,refined,rooms.reflectionMaterials);
+ window.HW3DColliders=L.colliders;window.HWScene={scene,camera,racks,renderer,materials,rooms,alcove,reflections,daylight,doorGroups,heroGroups:{}};
  let previousNight=null,doorState='',lastW=0,lastH=0,first=true;
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();window.__HW3D_READY=false;old.style.opacity='1';canvas.style.opacity='0';});
  canvas.addEventListener('webglcontextrestored',()=>location.reload());
  function render(){requestAnimationFrame(render);if(document.hidden||renderer.getContext().isContextLost())return;
   const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5);if(w!==lastW||h!==lastH){renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();lastW=w;lastH=h;}
-  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;refined.updateNight(n);livingBounce.intensity=n?.55:2.4;kitchenWindowFill.intensity=n?.15:1.2;kitchenFill.intensity=n?1:3;rooms.updateNight(n);daylight.intensity=n?.025:5.7;daylight.castShadow=!n;hemi.intensity=n?.72:.40;scene.environmentIntensity=n?.25:.34;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach((l,i)=>l.intensity=n?0:(i===0?3.5:2.8));scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
+  const n=!!bridge.getNight();if(n!==previousNight){previousNight=n;refined.updateNight(n);livingBounce.intensity=n?.55:3.6;kitchenWindowFill.intensity=n?.15:1.2;kitchenFill.intensity=n?1:4.2;rooms.updateNight(n);daylight.intensity=n?.025:4.8;daylight.castShadow=!n;hemi.intensity=n?.72:.40;scene.environmentIntensity=n?.25:.34;ceilingMat.lightMapIntensity=n?2.8:2.0;fixtureLights.forEach((l,i)=>{l.intensity=fixturePower[i]*(n?1:.28);if(i===0||i===6)l.castShadow=n;});rooms.lights.forEach((l,i)=>l.intensity=roomPower[i]*(n?1:.45));windowBounces.forEach((l,i)=>l.intensity=n?0:(i===0?3.5:2.8));scene.background.set(n?'#1a2635':'#b9d6e5');for(const m of nightWindows)m.emissiveIntensity=n?.75:0;renderer.shadowMap.needsUpdate=true;}
   const state=bridge.doors.map(d=>d.open).join();if(state!==doorState){doorState=state;doorGroups.forEach((g,i)=>g.rotation.y=i?(bridge.doors[i].open?(bridge.doors[i].openAngle||0):-Math.PI/2):(bridge.doors[i].open?Math.PI/2:0));renderer.shadowMap.needsUpdate=true;}
   const p=bridge.player,c=bridge.camera||{};camera.position.set(p.x,c.eyeHeight||1.55,p.z);camera.rotation.set(p.pitch,-p.yaw,0,'YXZ');camera.fov=c.verticalFov||(w<h?72:75);camera.updateProjectionMatrix();renderer.info.reset();renderer.render(scene,camera);window.__HW4_FRAME=(window.__HW4_FRAME||0)+1;
+  if(assetsLoaded&&window.__HW4_MATERIALS){reflections.request(n);reflections.step();window.__HW4_ASSETS=reflections.stats.ready;}
   if(first){first=false;window.__HW3D_READY=true;old.style.opacity='0';canvas.style.opacity='1';document.documentElement.dataset.renderer='pbr-final';renderer.shadowMap.needsUpdate=true;}
-  window.HW4Stats={triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,shadowMap:true,ceilingShadows:true,pbr:true,mirrors:rooms.mirrors.length,frame:window.__HW4_FRAME};
+  window.HW4Stats={triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,shadowMap:true,ceilingShadows:true,pbr:true,mirrors:rooms.mirrors.length,sunShadowSize:daylight.shadow.mapSize.width,foliageLeaves:leafCount,frame:window.__HW4_FRAME};
  }
  requestAnimationFrame(render);
 }

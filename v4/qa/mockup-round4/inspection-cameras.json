@@ -1,0 +1,78 @@
+{
+  "views": [
+    {
+      "name": "kitchen-tap-filter-cloth",
+      "x": 3.83,
+      "z": 6.02,
+      "eye": 1.39,
+      "yaw": -3.0606885544345626,
+      "pitch": -0.4405281558694082,
+      "fov": 53,
+      "w": 1400,
+      "h": 1100,
+      "inspection": true
+    },
+    {
+      "name": "kitchen-cloth-top",
+      "x": 3.55,
+      "z": 6.46,
+      "eye": 1.7,
+      "yaw": 3.141592653589793,
+      "pitch": -1.5707963267948966,
+      "fov": 62,
+      "w": 1200,
+      "h": 1100,
+      "inspection": true
+    },
+    {
+      "name": "zone-a-plush",
+      "x": 1.3,
+      "z": 3.3,
+      "eye": 1.27,
+      "yaw": -0.6063033888008063,
+      "pitch": -0.10161899138173687,
+      "fov": 70,
+      "w": 1400,
+      "h": 1100,
+      "inspection": true
+    },
+    {
+      "name": "shelf-frames-ornaments",
+      "x": 1.98,
+      "z": 1.85,
+      "eye": 1.6,
+      "yaw": 0.7209713239718948,
+      "pitch": -0.03034078327539914,
+      "fov": 55,
+      "w": 1200,
+      "h": 1400,
+      "inspection": true
+    },
+    {
+      "name": "console-trolley",
+      "x": 1.85,
+      "z": 4,
+      "eye": 1.04,
+      "yaw": 0.8728935041998396,
+      "pitch": -0.35502875913553367,
+      "fov": 66,
+      "w": 1200,
+      "h": 1400,
+      "inspection": true
+    },
+    {
+      "name": "bathroom-floor-accessories",
+      "x": 5.45,
+      "z": 5.4,
+      "eye": 0.85,
+      "yaw": 0.23317980064681562,
+      "pitch": -0.7590332810788342,
+      "fov": 70,
+      "w": 1200,
+      "h": 1100,
+      "inspection": true,
+      "closed": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,88 @@
+{
+  "result": "PASS",
+  "units": "metres",
+  "coordinateSystem": "Blender X,-Z,Y from runtime",
+  "cloth": {
+    "meshes": 2,
+    "verticesInsideStone": 0,
+    "triangleEdgeCrossings": 0,
+    "stoneSupportSamples": 2901,
+    "supportClearanceMin": 0.00020390748977661133,
+    "supportClearanceMax": 0.005395472049713135,
+    "bounds": {
+      "min": [
+        3.289299964904785,
+        -6.5111002922058105,
+        0.8946999907493591
+      ],
+      "max": [
+        3.63070011138916,
+        -6.3059000968933105,
+        0.9128954410552979
+      ]
+    },
+    "penetrations": [],
+    "crossings": []
+  },
+  "windowContact": {
+    "looseObjectTriangleEdgeCrossings": 0,
+    "windowTriangles": 3458,
+    "sinkRimZBounds": [
+      6.349999904632568,
+      6.78000020980835
+    ],
+    "counterFrontZ": 6.31,
+    "mainWindowFrameFrontZ": 6.895,
+    "expectedFrontLedge": 0.04,
+    "expectedRearLedge": 0.115
+  },
+  "separateObjects": {
+    "filterCanister": {
+      "min": [
+        3.687999963760376,
+        -6.888999938964844,
+        0.925000011920929
+      ],
+      "max": [
+        3.7920000553131104,
+        -6.784999847412109,
+        1.1720000505447388
+      ]
+    },
+    "fixedSinkTap": {
+      "min": [
+        3.927000045776367,
+        -6.868017196655273,
+        0.9210000038146973
+      ],
+      "max": [
+        4.031305313110352,
+        -6.601122856140137,
+        1.2985526323318481
+      ]
+    },
+    "horizontalBodyGap": 0.13499999046325684,
+    "filterOwnSmallOutlet": true,
+    "whiteFlexibleHoseConnectsSeparateFilterToTapDiverter": true,
+    "tapAnchorBefore": [
+      3.95,
+      0.94,
+      6.9
+    ],
+    "tapAnchorRefined": [
+      3.95,
+      0.94,
+      6.845
+    ],
+    "basinCenterBefore": [
+      3.92,
+      6.67
+    ],
+    "basinCenterRefined": [
+      3.92,
+      6.565
+    ],
+    "reason": "Correct front/rear ledges from IMG_9974 within unchanged cabinet/counter/window envelopes."
+  },
+  "limit": "Exact exported mesh collision/support checks, not acceptance of artwork or full visual match."
+}

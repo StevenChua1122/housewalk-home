@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "states": 2,
+  "rooms": 3,
+  "files": 6,
+  "bytes": 513219,
+  "sourceFilesVerified": 39,
+  "maxHDRTextureStorageBytes": 4128768,
+  "note": "Actual runtime geometry/lighting baked as GGX specular illumination; never used as a room background. Mobile uses fewer foliage leaves; probes retain the desktop source."
+}

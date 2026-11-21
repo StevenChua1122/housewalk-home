@@ -1,0 +1,118 @@
+{
+  "frozenBedroomEntrance": "PASS",
+  "frozenArchitectureDoorAndMop": "PASS",
+  "geometry": {
+    "binClearance": 0.6064644432067867,
+    "binBounds": [
+      4.434999942779541,
+      4.683535575866699,
+      5.414999961853027,
+      5.703535556793213
+    ],
+    "nicheDepth": 0.15000009536743164,
+    "trays": [
+      0.800000011920929,
+      0.46000000834465027,
+      0.11999999731779099
+    ],
+    "outside": 0,
+    "cabinetDoorBands": [
+      [
+        2.591200351715088,
+        3.048799514770508
+      ],
+      [
+        3.0512003898620605,
+        3.508799582719803
+      ],
+      [
+        3.511200398206711,
+        3.9687996208667755
+      ],
+      [
+        3.9712001979351044,
+        4.428799390792847
+      ],
+      [
+        4.431200265884399,
+        4.888799428939819
+      ]
+    ],
+    "mugArtwork": [
+      {
+        "width": 0.22547149658203125,
+        "texture": [
+          512,
+          512
+        ]
+      }
+    ],
+    "hasMop": true,
+    "decorativePlaque": {
+      "decorative": true,
+      "electrical": false,
+      "label": "GO BATH",
+      "reference": "IMG_9965",
+      "outsideLockedShowerView": true
+    }
+  },
+  "doorOcclusion": [
+    {
+      "open": true,
+      "firstMop": false,
+      "firstName": "",
+      "firstLeaf": true,
+      "handleWorld": [
+        5.3476881578487285,
+        1.55,
+        4.535212046037366
+      ],
+      "mopVisible": true,
+      "openDegrees": 70.51943496555201,
+      "mopWallClearance": 0.01799598719855844,
+      "hallwayHidden": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "open": false,
+      "firstMop": true,
+      "firstName": "Bathroom_inside-door_mop__Pale_beige_shelf",
+      "firstLeaf": false,
+      "handleWorld": [
+        5.04,
+        1.55,
+        4.88
+      ],
+      "mopVisible": true,
+      "openDegrees": 0,
+      "mopWallClearance": null,
+      "hallwayHidden": []
+    }
+  ],
+  "continuousWalk": [
+    {
+      "x": 2.05,
+      "z": 5.589960495072813
+    },
+    {
+      "x": 3.3906799917230264,
+      "z": 5.5502758756628445
+    },
+    {
+      "x": 3.3999396410318004,
+      "z": 4.8843408931686945
+    },
+    {
+      "x": 5.314682630607842,
+      "z": 4.8798962800719075
+    },
+    {
+      "x": 5.268213428808285,
+      "z": 6.2943818054290475
+    }
+  ],
+  "errors": []
+}

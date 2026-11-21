@@ -1,0 +1,265 @@
+{
+  "artifactConsistency": "PASS",
+  "visualFidelity": "PARTIAL \u2014 manual comparison in MOCKUP_ROUND4_QA.md",
+  "ownerApproval": false,
+  "baseCommit": "d90ed731a5fcc9a0ab406ff1e41c85353cdcc2c4",
+  "sameExistingBranch": "codex/final-approved-bathroom-kitchen-hallway",
+  "sourceInputs": {
+    "v4/webgl.js": "7c8dac9fe731384ceba2aa03337e56ac334fc638ec813f502cb2bdc4d810e810",
+    "v4/refined-materials.js": "cb8b0acba6ada181628cbfb67169833e74e97720b2e84d81ffc8874d2f4b201b",
+    "v4/room-details.js": "506f8ba581238b53eebec81eb6a4ed8973a404e4e7b09c0f8a538875e96073ab",
+    "v4/layout.js": "43fb791b6c91003bb050b6058be700b890cde3fb0c961f86bc62b93b3609bad7",
+    "v4/assets/materials/cabinet-weave.jpg": "453be4efa389eb67e9ca669f9f0ffc5fbfe80bc260599ab2508dd03bb3ee11df",
+    "v4/assets/materials/door-ash.jpg": "21bded7387c8ba00dcf0fcc1fd9b665a8a8d58db866f9d7b4d8ba13e23d1342a",
+    "v4/assets/materials/fabric-color.jpg": "9b103236b23fa7657c9b179b248e50f42c8de65465f6c0ffd864beae9d668cad",
+    "v4/assets/materials/fabric-normal.webp": "387fecc66dedfcd100d361141d601da999aba6c150b57271635c4ebb1e1b7a83",
+    "v4/assets/materials/oak-albedo.jpg": "a7a48932b981f9d578520f9c96b582366f24752e42e87f3de371106ec683ff1b",
+    "v4/assets/materials/oak-normal.webp": "d4bced46187f4ab0f6534d0509c7e74333b38fd0089a8f6ae068d6e904c0776b",
+    "v4/assets/materials/oak-roughness.jpg": "31a84248a771b35400583359c5a6090941bc0b9aabb08d633dbd1207fec5a66d",
+    "v4/assets/materials/plaster-color.jpg": "240d748b641fed312a4a4081ead853017a7e0fcd03252de6345653da43f3c3be",
+    "v4/assets/materials/plaster-normal.webp": "2ba64e85c980279f7962776b90532341f7e6b138b44bb8423a9c5a9d33dff24b",
+    "v4/assets/materials/refined-cabinet-color.jpg": "db99ddb0329c7d9c68a38c432bf1857efdfc6b4ac1747310e8dc354573b66bfb",
+    "v4/assets/materials/refined-cabinet-normal.webp": "c337cb377b4a9e8a0dc38981cf37a33d027944e2607e4136e67a6acc2d6768ca",
+    "v4/assets/materials/refined-cabinet-roughness.jpg": "3e913e88c57a68395c6d294ef33444e63cb5158f0c22a1b050d62390000317de",
+    "v4/assets/materials/refined-plush-color.jpg": "c0c479f8024f4f037413235f09030a1c7f282a67d9f4f09654f84486b4317095",
+    "v4/assets/materials/refined-plush-normal.webp": "8b98f182d7b9e8d30765d83d23dd55133053ee752d41eebbcbfc6690fda61249",
+    "v4/assets/materials/refined-plush-roughness.jpg": "871e5780b5a1af742fb84b911c16f6fb2b759a79ccb440a6a8a2173d2e6cf25d",
+    "v4/assets/materials/refined-steel-normal.webp": "1771251db5fccd76a6ed3d463385c5c75733c0d24f8fcbfe294bbe1c88c1a20c",
+    "v4/assets/materials/refined-steel-roughness.jpg": "7d72dfe315dfeaba398496dd287cb9f23675979759d44c402777b095dabb508a",
+    "v4/assets/materials/refined-stone-color.jpg": "270fad4efada372fc06be758af737ac2a7adc4ce9a387e21309eefe3ea371666",
+    "v4/assets/materials/refined-stone-normal.webp": "c75e18387ad397b254ec8425f8831d94d65090217781d056479f6a714968768f",
+    "v4/assets/materials/refined-stone-roughness.jpg": "428d18444ee717af5a93b52557f442e79d5e20dfae11592cec250d5ac3695625",
+    "v4/assets/materials/refined-tile-color.jpg": "23d3dc87089333fe8f9139fb034aacc4034af12e3d68b56ac2730444d8e24552",
+    "v4/assets/materials/refined-tile-normal.webp": "b380582b572ca90b15d91748bccb55589e6b6a91f57b0bba1803bfceff715de5",
+    "v4/assets/materials/refined-tile-roughness.jpg": "bbe60fcfc1f3bbbf9ff1e4a6367513856cec0cf9527a76c9872da85fc8279dc2",
+    "v4/assets/materials/refined-weave-color.jpg": "c29735af58523e948e6e4ebd72ced2932357c39724077946e0a8b901a8b9d2be",
+    "v4/assets/materials/refined-weave-normal.webp": "dd79d4471ea75bc229e918fc011a70bc1958859abf8f19595ece12613ba87f8c",
+    "v4/assets/materials/refined-weave-roughness.jpg": "c5dd49662e40404f063238d74e2af62e0bf07196271788e84b233d59eab4cd9b",
+    "v4/assets/models/bathroom-door-mop.glb": "2622acbc2ee0b8213591ff92ae798ea01ab4e75c33a9fdbc336159f79af60abc",
+    "v4/assets/models/bedroom-soft.glb": "bd75071e752fc1d92e683ca74079e4564b89ac0b61bb473bd3dbf0795e32c58f",
+    "v4/assets/models/curtains-draped.glb": "9843f74dfb76230243348791c30ff42dde67a1322c66144b672946582db1c07c",
+    "v4/assets/models/curtains-refined.glb": "a1208d18716909c31cbcac4c6e5574e7c070adf8b1b9a6a6b78a0ccfe0c31223",
+    "v4/assets/models/final-room-props.glb": "66213596ff8f08bc3e7da597a2409a3702f592b27d9187f915c1907f87af1b01",
+    "v4/assets/models/hallway-refined.glb": "e4620f3f6e5612a3cb4ddb5d6ba11a20aa54d11aca20519ab8963db50fedc137",
+    "v4/assets/models/kitchen-refined.glb": "93849498ee6d5aed3fff76be4f80ca76262271f486facfb9781f35c33ec12f66",
+    "v4/assets/models/sofa-refined.glb": "41c0ec75c58dd00a346b07d49ea07edfe5dd85648b94f9f83874c7caa0ed9503",
+    "v4/assets/models/sofa-tailored.glb": "daae7bdd4d27c8740c300f6e14ecc9911fbc91ab5ee686c5eaa99e4f9bcfd0c8"
+  },
+  "cameraScriptSha256": "df8c1b286b5d636e98d4cf26b51d2cadc2114be9d43856ee2c7c3e6c2f322ab3",
+  "runtimeGeometryGLBSha256": "33817346fb865c744faf7a37dbd189374945fb38cb9425858114523670384eb3",
+  "cyclesRecipeSha256": "388003a21c421917e06f0b7927d55dafbb798b2bc1241a1a5d861388aa21283f",
+  "runtimeObjectsVerified": 952,
+  "triangles": 1098608,
+  "maximumImportedMatrixError": 4.76837158203125e-07,
+  "images": [
+    {
+      "file": "desktop-hallway.png",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "9f5d9518888fd3521f0265eaf53cd0cc79036ffb5faf578153b3c4b1b8cb5e96",
+      "bytes": 838060
+    },
+    {
+      "file": "mobile-hallway.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "f33ef75ba1a74f21e4bb2ccec7c5bb488fc255f48ed147a00de339279c113880",
+      "bytes": 218390
+    },
+    {
+      "file": "cycles/cycles-hallway.png",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "29364b099d352fb4ebb80c0a735d7fe104ccfdd2986c5a1d08f36ded3f580305",
+      "bytes": 1392245
+    },
+    {
+      "file": "desktop-kitchen.png",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "d19e65dae3b5f92a96b39a94d8ca59b6288ba8618315e7197af230d9e862e5ba",
+      "bytes": 868810
+    },
+    {
+      "file": "mobile-kitchen.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "87367ef708b88f661ebb89743fa68e17e34dd01efd89fee63b040a10a85c9d6a",
+      "bytes": 230333
+    },
+    {
+      "file": "cycles/cycles-kitchen.png",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "fab9e1cbfee1280fb15a07c1b5bf8535918e0ac4185d5e5403ebc4fbf4bc05f3",
+      "bytes": 1320488
+    },
+    {
+      "file": "desktop-bathroom-first.png",
+      "dimensions": [
+        768,
+        1024
+      ],
+      "sha256": "b78dafa523775ae32057c38edb3265ae377604a13e1de22659f3447a3f0016c1",
+      "bytes": 413215
+    },
+    {
+      "file": "mobile-bathroom-first.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "fc80aecb2fb36620aa6004cfb74583e4efb3272b5fc23f2cd6d46d1b1c1ad7bd",
+      "bytes": 222289
+    },
+    {
+      "file": "cycles/cycles-bathroom-first.png",
+      "dimensions": [
+        768,
+        1024
+      ],
+      "sha256": "166ea31c46e47b0d809df33de1ef10eaec884d7b5b8d86adfcc8f5e75eb656ba",
+      "bytes": 587905
+    },
+    {
+      "file": "desktop-bathroom-shower.png",
+      "dimensions": [
+        768,
+        1024
+      ],
+      "sha256": "613e866ad9f63c5d2a96a36403cf2a454c1da39f6869afe96ec413b7968c657b",
+      "bytes": 520184
+    },
+    {
+      "file": "mobile-bathroom-shower.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "4c6e4d8337039d063edf25a3a69f1db7fd130ee1fc3fd54a9234e47aacd24c6e",
+      "bytes": 242190
+    },
+    {
+      "file": "cycles/cycles-bathroom-shower.png",
+      "dimensions": [
+        768,
+        1024
+      ],
+      "sha256": "08ae7d09a699ded3c9ef22d7e1b40233c189dc9dda9187453d4557d7e43c1612",
+      "bytes": 661071
+    },
+    {
+      "file": "desktop-bathroom-closed.png",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "sha256": "252b5c09835e5294683dc627d0d81344bed2039c05674f2461d0640c2aeb8cc5",
+      "bytes": 926647
+    },
+    {
+      "file": "mobile-bathroom-closed.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "3b8e80b4a0b144020473bdf83c90b5b0449af8f5b363d63856d8b461cf3ea576",
+      "bytes": 251984
+    },
+    {
+      "file": "cycles/cycles-bathroom-closed.png",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "sha256": "1a0f86736c4fa011383bc540e69a8a44145dc3e6f0ddb5ecf8f218060b3286e0",
+      "bytes": 1181106
+    },
+    {
+      "file": "desktop-niche-close-up.png",
+      "dimensions": [
+        1200,
+        1400
+      ],
+      "sha256": "e785a0e7e0b8e8ce82c6eaf763de016c128b3e33b708364790ea1cfd36c0b21c",
+      "bytes": 796368
+    },
+    {
+      "file": "desktop-niche-oblique.png",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "sha256": "6d0cbc0838eca5a550df18d09f9c3474679c4bc70727b1771bdc28488ec2afc7",
+      "bytes": 785339
+    },
+    {
+      "file": "inspection-kitchen-tap-filter-cloth.png",
+      "dimensions": [
+        1400,
+        1100
+      ],
+      "sha256": "d47760e6e570e599f03ce51e810e10feca564c5a693b0732eaf1769565084f9c",
+      "bytes": 895982
+    },
+    {
+      "file": "inspection-kitchen-cloth-top.png",
+      "dimensions": [
+        1200,
+        1100
+      ],
+      "sha256": "6e4431408ec908e8d4937563bf75cc7715d52e40abe26020cf0bd1382150126f",
+      "bytes": 867845
+    },
+    {
+      "file": "inspection-zone-a-plush.png",
+      "dimensions": [
+        1400,
+        1100
+      ],
+      "sha256": "ce2862fd74e5611fc12ccac663f08c5c8876eb103551a9ef49c3b6ac7acbbbf3",
+      "bytes": 803849
+    },
+    {
+      "file": "inspection-shelf-frames-ornaments.png",
+      "dimensions": [
+        1200,
+        1400
+      ],
+      "sha256": "3f73e041a1f6e50eacd8827f284074e213932bc7d17195d140f6b36f53137ae9",
+      "bytes": 579382
+    },
+    {
+      "file": "inspection-console-trolley.png",
+      "dimensions": [
+        1200,
+        1400
+      ],
+      "sha256": "16d56f6047df00ddb771786a4ee36d4d45f6e424472ac06b08ec31103c408ac4",
+      "bytes": 1176835
+    },
+    {
+      "file": "inspection-bathroom-floor-accessories.png",
+      "dimensions": [
+        1200,
+        1100
+      ],
+      "sha256": "ac99dffa8b65585d3dfdab2c0e913a6a0eee002a2897ab3336095b96d3c2964b",
+      "bytes": 775300
+    }
+  ],
+  "captureMethod": "Native PNGs; camera poses/lenses unchanged. Only HTML HUD/tint hidden. WebGL scheduling is paused after completed capture frames for GPU readback, then resumed. No scene geometry hidden or replaced.",
+  "limitation": "Hash/dimension/source/geometry checks establish evidence consistency, not a completed visual match or physical iPhone verification."
+}

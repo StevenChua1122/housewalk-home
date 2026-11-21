@@ -1,0 +1,797 @@
+{
+  "limitation": "Headless Chromium with SwiftShader software GPU. Frame intervals are diagnostic only; no physical desktop, mobile GPU or iPhone performance claim.",
+  "cases": [
+    {
+      "mobile": false,
+      "startupMs": 28475,
+      "invalidVertexColors": [],
+      "stats": {
+        "triangles": 930600,
+        "drawCalls": 211,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "sunShadowSize": 3072,
+        "foliageLeaves": 16,
+        "frame": 19
+      },
+      "softwareFrameIntervalsMs": [
+        6,
+        19,
+        9059.400000000023,
+        5149.700000000012,
+        4814.799999999988,
+        4685.400000000023,
+        4560.5,
+        4586.699999999953
+      ],
+      "sceneTriangles": 1098608,
+      "geometryCount": 303,
+      "materialCount": 204,
+      "textures": [
+        {
+          "name": "",
+          "url": "oak-albedo.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-normal.webp",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-roughness.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 336,
+            "h": 256
+          },
+          "type": 1016,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 64,
+            "h": 128
+          },
+          "type": 1009,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "refined-steel-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-steel-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 336,
+            "h": 256
+          },
+          "type": 1016,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "plaster-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "plaster-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "door-ash.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "fabric-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "fabric-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-tile-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-tile-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-tile-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 1,
+            "h": 1
+          },
+          "type": 1009,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "door-ash.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-albedo.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-normal.webp",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-weave-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-weave-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-weave-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 336,
+            "h": 256
+          },
+          "type": 1016,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "refined-stone-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-stone-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-stone-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-cabinet-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-cabinet-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-cabinet-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-plush-color.jpg",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-plush-normal.webp",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-plush-roughness.jpg",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "housewalk-isolated-mug-art",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        }
+      ],
+      "rendererMemory": {
+        "geometries": 302,
+        "textures": 36
+      },
+      "reflectionProbes": {
+        "size": 64,
+        "states": 2,
+        "captures": 0,
+        "totalCaptureMs": 0,
+        "ready": true,
+        "source": "Authoring bake of the same connected geometry; cached day/night specular probes"
+      },
+      "drawBuffer": [
+        900,
+        650
+      ],
+      "renderer": "WebKit WebGL",
+      "afterNightMemory": {
+        "geometries": 302,
+        "textures": 41
+      },
+      "errors": []
+    },
+    {
+      "mobile": true,
+      "startupMs": 15173,
+      "invalidVertexColors": [],
+      "stats": {
+        "triangles": 556060,
+        "drawCalls": 138,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "sunShadowSize": 2048,
+        "foliageLeaves": 8,
+        "frame": 16
+      },
+      "softwareFrameIntervalsMs": [
+        4,
+        15.800000000046566,
+        2755.5,
+        2308.5,
+        2390.899999999907,
+        2271.70000000007,
+        2152.4000000000233,
+        2256.1999999999534
+      ],
+      "sceneTriangles": 1015664,
+      "geometryCount": 303,
+      "materialCount": 204,
+      "textures": [
+        {
+          "name": "",
+          "url": "oak-albedo.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-normal.webp",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-roughness.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 336,
+            "h": 256
+          },
+          "type": 1016,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 64,
+            "h": 128
+          },
+          "type": 1009,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "refined-steel-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-steel-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 336,
+            "h": 256
+          },
+          "type": 1016,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "plaster-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "plaster-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "door-ash.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "fabric-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "fabric-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-tile-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-tile-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-tile-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 1,
+            "h": 1
+          },
+          "type": 1009,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "door-ash.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-albedo.jpg",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "oak-normal.webp",
+          "size": {
+            "w": 2048,
+            "h": 2048
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-weave-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-weave-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-weave-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "size": {
+            "w": 336,
+            "h": 256
+          },
+          "type": 1016,
+          "mipmaps": false
+        },
+        {
+          "name": "",
+          "url": "refined-stone-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-stone-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-stone-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-cabinet-color.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-cabinet-normal.webp",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-cabinet-roughness.jpg",
+          "size": {
+            "w": 1024,
+            "h": 1024
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-plush-color.jpg",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-plush-normal.webp",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "",
+          "url": "refined-plush-roughness.jpg",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        },
+        {
+          "name": "housewalk-isolated-mug-art",
+          "size": {
+            "w": 512,
+            "h": 512
+          },
+          "type": 1009,
+          "mipmaps": true
+        }
+      ],
+      "rendererMemory": {
+        "geometries": 288,
+        "textures": 31
+      },
+      "reflectionProbes": {
+        "size": 64,
+        "states": 2,
+        "captures": 0,
+        "totalCaptureMs": 0,
+        "ready": true,
+        "source": "Authoring bake of the same connected geometry; cached day/night specular probes"
+      },
+      "drawBuffer": [
+        390,
+        844
+      ],
+      "renderer": "WebKit WebGL",
+      "afterNightMemory": {
+        "geometries": 288,
+        "textures": 35
+      },
+      "errors": []
+    }
+  ]
+}

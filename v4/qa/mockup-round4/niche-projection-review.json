@@ -1,0 +1,37 @@
+{
+  "reference": "04_FINAL_BATHROOM_TWO_VIEWS_LOCKED.png, RIGHT half (767 \u00d7 1024); manual approximate pixel annotations, not a camera calibration or room survey.",
+  "referenceApproximateOpeningPixels": {
+    "left": 332,
+    "right": 412,
+    "top": 412,
+    "bottom": 568,
+    "center": [
+      372,
+      490
+    ]
+  },
+  "referenceApproximateHeaterCenterPixels": [
+    523,
+    329
+  ],
+  "actualFramePixels": [
+    768,
+    1024
+  ],
+  "actualOpeningBoundsPixels": {
+    "left": 201.2625587837462,
+    "right": 282.10428473704985,
+    "top": 466.2013180364574,
+    "bottom": 621.1460582562177
+  },
+  "actualOpeningCenterPixels": [
+    241.02777004927287,
+    542.4170377859319
+  ],
+  "actualHeaterCenterPixels": [
+    337.44079593711524,
+    344.72955746484604
+  ],
+  "result": "PARTIAL",
+  "cause": "Opening screen size is close, but the fixed model/camera/window/heater composition differs globally. Cavity-only authorization does not authorize moving the fixed fixtures or changing the primary camera. No pixel-perfect claim."
+}

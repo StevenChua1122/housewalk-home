@@ -1,0 +1,17 @@
+{
+  "method": "Pause only WebGL render scheduling after completed capture frames, drain GPU readback, resume after PNG. No mesh, camera, light, material, framing or resolution change.",
+  "scripts": [
+    {
+      "script": "capture-owner-final.cjs",
+      "sha256": "df8c1b286b5d636e98d4cf26b51d2cadc2114be9d43856ee2c7c3e6c2f322ab3"
+    },
+    {
+      "script": "capture-niche.cjs",
+      "sha256": "b0dbcc41f1990cfb34002029f2266912dcdecf1584fed0e0ced1b587965da409"
+    },
+    {
+      "script": "capture-round4-details.cjs",
+      "sha256": "71ad1419e8675eb90e0f0898cb2c8244f8a9be04696cf882b57f8f6730e8e393"
+    }
+  ]
+}
