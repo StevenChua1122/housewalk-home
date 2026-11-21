@@ -1,0 +1,1253 @@
+{
+  "result": "PASS",
+  "actualExportedTriangles": 2984,
+  "door": "Original 0.780 \u00d7 2.150 \u00d7 0.065 m leaf; pivot (4.95,0,4.49), bottom Y 0.025 m, approved 70.519\u00b0 stop. No door/mop/fixture changes.",
+  "looseFootwearOnly": {
+    "previousCenters": [
+      [
+        5.47,
+        4.72
+      ],
+      [
+        5.57,
+        4.76
+      ]
+    ],
+    "refinedCenters": [
+      [
+        5.64,
+        4.52
+      ],
+      [
+        5.63,
+        4.62
+      ]
+    ],
+    "orientationRadians": [
+      1.54,
+      1.62
+    ],
+    "reason": "Adult-size slippers align along the white wall and clear the fixed leaf instead of entering its sweep."
+  },
+  "minimumWhiteWallClearanceMetres": 0.012878860473632514,
+  "bounds": [
+    [
+      5.510342597961426,
+      0.01600000075995922,
+      4.473878860473633
+    ],
+    [
+      5.759819507598877,
+      0.06782861799001694,
+      4.666719436645508
+    ]
+  ],
+  "states": [
+    {
+      "doorRotationRadians": -1.5707963267948966,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5656680087665844,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5605396907382725,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5554113727099603,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5502830546816482,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5451547366533362,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.540026418625024,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5348981005967122,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5297697825684,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5246414645400879,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.519513146511776,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5143848284834638,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5092565104551516,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.5041281924268397,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4989998743985276,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4938715563702156,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4887432383419035,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4836149203135913,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4784866022852794,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4733582842569672,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.468229966228655,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4631016482003432,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.457973330172031,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.452845012143719,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.447716694115407,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4425883760870948,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4374600580587829,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4323317400304707,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4272034220021586,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4220751039738466,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4169467859455345,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4118184679172225,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4066901498889104,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.4015618318605982,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3964335138322863,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3913051958039742,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.386176877775662,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.38104855974735,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.375920241719038,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3707919236907258,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3656636056624138,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3605352876341017,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3554069696057898,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3502786515774776,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3451503335491655,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3400220155208535,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3348936974925414,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3297653794642295,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3246370614359173,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.3195087434076052,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.314380425379293,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.309252107350981,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.304123789322669,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.298995471294357,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2938671532660448,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2887388352377327,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2836105172094208,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2784821991811086,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2733538811527967,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2682255631244845,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2630972450961724,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2579689270678605,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2528406090395483,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2477122910112364,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2425839729829242,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.237455654954612,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2323273369263,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.227199018897988,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2220707008696758,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.216942382841364,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2118140648130518,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2066857467847396,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.2015574287564277,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1964291107281155,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1913007926998036,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1861724746714915,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1810441566431793,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1759158386148671,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1707875205865552,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.165659202558243,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1605308845299311,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.155402566501619,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1502742484733068,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.145145930444995,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1400176124166828,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1348892943883708,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1297609763600587,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1246326583317465,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1195043403034346,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1143760222751224,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1092477042468105,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.1041193862184984,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0989910681901862,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.093862750161874,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0887344321335621,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.08360611410525,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.078477796076938,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.073349478048626,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0682211600203138,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0630928419920016,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0579645239636897,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0528362059353777,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0477078879070656,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0425795698787534,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0374512518504413,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0323229338221294,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0271946157938174,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0220662977655053,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.0169379797371931,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.011809661708881,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.006681343680569,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -1.001553025652257,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9964247076239449,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9912963895956328,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9861680715673208,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9810397535390086,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9759114355106966,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9707831174823845,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9656547994540725,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9605264814257604,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9553981633974483,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9502698453691363,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9451415273408242,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9400132093125121,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9348848912842,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.929756573255888,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.924628255227576,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9194999371992638,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9143716191709518,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9092433011426397,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.9041149831143276,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8989866650860155,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8938583470577035,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8887300290293915,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8836017110010793,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8784733929727673,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8733450749444552,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8682167569161432,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.863088438887831,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.857960120859519,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.852831802831207,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8477034848028949,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8425751667745828,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8374468487462707,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8323185307179587,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8271902126896467,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8220618946613345,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8169335766330225,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8118052586047104,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8066769405763984,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.8015486225480862,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7964203045197742,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7912919864914622,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7861636684631501,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.781035350434838,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7759070324065259,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7707787143782139,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7656503963499018,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7605220783215897,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7553937602932776,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7502654422649656,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7451371242366535,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7400088062083414,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7348804881800294,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7297521701517173,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7246238521234052,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7194955340950931,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7143672160667811,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7092388980384691,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.7041105800101569,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6989822619818449,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6938539439535328,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6887256259252208,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6835973078969086,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6784689898685966,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6733406718402846,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6682123538119725,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6630840357836604,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6579557177553483,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6528273997270363,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6476990816987243,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6425707636704121,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6374424456421001,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.632314127613788,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.627185809585476,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6220574915571638,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6169291735288518,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6118008555005398,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6066725374722277,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.6015442194439156,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5964159014156035,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5912875833872915,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5861592653589793,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5810309473306673,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5759026293023553,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5707743112740431,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5656459932457312,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.560517675217419,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5553893571891069,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5502610391607949,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5451327211324828,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5400044031041709,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5348760850758587,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5297477670475466,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5246194490192346,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5194911309909225,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5143628129626103,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5092344949342984,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.5041061769059862,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4989778588776743,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.49384954084936217,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.48872122282105,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4835929047927381,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.47846458676442594,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4733362687361138,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.46820795070780186,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4630796326794897,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4579513146511778,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4528229966228656,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4476946785945535,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.44256636056624155,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4374380425379294,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.43230972450961724,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4271814064813053,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.42205308845299316,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.416924770424681,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.4117964523963691,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.40666813436805693,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.401539816339745,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.39641149831143285,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.3912831802831207,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.3861548622548088,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.3810265442264966,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.37589822619818447,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.37076990816987254,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.3656415901415604,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.36051327211324846,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.3553849540849363,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.35025663605662416,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.34512831802831223,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    },
+    {
+      "doorRotationRadians": -0.34,
+      "verticesInsideLeaf": 0,
+      "crossingTrianglePairs": 0
+    }
+  ],
+  "limit": "Actual triangle/inside tests at 241 poses, not an analytic continuous-time guarantee."
+}

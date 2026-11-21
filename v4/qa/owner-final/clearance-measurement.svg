@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="970" viewBox="0 0 1400 970"><defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#3b7065"/></marker></defs><rect width="1400" height="970" fill="#faf8f2"/><g font-family="Arial,sans-serif">
+<text x="45" y="43" font-size="28" fill="#243c35" text-anchor="start">Kitchen / bathroom clearance — existing approved model</text>
+<text x="45" y="78" font-size="19" fill="#243c35" text-anchor="start">Top-down model coordinates. Door openings, jambs and walls remain fixed.</text>
+<rect x="110.50000000000001" y="190.09999999999997" width="656" height="549.4" fill="#e6d1b5" stroke="#928d83"/>
+<rect x="766.5" y="190.09999999999997" width="276.75" height="549.4" fill="#dce5e4" stroke="#928d83"/>
+<rect x="110.50000000000001" y="579.5999999999999" width="168.1" height="159.9" fill="#737b7c" stroke="#928d83"/>
+<rect x="282.7" y="587.7999999999998" width="338.25" height="141.45" fill="#a59d8f" stroke="#928d83"/>
+<rect x="621.975" y="587.7999999999998" width="125.05" height="141.45" fill="#f3f1e9" stroke="#928d83"/>
+<text x="135.10000000000002" y="667.75" font-size="16" fill="#fff" text-anchor="start">FRIDGE</text>
+<text x="301.1500000000001" y="671.8499999999999" font-size="15" fill="#243c35" text-anchor="start">COUNTER / SINK / HOB</text>
+<text x="633.25" y="671.8499999999999" font-size="14" fill="#243c35" text-anchor="start">WASHER</text>
+<rect x="661.95" y="405.3499999999999" width="49.199999999999996" height="57.400000000000006" fill="#3c4543" stroke="#928d83"/>
+<rect x="944.85" y="245.44999999999987" width="83.025" height="102.5" fill="#f9f7ee" stroke="#928d83"/>
+<rect x="889.5" y="417.65000000000003" width="138.375" height="94.3" fill="#f9f7ee" stroke="#928d83"/>
+<rect x="981.7499999999999" y="544.7499999999998" width="61.5" height="57.400000000000006" fill="#74736e" stroke="#928d83"/>
+<path d="M790.075,714.8999999999999 L851.575,714.8999999999999 L790.075,653.3999999999999Z" fill="#faf8f1" stroke="#88918b"/>
+<path d="M397.5,190.09999999999997 L454.90000000000003,190.09999999999997" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M627.0999999999999,190.09999999999997 L1043.25,190.09999999999997" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M766.5,190.09999999999997 L766.5,214.7" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M766.5,374.59999999999985 L766.5,739.4999999999999" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M1043.25,190.09999999999997 L1043.25,739.4999999999999" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M110.50000000000001,739.4999999999999 L463.1000000000001,739.4999999999999" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M647.6,739.4999999999999 L1043.25,739.4999999999999" stroke="#485b55" stroke-width="4" fill="none" />
+<path d="M463.1000000000001,739.4999999999999 L647.6,739.4999999999999" stroke="#568eaa" stroke-width="9" fill="none" />
+<text x="372.9" y="771.4999999999999" font-size="17" fill="#37627b" text-anchor="start">KITCHEN WINDOW WALL</text>
+<path d="M766.5,214.7 L917.2464710179826,268.02458603331615" stroke="#af7c44" stroke-width="6" fill="none" />
+<path d="M766.5,214.7 L766.5,374.6" stroke="#af7c44" stroke-width="2" fill="none" stroke-dasharray="7 5"/>
+<text x="858.7500000000001" y="335.65" font-size="19" fill="#243c35" text-anchor="start">BATH</text>
+<text x="721.4000000000001" y="267.99999999999994" font-size="16" fill="#855c31" text-anchor="end">Approved opening</text>
+<text x="787" y="362.6" font-size="16" fill="#243c35" text-anchor="start">South jamb z = 5.27</text>
+<text x="787" y="724.4999999999999" font-size="16" fill="#243c35" text-anchor="start">Window wall axis z = 7.05</text>
+<path d="M766.5,374.6 L1125.2500000000002,374.6" stroke="#72968e" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+<path d="M766.5,739.4999999999999 L1125.2500000000002,739.4999999999999" stroke="#72968e" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+<path d="M1108.8500000000001,374.6 L1108.8500000000001,739.4999999999999" stroke="#245e53" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="1126.8500000000001" y="557.05" font-size="24" fill="#245e53" text-anchor="start">1.78 m</text>
+<path d="M524.6,374.6 L766.5,374.6" stroke="#72968e" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+<path d="M524.6,587.7999999999998 L766.5,587.7999999999998" stroke="#72968e" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+<path d="M551.25,374.6 L551.25,587.7999999999998" stroke="#245e53" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="569.25" y="481.19999999999993" font-size="24" fill="#245e53" text-anchor="start">1.04 m</text>
+<text x="395.45000000000005" y="577.7999999999998" font-size="15" fill="#243c35" text-anchor="start">Counter front</text>
+<text x="395.45000000000005" y="599.7999999999998" font-size="15" fill="#243c35" text-anchor="start">z = 6.31</text>
+<text x="182.25000000000006" y="452.5" font-size="20" fill="#243c35" text-anchor="start">Kitchen clear floor</text>
+<text x="45" y="840" font-size="22" fill="#243c35" text-anchor="start">Measurement basis</text>
+<text x="45" y="873" font-size="18" fill="#243c35" text-anchor="start">1.78 m: nominal window-wall axis to the nearest bathroom jamb. Finished wall face to jamb is approximately 1.71 m.</text>
+<text x="45" y="905" font-size="18" fill="#243c35" text-anchor="start">1.04 m: counter front to the same jamb. These are different dimensions. The owner’s approximately 1 m is an estimate.</text>
+<text x="45" y="940" font-size="17" fill="#243c35" text-anchor="start">No architectural change. Only the apartment’s 6.30 × 7.05 m outer envelope is source-dimensioned; internal values are model estimates.</text>
+</g></svg>

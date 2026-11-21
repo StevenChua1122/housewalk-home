@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "cases": [
+    "initial day",
+    "night selected before asynchronous fixture creation",
+    "existing fixtures follow night/day",
+    "late day fixture inherits day"
+  ],
+  "dayEmission": 0.75,
+  "nightEmission": 1.15
+}

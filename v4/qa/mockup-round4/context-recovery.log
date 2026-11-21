@@ -1,0 +1,3 @@
+Offline CPU render paused during full-size context recovery: []
+PBR context loss: Canvas visible; restoration reloaded PBR assets successfully.
+Offline CPU work resumed.

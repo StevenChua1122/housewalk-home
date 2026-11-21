@@ -1,0 +1,128 @@
+{
+  "technicalResult": "PASS",
+  "visualFidelity": "PARTIAL, separately assessed in MOCKUP_ROUND4_QA.md",
+  "ownerApproval": false,
+  "physicalIPhone": "UNVERIFIED",
+  "captureCounts": {
+    "primaryDesktop": 5,
+    "primaryTouchEmulation": 5,
+    "nicheInspections": 2,
+    "otherInspections": 6
+  },
+  "checks": [
+    "Actual niche surface rays and fixed fixture/camera preservation",
+    "Actual cloth/stone and loose-object/window triangle contacts",
+    "Actual loose footwear versus original leaf at 241 sampled poses",
+    "GLB integrity, protected sources/assets and original mug pixels",
+    "Late fixture day/night material state",
+    "Five-waypoint continuous walking and original door/mop occlusion/clearance",
+    "Full-size 900 \u00d7 650 context loss -> visible Canvas -> restored PBR",
+    "Four continuous-rendering PBR/Canvas desktop/touch control cases"
+  ],
+  "interactiveCases": [
+    {
+      "renderer": "PBR",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "PBR",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "errors": []
+    }
+  ],
+  "note": "Only interaction tests use half-size software-GPU buffers; complete geometry and CSS/input coordinates remain. Primary and inspection screenshots retain full requested resolution. Capture readback helper is not used for interaction or context tests.",
+  "validationScope": "Four control/recovery cases passed before the final loose-condiment order/label correction. Controller, collider, wall/door and camera source is unchanged by that correction; actual asset/contact/art/probe checks and full-resolution captures are repeated after it."
+}

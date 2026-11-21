@@ -1,0 +1,262 @@
+{
+  "sourceGLBSha256": "33817346fb865c744faf7a37dbd189374945fb38cb9425858114523670384eb3",
+  "recipeSha256": "388003a21c421917e06f0b7927d55dafbb798b2bc1241a1a5d861388aa21283f",
+  "sourceRevision": "180",
+  "geometryTriangles": 1098608,
+  "lightDirectionsVerified": [
+    {
+      "name": "HW_LIGHT_2",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_4",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_5",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_6",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_7",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_9",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_10",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_11",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_12",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_13",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_14",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_15",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_16",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_18",
+      "radianError": 0.0
+    },
+    {
+      "name": "HW_LIGHT_21",
+      "radianError": 0.0
+    }
+  ],
+  "objectsVerified": 952,
+  "maxMatrixError": 4.76837158203125e-07,
+  "geometry": "Same runtime meshes, object transformations and camera poses. No restaging, mockup background, wall/fixture/furniture movement. PBR renderer translations are explicit below.",
+  "translation": {
+    "renderer": "Cycles CPU, real multi-bounce indirect illumination",
+    "lightingMode": "physical-daylight",
+    "lights": "glTF COMPAT: sun intensity retained; point/spot numerical intensity \u00d7 4\u03c0 watts is a renderer compatibility translation, not a photometric survey. Real fixture positions/powers retained.",
+    "omittedRealtimeBounceProxies": [
+      {
+        "light": "HW_LIGHT_3",
+        "sourcePosition": [
+          6.08,
+          1.85,
+          5.65
+        ],
+        "sourceIntensity": 3.2,
+        "reason": "Realtime indirect-light proxy, replaced by actual path-traced bounce."
+      },
+      {
+        "light": "HW_LIGHT_18",
+        "sourcePosition": [
+          3.7,
+          1.9,
+          5.4
+        ],
+        "sourceIntensity": 4.2,
+        "reason": "Realtime indirect-light proxy, replaced by actual path-traced bounce."
+      },
+      {
+        "light": "HW_LIGHT_19",
+        "sourcePosition": [
+          1.45,
+          1.65,
+          2.35
+        ],
+        "sourceIntensity": 3.6,
+        "reason": "Realtime indirect-light proxy, replaced by actual path-traced bounce."
+      },
+      {
+        "light": "HW_LIGHT_20",
+        "sourcePosition": [
+          3.92,
+          1.54,
+          6.8
+        ],
+        "sourceIntensity": 1.2,
+        "reason": "Realtime indirect-light proxy, replaced by actual path-traced bounce."
+      },
+      {
+        "light": "HW_LIGHT_22",
+        "sourcePosition": [
+          2.22,
+          1.65,
+          0.7
+        ],
+        "sourceIntensity": 3.5,
+        "reason": "Realtime indirect-light proxy, replaced by actual path-traced bounce."
+      },
+      {
+        "light": "HW_LIGHT_23",
+        "sourcePosition": [
+          4.1,
+          1.65,
+          0.7
+        ],
+        "sourceIntensity": 2.8,
+        "reason": "Realtime indirect-light proxy, replaced by actual path-traced bounce."
+      }
+    ],
+    "glass": [
+      {
+        "object": "HW_0720",
+        "translation": "Same frosted pane geometry: rough transmission plus controlled exterior daylight radiance, replacing its realtime opaque/emissive approximation.",
+        "transmission": 0.8,
+        "roughness": 0.35,
+        "IOR": 1.45,
+        "daylightEmissionRadiance": 4.0
+      },
+      {
+        "material": "Material_11",
+        "translation": "Same kitchen frosted pane geometry: rough transmission and the same controlled exterior daylight radiance.",
+        "transmission": 0.8,
+        "roughness": 0.35,
+        "IOR": 1.45,
+        "daylightEmissionRadiance": 4.0
+      }
+    ],
+    "world": "Uniform blue daylight radiance 0.60, no HDR photograph",
+    "toneMap": "AgX Medium Low Contrast, +0.70 EV; WebGL uses ACES at 0.95",
+    "contactAO": "AO-only vertex multipliers neutralized, real path-traced contact; base/color-art retained",
+    "AOAttributesNeutralized": 150,
+    "mirror": "Reflector translated to physical mirror on same plane"
+  },
+  "denoising": "Official Intel OIDN 2.3.3 CPU, using actual render albedo/normal passes",
+  "maxSamples": 64,
+  "adaptiveThreshold": 0.03999999910593033,
+  "adaptiveMinimum": 16,
+  "renders": [
+    {
+      "view": {
+        "name": "bathroom-shower",
+        "x": 5.3,
+        "z": 5.1,
+        "yaw": 2.7,
+        "pitch": -0.14,
+        "eye": 1.5,
+        "fov": 82.0,
+        "w": 768.0,
+        "h": 1024.0,
+        "closed": false
+      },
+      "width": 768,
+      "height": 1024,
+      "threads": 5,
+      "seconds": 286.86,
+      "file": "cycles-bathroom-shower.png"
+    },
+    {
+      "view": {
+        "name": "hallway",
+        "x": 1.5,
+        "z": 6.25,
+        "yaw": 0.42,
+        "pitch": 0.0,
+        "eye": 1.5,
+        "fov": 76.0,
+        "w": 1448.0,
+        "h": 1086.0,
+        "closed": false
+      },
+      "width": 1448,
+      "height": 1086,
+      "threads": 5,
+      "seconds": 562.68,
+      "file": "cycles-hallway.png"
+    },
+    {
+      "view": {
+        "name": "kitchen",
+        "x": 3.4,
+        "z": 4.65,
+        "yaw": 3.05,
+        "pitch": -0.14,
+        "eye": 1.5,
+        "fov": 80.0,
+        "w": 1448.0,
+        "h": 1086.0,
+        "closed": false
+      },
+      "width": 1448,
+      "height": 1086,
+      "threads": 5,
+      "seconds": 269.86,
+      "file": "cycles-kitchen.png"
+    },
+    {
+      "view": {
+        "name": "bathroom-first",
+        "x": 5.25,
+        "z": 6.25,
+        "yaw": 0.57,
+        "pitch": -0.28,
+        "eye": 1.42,
+        "fov": 90.0,
+        "w": 768.0,
+        "h": 1024.0,
+        "closed": false
+      },
+      "width": 768,
+      "height": 1024,
+      "threads": 5,
+      "seconds": 122.1,
+      "file": "cycles-bathroom-first.png"
+    },
+    {
+      "view": {
+        "name": "bathroom-closed",
+        "x": 5.43,
+        "z": 6.36,
+        "yaw": 0.2,
+        "pitch": -0.24,
+        "eye": 1.42,
+        "fov": 92.0,
+        "w": 1086.0,
+        "h": 1448.0,
+        "closed": true
+      },
+      "width": 1086,
+      "height": 1448,
+      "threads": 5,
+      "seconds": 250.22,
+      "file": "cycles-bathroom-closed.png"
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "note": "Actual connected PBR scene. HUD only hidden; no scene objects moved/hidden. Photo-fit eye/lens estimates. First/shower bathroom poses retained from PR #7; hallway/kitchen/closed-door lenses fitted to latest locked compositions.",
+  "views": [
+    {
+      "name": "hallway",
+      "x": 1.5,
+      "z": 6.25,
+      "yaw": 0.42,
+      "pitch": 0,
+      "eye": 1.5,
+      "fov": 76,
+      "w": 1448,
+      "h": 1086
+    },
+    {
+      "name": "kitchen",
+      "x": 3.4,
+      "z": 4.65,
+      "yaw": 3.05,
+      "pitch": -0.14,
+      "eye": 1.5,
+      "fov": 80,
+      "w": 1448,
+      "h": 1086
+    },
+    {
+      "name": "bathroom-first",
+      "x": 5.25,
+      "z": 6.25,
+      "yaw": 0.57,
+      "pitch": -0.28,
+      "eye": 1.42,
+      "fov": 90,
+      "w": 768,
+      "h": 1024
+    },
+    {
+      "name": "bathroom-shower",
+      "x": 5.3,
+      "z": 5.1,
+      "yaw": 2.7,
+      "pitch": -0.14,
+      "eye": 1.5,
+      "fov": 82,
+      "w": 768,
+      "h": 1024
+    },
+    {
+      "name": "bathroom-closed",
+      "x": 5.43,
+      "z": 6.36,
+      "yaw": 0.2,
+      "pitch": -0.24,
+      "eye": 1.42,
+      "fov": 92,
+      "w": 1086,
+      "h": 1448,
+      "closed": true
+    },
+    {
+      "name": "mug-detail",
+      "x": 3.51,
+      "z": 6.02,
+      "yaw": 3.141592653589793,
+      "pitch": -0.28,
+      "eye": 1.12,
+      "fov": 48,
+      "w": 1000,
+      "h": 800,
+      "detail": true
+    },
+    {
+      "name": "kitchen-bathroom-measurement",
+      "x": 4.15,
+      "z": 5.65,
+      "yaw": 0,
+      "pitch": -1.5707963267948966,
+      "eye": 2.65,
+      "fov": 70,
+      "w": 1448,
+      "h": 1086,
+      "inspection": true,
+      "detail": true,
+      "closed": true
+    },
+    {
+      "name": "bathroom-door-top-down",
+      "x": 5.55,
+      "z": 5.74,
+      "yaw": 0,
+      "pitch": -1.5707963267948966,
+      "eye": 2.65,
+      "fov": 56,
+      "w": 1086,
+      "h": 1448,
+      "inspection": true,
+      "detail": true,
+      "closed": true
+    }
+  ],
+  "records": [
+    {
+      "name": "bathroom-closed",
+      "mobile": false,
+      "stats": {
+        "triangles": 391334,
+        "drawCalls": 136,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 44
+      }
+    },
+    {
+      "name": "bathroom-closed",
+      "mobile": true,
+      "stats": {
+        "triangles": 352454,
+        "drawCalls": 110,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 44
+      }
+    },
+    {
+      "name": "kitchen",
+      "mobile": false,
+      "stats": {
+        "triangles": 155394,
+        "drawCalls": 52,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 13
+      }
+    },
+    {
+      "name": "mug-detail",
+      "mobile": false,
+      "stats": {
+        "triangles": 78232,
+        "drawCalls": 26,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 20
+      }
+    },
+    {
+      "name": "kitchen",
+      "mobile": true,
+      "stats": {
+        "triangles": 115314,
+        "drawCalls": 39,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 20
+      }
+    },
+    {
+      "name": "kitchen-bathroom-measurement",
+      "mobile": false,
+      "stats": {
+        "triangles": 200014,
+        "drawCalls": 76,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 14
+      }
+    },
+    {
+      "name": "bathroom-door-top-down",
+      "mobile": false,
+      "stats": {
+        "triangles": 170394,
+        "drawCalls": 57,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 24
+      }
+    },
+    {
+      "name": "hallway",
+      "mobile": false,
+      "stats": {
+        "triangles": 456042,
+        "drawCalls": 172,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 16
+      }
+    },
+    {
+      "name": "bathroom-first",
+      "mobile": false,
+      "stats": {
+        "triangles": 324730,
+        "drawCalls": 117,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 23
+      }
+    },
+    {
+      "name": "bathroom-shower",
+      "mobile": false,
+      "stats": {
+        "triangles": 163234,
+        "drawCalls": 44,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 30
+      }
+    },
+    {
+      "name": "hallway",
+      "mobile": true,
+      "stats": {
+        "triangles": 301390,
+        "drawCalls": 108,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 15
+      }
+    },
+    {
+      "name": "bathroom-first",
+      "mobile": true,
+      "stats": {
+        "triangles": 258586,
+        "drawCalls": 86,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 23
+      }
+    },
+    {
+      "name": "bathroom-shower",
+      "mobile": true,
+      "stats": {
+        "triangles": 158234,
+        "drawCalls": 40,
+        "shadowMap": true,
+        "ceilingShadows": true,
+        "pbr": true,
+        "mirrors": 3,
+        "frame": 30
+      }
+    }
+  ]
+}

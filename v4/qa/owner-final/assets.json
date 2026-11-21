@@ -1,0 +1,12 @@
+[
+  {
+    "path": "v4/assets/models/final-room-props.glb",
+    "bytes": 2134348,
+    "sha256": "54e815eb0c3e4453cd2fb4f09655c2a2d374f4393f2ff4a9a2892a17a5104af8"
+  },
+  {
+    "path": "v4/assets/models/bathroom-door-mop.glb",
+    "bytes": 67708,
+    "sha256": "2622acbc2ee0b8213591ff92ae798ea01ab4e75c33a9fdbc336159f79af60abc"
+  }
+]

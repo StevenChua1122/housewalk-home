@@ -1,0 +1,124 @@
+{
+  "caseMode": {
+    "desktopCss": [
+      800,
+      600
+    ],
+    "touchCss": [
+      390,
+      844
+    ],
+    "pbrRenderScale": 0.5,
+    "reflectionTargets": [
+      128,
+      128
+    ],
+    "fullResolutionVisualEvidence": "separate actual scene capture script"
+  },
+  "cases": [
+    {
+      "renderer": "PBR",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "PBR",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "assets": {
+        "racks": [
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          },
+          {
+            "shelves": 6,
+            "width": 0.18,
+            "depth": 0.5,
+            "height": 1.22
+          }
+        ],
+        "oak": 2048,
+        "pbr": true
+      },
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "desktop",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access"
+      ],
+      "errors": []
+    },
+    {
+      "renderer": "Canvas",
+      "viewport": "mobile",
+      "passed": [
+        "map",
+        "day/night",
+        "7 safe tours",
+        "connected walk",
+        "alcove walking",
+        "counter collision",
+        "both doorway passages",
+        "bedroom aisle and AC-corner access",
+        "bathroom-to-shower access",
+        "touch joystick/look"
+      ],
+      "errors": []
+    }
+  ],
+  "contextRecovery": "PASS: unscaled forced context loss displayed Canvas; restoration reloaded PBR assets",
+  "physicalIPhoneSafari": "UNVERIFIED"
+}

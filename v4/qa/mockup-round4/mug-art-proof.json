@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "reviewedBase": "563ad42dfe3fc78a98f1926ebf743f706bc5d26d",
+  "original": {
+    "size": [
+      512,
+      512
+    ],
+    "rgba_sha256": "5a82014c6c99fefc3b7c34b6739bc3da520e2441a00a2043d821347f27dd5e96"
+  },
+  "refined": {
+    "size": [
+      512,
+      512
+    ],
+    "rgba_sha256": "5a82014c6c99fefc3b7c34b6739bc3da520e2441a00a2043d821347f27dd5e96"
+  },
+  "limit": "Preserves the reviewed isolated front crop. Does not recover occluded edges or unseen mug backs."
+}

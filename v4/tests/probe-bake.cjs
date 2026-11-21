@@ -1,0 +1,6 @@
+const fs=require('node:fs'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const root='v4/assets/reflections/',j=JSON.parse(fs.readFileSync(root+'probes.json'));assert.equal(j.maps.length,6);const keys=new Set();let bytes=0;
+for(const m of j.maps){keys.add(m.state+'/'+m.room);const b=fs.readFileSync(root+m.file);assert.equal(b.readUInt32BE(16),m.width);assert.equal(b.readUInt32BE(20),m.height*4);assert.equal(b[25],0,'Opaque grayscale channel bands avoid alpha/color conversion');bytes+=b.length;}
+assert.equal(keys.size,6);for(const s of ['day','night'])for(const r of ['living','kitchen','bathroom'])assert(keys.has(s+'/'+r));
+for(const [p,h]of Object.entries(j.inputs))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),h,'Stale actual-scene probe bake: '+p);
+assert(bytes<750000);const result={result:'PASS',states:2,rooms:3,files:6,bytes,sourceFilesVerified:Object.keys(j.inputs).length,maxHDRTextureStorageBytes:6*336*256*8,note:'Actual runtime geometry/lighting baked as GGX specular illumination; never used as a room background. Mobile uses fewer foliage leaves; probes retain the desktop source.'};const out=process.env.HW_PROOF_DIR||'v4/qa/mockup-round4';fs.writeFileSync(out+'/probe-bake-proof.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));

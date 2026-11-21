@@ -1,0 +1,89 @@
+{
+  "source": "Rendered actual connected runtime geometry, 64 px cube faces, filtered to GGX CubeUV. No private room/reference images.",
+  "maps": [
+    {
+      "state": "day",
+      "room": "living",
+      "width": 336,
+      "height": 256,
+      "file": "day-living.png"
+    },
+    {
+      "state": "day",
+      "room": "kitchen",
+      "width": 336,
+      "height": 256,
+      "file": "day-kitchen.png"
+    },
+    {
+      "state": "day",
+      "room": "bathroom",
+      "width": 336,
+      "height": 256,
+      "file": "day-bathroom.png"
+    },
+    {
+      "state": "night",
+      "room": "living",
+      "width": 336,
+      "height": 256,
+      "file": "night-living.png"
+    },
+    {
+      "state": "night",
+      "room": "kitchen",
+      "width": 336,
+      "height": 256,
+      "file": "night-kitchen.png"
+    },
+    {
+      "state": "night",
+      "room": "bathroom",
+      "width": 336,
+      "height": 256,
+      "file": "night-bathroom.png"
+    }
+  ],
+  "inputs": {
+    "v4/webgl.js": "7c8dac9fe731384ceba2aa03337e56ac334fc638ec813f502cb2bdc4d810e810",
+    "v4/refined-materials.js": "cb8b0acba6ada181628cbfb67169833e74e97720b2e84d81ffc8874d2f4b201b",
+    "v4/room-details.js": "506f8ba581238b53eebec81eb6a4ed8973a404e4e7b09c0f8a538875e96073ab",
+    "v4/layout.js": "43fb791b6c91003bb050b6058be700b890cde3fb0c961f86bc62b93b3609bad7",
+    "v4/assets/materials/cabinet-weave.jpg": "453be4efa389eb67e9ca669f9f0ffc5fbfe80bc260599ab2508dd03bb3ee11df",
+    "v4/assets/materials/door-ash.jpg": "21bded7387c8ba00dcf0fcc1fd9b665a8a8d58db866f9d7b4d8ba13e23d1342a",
+    "v4/assets/materials/fabric-color.jpg": "9b103236b23fa7657c9b179b248e50f42c8de65465f6c0ffd864beae9d668cad",
+    "v4/assets/materials/fabric-normal.webp": "387fecc66dedfcd100d361141d601da999aba6c150b57271635c4ebb1e1b7a83",
+    "v4/assets/materials/oak-albedo.jpg": "a7a48932b981f9d578520f9c96b582366f24752e42e87f3de371106ec683ff1b",
+    "v4/assets/materials/oak-normal.webp": "d4bced46187f4ab0f6534d0509c7e74333b38fd0089a8f6ae068d6e904c0776b",
+    "v4/assets/materials/oak-roughness.jpg": "31a84248a771b35400583359c5a6090941bc0b9aabb08d633dbd1207fec5a66d",
+    "v4/assets/materials/plaster-color.jpg": "240d748b641fed312a4a4081ead853017a7e0fcd03252de6345653da43f3c3be",
+    "v4/assets/materials/plaster-normal.webp": "2ba64e85c980279f7962776b90532341f7e6b138b44bb8423a9c5a9d33dff24b",
+    "v4/assets/materials/refined-cabinet-color.jpg": "db99ddb0329c7d9c68a38c432bf1857efdfc6b4ac1747310e8dc354573b66bfb",
+    "v4/assets/materials/refined-cabinet-normal.webp": "c337cb377b4a9e8a0dc38981cf37a33d027944e2607e4136e67a6acc2d6768ca",
+    "v4/assets/materials/refined-cabinet-roughness.jpg": "3e913e88c57a68395c6d294ef33444e63cb5158f0c22a1b050d62390000317de",
+    "v4/assets/materials/refined-plush-color.jpg": "c0c479f8024f4f037413235f09030a1c7f282a67d9f4f09654f84486b4317095",
+    "v4/assets/materials/refined-plush-normal.webp": "8b98f182d7b9e8d30765d83d23dd55133053ee752d41eebbcbfc6690fda61249",
+    "v4/assets/materials/refined-plush-roughness.jpg": "871e5780b5a1af742fb84b911c16f6fb2b759a79ccb440a6a8a2173d2e6cf25d",
+    "v4/assets/materials/refined-steel-normal.webp": "1771251db5fccd76a6ed3d463385c5c75733c0d24f8fcbfe294bbe1c88c1a20c",
+    "v4/assets/materials/refined-steel-roughness.jpg": "7d72dfe315dfeaba398496dd287cb9f23675979759d44c402777b095dabb508a",
+    "v4/assets/materials/refined-stone-color.jpg": "270fad4efada372fc06be758af737ac2a7adc4ce9a387e21309eefe3ea371666",
+    "v4/assets/materials/refined-stone-normal.webp": "c75e18387ad397b254ec8425f8831d94d65090217781d056479f6a714968768f",
+    "v4/assets/materials/refined-stone-roughness.jpg": "428d18444ee717af5a93b52557f442e79d5e20dfae11592cec250d5ac3695625",
+    "v4/assets/materials/refined-tile-color.jpg": "23d3dc87089333fe8f9139fb034aacc4034af12e3d68b56ac2730444d8e24552",
+    "v4/assets/materials/refined-tile-normal.webp": "b380582b572ca90b15d91748bccb55589e6b6a91f57b0bba1803bfceff715de5",
+    "v4/assets/materials/refined-tile-roughness.jpg": "bbe60fcfc1f3bbbf9ff1e4a6367513856cec0cf9527a76c9872da85fc8279dc2",
+    "v4/assets/materials/refined-weave-color.jpg": "c29735af58523e948e6e4ebd72ced2932357c39724077946e0a8b901a8b9d2be",
+    "v4/assets/materials/refined-weave-normal.webp": "dd79d4471ea75bc229e918fc011a70bc1958859abf8f19595ece12613ba87f8c",
+    "v4/assets/materials/refined-weave-roughness.jpg": "c5dd49662e40404f063238d74e2af62e0bf07196271788e84b233d59eab4cd9b",
+    "v4/assets/models/bathroom-door-mop.glb": "2622acbc2ee0b8213591ff92ae798ea01ab4e75c33a9fdbc336159f79af60abc",
+    "v4/assets/models/bedroom-soft.glb": "bd75071e752fc1d92e683ca74079e4564b89ac0b61bb473bd3dbf0795e32c58f",
+    "v4/assets/models/curtains-draped.glb": "9843f74dfb76230243348791c30ff42dde67a1322c66144b672946582db1c07c",
+    "v4/assets/models/curtains-refined.glb": "a1208d18716909c31cbcac4c6e5574e7c070adf8b1b9a6a6b78a0ccfe0c31223",
+    "v4/assets/models/final-room-props.glb": "66213596ff8f08bc3e7da597a2409a3702f592b27d9187f915c1907f87af1b01",
+    "v4/assets/models/hallway-refined.glb": "e4620f3f6e5612a3cb4ddb5d6ba11a20aa54d11aca20519ab8963db50fedc137",
+    "v4/assets/models/kitchen-refined.glb": "93849498ee6d5aed3fff76be4f80ca76262271f486facfb9781f35c33ec12f66",
+    "v4/assets/models/sofa-refined.glb": "41c0ec75c58dd00a346b07d49ea07edfe5dd85648b94f9f83874c7caa0ed9503",
+    "v4/assets/models/sofa-tailored.glb": "daae7bdd4d27c8740c300f6e14ecc9911fbc91ab5ee686c5eaa99e4f9bcfd0c8"
+  },
+  "encoding": "RGBE channels stored as four stacked grayscale PNG bands (opaque, no alpha conversion); rows remain in WebGL render-target order. Quantization <= 1/255 of each texel exponent range."
+}
